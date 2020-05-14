@@ -5,44 +5,43 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+
+    Button createUser, searchForRooms;
+    TextView tw;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button createUser, searchForRooms;
+
+        tw = (TextView) findViewById(R.id.tw_result);
+
+        //Retrofit connection to API
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("dev-be.timetomeet.se/service/rest/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        //More retrofit-code should be implemented under this
 
 
-        //Not sure if this should be a class or not, but is supposed to connect to the API
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                //Network-configurations
-                try {
-                    //URL
-                    URL timeToMeetEndPoint = new URL("http://dev-be.timetomeet.se/service/rest/");
-
-                    //Connection
-                    HttpURLConnection con = (HttpURLConnection) timeToMeetEndPoint.openConnection();
-
-                } catch (MalformedURLException e) {
-                    System.out.println("URL fail");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    System.out.println("Connection fail");
-                    e.printStackTrace();
-                }
-
-            }
-        });
 
 
     }
