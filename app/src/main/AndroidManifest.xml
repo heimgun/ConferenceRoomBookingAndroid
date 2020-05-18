@@ -19,12 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SearchView"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity
-            android:name=".Booking"
-            android:parentActivityName=".SearchView"></activity>
+
+        <activity android:name=".CreateUserView"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>
