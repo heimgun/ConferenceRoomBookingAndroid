@@ -1,12 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".CreateUserView">
 
 
+    <EditText
+        android:id="@+id/organization"
+        android:layout_width="197dp"
+        android:layout_height="41dp"
+        android:hint="organization"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="263dp" />
 
+    <EditText
+        android:id="@+id/street"
+        android:layout_width="197dp"
+        android:layout_height="41dp"
+        android:hint="company address"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="107dp"
+        tools:layout_editor_absoluteY="398dp" />
+
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="197dp"
+        android:layout_height="41dp"
+        android:hint="phone number"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="107dp"
+        tools:layout_editor_absoluteY="202dp" />
+
+    <EditText
+        android:id="@+id/firstName"
+        android:layout_width="197dp"
+        android:layout_height="41dp"
+        android:hint="first name"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="107dp"
+        tools:layout_editor_absoluteY="86dp" />
+
+    <EditText
+        android:id="@+id/lastName"
+        android:layout_width="197dp"
+        android:layout_height="41dp"
+        android:hint="last name"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="107dp"
+        tools:layout_editor_absoluteY="144dp" />
+
+    <EditText
+        android:id="@+id/zipCode"
+        android:layout_width="197dp"
+        android:layout_height="41dp"
+        android:hint="zip code"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="107dp"
+        tools:layout_editor_absoluteY="516dp" />
+
+    <EditText
+        android:id="@+id/city"
+        android:layout_width="197dp"
+        android:layout_height="41dp"
+        android:hint="city"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="107dp"
+        tools:layout_editor_absoluteY="455dp" />
+
+    <EditText
+        android:id="@+id/orgNumber"
+        android:layout_width="197dp"
+        android:layout_height="41dp"
+        android:hint="org number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.484"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="107dp" />
+
+    <Button
+        android:id="@+id/SubmitBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="615dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
