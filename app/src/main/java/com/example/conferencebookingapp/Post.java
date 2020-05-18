@@ -2,14 +2,14 @@ package com.example.conferencebookingapp;
 
 import android.app.Activity;
 
-import com.google.gson.annotations.SerializedName;
+//import com.google.gson.annotations.SerializedName;
 
 public class Post {
 
     //Should contain JSON-references from a specific place in the API
     private String id;
 
-    @SerializedName("fullDayPrice")
+   // @SerializedName("fullDayPrice")
     private String fullDayPrice;
 
     private String conferenceRoomName;

@@ -13,17 +13,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import retrofit2.Call;
+/*import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     Button createUser, searchForRooms;
     TextView tw;
-
+    String urlAddress = "https://dev-be.timetomeet.se/service/rest/conferenceroom/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         tw = (TextView) findViewById(R.id.tw_result);
 
+        /*
         //Retrofit connection to API
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("dev-be.timetomeet.se/service/rest/")
@@ -40,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         //More retrofit-code should be implemented under this
+        */
+
+        Downloader downloader = new Downloader();
+
+        downloader.execute(urlAddress);
 
 
 
