@@ -2,8 +2,11 @@ package com.example.conferencebookingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -24,7 +27,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     Button createUser, searchForRooms;
-    TextView tw;
     String urlAddress = "https://dev-be.timetomeet.se/service/rest/conferenceroom/";
 
     @Override
@@ -32,18 +34,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        createUser = (Button) findViewById(R.id.CreateUserBtn);
+        searchForRooms = (Button) findViewById(R.id.SearchRoomsBtn);
 
-        tw = (TextView) findViewById(R.id.tw_result);
 
-        /*
-        //Retrofit connection to API
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("dev-be.timetomeet.se/service/rest/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        createUser.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CreateUserView.class));
+            }
+        });
 
-        //More retrofit-code should be implemented under this
-        */
+        searchForRooms.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AvailableRoomView.class));
+            }
+        });
+
+
 
         Downloader downloader = new Downloader();
 
