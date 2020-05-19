@@ -11,85 +11,134 @@
         android:id="@+id/organization"
         android:layout_width="197dp"
         android:layout_height="41dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:hint="organization"
+        app:layout_constraintBottom_toTopOf="@+id/orgNumber"
+        app:layout_constraintTop_toBottomOf="@+id/email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="263dp" />
 
     <EditText
         android:id="@+id/street"
         android:layout_width="197dp"
         android:layout_height="41dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:hint="company address"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="107dp"
-        tools:layout_editor_absoluteY="398dp" />
+        app:layout_constraintBottom_toTopOf="@+id/city"
+        app:layout_constraintTop_toBottomOf="@+id/orgNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="373dp" />
 
     <EditText
         android:id="@+id/phone"
+        android:inputType="number"
         android:layout_width="197dp"
         android:layout_height="41dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:hint="phone number"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="107dp"
-        tools:layout_editor_absoluteY="202dp" />
+        app:layout_constraintBottom_toTopOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/lastName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="154dp" />
 
     <EditText
         android:id="@+id/firstName"
         android:layout_width="197dp"
         android:layout_height="41dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:hint="first name"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="107dp"
-        tools:layout_editor_absoluteY="86dp" />
+        app:layout_constraintBottom_toTopOf="@+id/lastName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/lastName"
         android:layout_width="197dp"
         android:layout_height="41dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:hint="last name"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="107dp"
-        tools:layout_editor_absoluteY="144dp" />
+        app:layout_constraintBottom_toTopOf="@+id/phone"
+        app:layout_constraintTop_toBottomOf="@+id/firstName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/email"
+        android:inputType="textEmailAddress"
+        android:layout_width="197dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="email"
+        app:layout_constraintBottom_toTopOf="@+id/organization"
+        app:layout_constraintTop_toBottomOf="@+id/phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="206dp" />
 
     <EditText
         android:id="@+id/zipCode"
+        android:inputType="number"
         android:layout_width="197dp"
         android:layout_height="41dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:hint="zip code"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="107dp"
-        tools:layout_editor_absoluteY="516dp" />
+        app:layout_constraintBottom_toTopOf="@+id/city"
+        app:layout_constraintTop_toBottomOf="@+id/street"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="477dp" />
 
     <EditText
         android:id="@+id/city"
         android:layout_width="197dp"
         android:layout_height="41dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:hint="city"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="107dp"
-        tools:layout_editor_absoluteY="455dp" />
+        app:layout_constraintBottom_toTopOf="@+id/SubmitBtn"
+        app:layout_constraintTop_toBottomOf="@+id/zipCode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="424dp" />
 
     <EditText
         android:id="@+id/orgNumber"
+        android:inputType="number"
         android:layout_width="197dp"
         android:layout_height="41dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:hint="org number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.484"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="107dp" />
+        app:layout_constraintBottom_toTopOf="@+id/street"
+        app:layout_constraintTop_toBottomOf="@+id/organization"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.463"
+         />
 
     <Button
         android:id="@+id/SubmitBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="615dp" />
 
 
