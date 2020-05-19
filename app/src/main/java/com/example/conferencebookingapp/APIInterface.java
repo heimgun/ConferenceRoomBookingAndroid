@@ -20,7 +20,7 @@ public interface APIInterface {
                              @Field("street") String street,
                              @Field("city_name") String city,
                              @Field("zipCode") int zipCode,
-                             Callback<SignUpResponse> callback);
+                             Callback<User> callback);
 
 
     //GET-request underneath

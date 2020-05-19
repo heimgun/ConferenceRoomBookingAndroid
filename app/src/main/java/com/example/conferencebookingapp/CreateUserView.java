@@ -28,7 +28,7 @@ public class CreateUserView extends AppCompatActivity {
     EditText firstName, lastName, phone, email, organization, orgNumber, street, city, zipCode;
     Button submit;
 
-    SignUpResponse userResp;
+    User user;
 
     int phoneInt, orgNumberInt, zipInt;
 
@@ -36,7 +36,6 @@ public class CreateUserView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_user_view);
-
         firstName = (EditText) findViewById(R.id.firstName);
         lastName = (EditText) findViewById(R.id.lastName);
         phone = (EditText) findViewById(R.id.phone);
@@ -120,12 +119,13 @@ public class CreateUserView extends AppCompatActivity {
                 street.getText().toString().trim(),
                 city.getText().toString().trim(),
                 zipInt,
-                new Callback<SignUpResponse>() {
+                new Callback<User>() {
                     @Override
-                    public void success(SignUpResponse signUpResponse, Response response) {
+                    public void success(User userResponse, Response response) {
                         progressDialog.dismiss();
-                        userResp = signUpResponse;
-                        Toast.makeText(CreateUserView.this, signUpResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        user = userResponse;
+
+                        Toast.makeText(CreateUserView.this, "User created: " + userResponse.getUsername(), Toast.LENGTH_SHORT).show();
                         System.out.println("Success");
                     }
 
