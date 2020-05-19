@@ -15,21 +15,22 @@ import java.util.List;
 
 public class Downloader extends AsyncTask<String, Void, String> {
     private static final String TAG = "Downloader";
-    private MainActivity context;
+    private AvailableRoomView context;
 
-   /* public Downloader(MainActivity context) {
+    public Downloader(AvailableRoomView context) {
         super();
         this.context = context;
     }
 
-    */
+
     @Override
     protected void onPostExecute(String s) {
         System.out.println("Download complete. Resulting data is: " + s);
 
         JsonParser parser = new JsonParser();
         List<ConferenceRoom> availableRooms = parser.parseRoom(s);
-        //context.onDownLoadComplete(availableRooms);
+        Log.d(TAG, "onPostExecute: number of rooms is: " + availableRooms.size());
+        context.onDownLoadComplete(availableRooms);
     }
 
     @Override
@@ -77,8 +78,4 @@ public class Downloader extends AsyncTask<String, Void, String> {
         return null;
     }
 
-    private void updateView(List<ConferenceRoom> availableRooms) {
-
-
-    }
 }

@@ -2,6 +2,9 @@ package com.example.conferencebookingapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.telecom.Conference;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ConferenceRoom {
 
