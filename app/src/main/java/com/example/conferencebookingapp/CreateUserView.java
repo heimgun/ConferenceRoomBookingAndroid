@@ -9,6 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.UUID;
 
+/*
+TODO:
+ 1. Create Alerts
+ 2. Create onFocusListener for email with params
+ 3. Communicate with REST API (possibly validate params via API?)
+ */
+
 
 public class CreateUserView extends AppCompatActivity {
 
@@ -59,6 +66,7 @@ public class CreateUserView extends AppCompatActivity {
                 }
 
                 //Alerts for email aka username
+                // TODO: setOnFocusListener with params z_, @, ., and all small letters
                 if(!email.getText().toString().contains("@")){
                     //fix alert
                 }
