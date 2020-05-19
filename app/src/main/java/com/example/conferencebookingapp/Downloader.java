@@ -1,5 +1,7 @@
 package com.example.conferencebookingapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -9,14 +11,25 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class Downloader extends AsyncTask<String, Void, String> {
     private static final String TAG = "Downloader";
+    private MainActivity context;
 
+   /* public Downloader(MainActivity context) {
+        super();
+        this.context = context;
+    }
+
+    */
     @Override
     protected void onPostExecute(String s) {
         System.out.println("Download complete. Resulting data is: " + s);
-        super.onPostExecute(s);
+
+        JsonParser parser = new JsonParser();
+        List<ConferenceRoom> availableRooms = parser.parseRoom(s);
+        //context.onDownLoadComplete(availableRooms);
     }
 
     @Override
@@ -62,5 +75,10 @@ public class Downloader extends AsyncTask<String, Void, String> {
             }
         }
         return null;
+    }
+
+    private void updateView(List<ConferenceRoom> availableRooms) {
+
+
     }
 }

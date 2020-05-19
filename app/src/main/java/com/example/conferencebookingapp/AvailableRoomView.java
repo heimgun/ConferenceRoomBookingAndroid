@@ -5,7 +5,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import java.util.List;
+
 public class AvailableRoomView extends AppCompatActivity {
+
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -18,5 +21,10 @@ public class AvailableRoomView extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.resultsRecyclerView);
         recyclerView.setHasFixedSize(true);
+    }
+
+
+    public void onDownLoadComplete(List<ConferenceRoom> availableRooms) {
+
     }
 }
