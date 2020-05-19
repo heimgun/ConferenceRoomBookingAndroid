@@ -6,6 +6,7 @@ public class User {
     String lastName;
     String username;
     String password;
+    String email;
     int phone;
     String organization;
     int orgNumber;
@@ -54,6 +55,10 @@ public class User {
         this.zipCode = zipCode;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -92,5 +97,9 @@ public class User {
 
     public int getZipCode() {
         return zipCode;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

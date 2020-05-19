@@ -1,13 +1,19 @@
 package com.example.conferencebookingapp;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.UUID;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /*
 TODO:
@@ -22,8 +28,9 @@ public class CreateUserView extends AppCompatActivity {
     EditText firstName, lastName, phone, email, organization, orgNumber, street, city, zipCode;
     Button submit;
 
-    User user = new User();
+    SignUpResponse userResp;
 
+    int phoneInt, orgNumberInt, zipInt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,78 +55,25 @@ public class CreateUserView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                    if(validate(firstName) && validate(lastName) && validate(phone) && validate(email) && validate(organization) && validate(orgNumber) && validate(street) && validate(city) && validate(zipCode)){
 
-                if(firstName == null){
-                    //fix alert btn
-                }
+                        System.out.println("Validation complete");
 
-                if(lastName == null){
-                    //fix alert btn
-                }
+                        String ph = phone.getText().toString();
+                        phoneInt = Integer.parseInt(ph);
 
-                if(phone == null) {
+                        String oNr = orgNumber.getText().toString();
+                        orgNumberInt = Integer.parseInt(oNr);
 
-                }
+                        String z = zipCode.getText().toString();
+                        zipInt = Integer.parseInt(z);
 
-                if(email == null){
-                    //fix alert btn
-                }
-
-                //Alerts for email aka username
-                // TODO: setOnFocusListener with params z_, @, ., and all small letters
-                if(!email.getText().toString().contains("@")){
-                    //fix alert
-                }
-
-
-                if(organization == null){
-                    //fix alert btn
-                }
-
-                if(orgNumber == null){
-                    //fix alert btn
-                }
-
-                if(street == null){
-                    //fix alert btn
-                }
-
-                if(zipCode == null){
-                    //fix alert btn
-                }
-
-                if(city == null){
-                    //fix alert btn
-                }
-
-                else{
-
-                    String ph = phone.getText().toString();
-                    int phone = Integer.parseInt(ph);
-
-                    String oNr = orgNumber.getText().toString();
-                    int orgNumber = Integer.parseInt(oNr);
-
-                    String z = zipCode.getText().toString();
-                    int zip = Integer.parseInt(z);
-
-                    user.setFirstName(firstName.getText().toString());
-                    user.setLastName(lastName.getText().toString());
-                    user.setUsername(email.getText().toString());
-                    user.setPassword(generateRandom());
-                    user.setPhone(phone);
-                    user.setOrganization(organization.getText().toString());
-                    user.setOrgNumber(orgNumber);
-                    user.setStreet(street.getText().toString());
-                    user.setCity(city.getText().toString());
-                    user.setZipCode(zip);
-
-
-                    //COde for Calling POST on API
+                        register();
 
 
 
-                }
+                    }
+
 
 
             }
@@ -135,6 +89,57 @@ public class CreateUserView extends AppCompatActivity {
 
     }
 
+    public boolean validate(EditText editText){
+
+        if(editText.getText().toString().trim().length() > 0){
+            return true;
+        }
+
+        editText.setError("Please fill this");
+        editText.requestFocus();
+        return false;
+
+    }
+
+    public void register(){
+
+        //ProgressDialog
+        final ProgressDialog progressDialog = new ProgressDialog(CreateUserView.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Please wait");
+        progressDialog.show();
+
+        APIRestAdapter.getClient().registration(firstName.getText().toString().trim(),
+                lastName.getText().toString().trim(),
+                email.getText().toString().trim(),
+                generateRandom(),
+                email.getText().toString().trim(),
+                phoneInt,
+                organization.getText().toString().trim(),
+                orgNumberInt,
+                street.getText().toString().trim(),
+                city.getText().toString().trim(),
+                zipInt,
+                new Callback<SignUpResponse>() {
+                    @Override
+                    public void success(SignUpResponse signUpResponse, Response response) {
+                        progressDialog.dismiss();
+                        userResp = signUpResponse;
+                        Toast.makeText(CreateUserView.this, signUpResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        System.out.println("Success");
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Toast.makeText(CreateUserView.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        System.out.println("Failure");
+
+                    }
+                });
+
+
+    }
 
 
 }
