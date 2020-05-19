@@ -27,6 +27,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     Button createUser, searchForRooms;
+
+    public static final String URL_MESSAGE = "com.example.conferencebookingapp.URL";
+
     String urlAddress = "https://dev-be.timetomeet.se/service/rest/conferenceroom/";
 
     @Override
@@ -48,18 +51,11 @@ public class MainActivity extends AppCompatActivity {
         searchForRooms.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AvailableRoomView.class));
+                Intent intent = new Intent(MainActivity.this, AvailableRoomView.class);
+                intent.putExtra(URL_MESSAGE, urlAddress);
+                startActivity(intent);
             }
         });
-
-
-
-        Downloader downloader = new Downloader();
-
-        downloader.execute(urlAddress);
-
-
-
 
     }
 }
