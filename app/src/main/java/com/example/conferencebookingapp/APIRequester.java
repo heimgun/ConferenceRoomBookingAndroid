@@ -32,11 +32,13 @@ public class APIRequester extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... strings) {
+        Log.d(TAG, "doInBackground: start");
         HttpsURLConnection connection = null;
         BufferedReader reader = null;
 
         try {
             URL url = new URL(strings[0]);
+            Log.d(TAG, "doInBackground: url is: " + url);
 
             connection = (HttpsURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
@@ -53,16 +55,19 @@ public class APIRequester extends AsyncTask<String, Void, String> {
 
 
             OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+            Log.d(TAG, "doInBackground: jsonRequest is: " + strings[1]);
             wr.write(strings[1]);
             wr.flush();
 
             StringBuilder result = new StringBuilder();
 
             reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            Log.d(TAG, "doInBackground: reader ready");
 
             for(String line = reader.readLine(); line != null; line = reader.readLine()) {
                 result.append(line).append("\n");
             }
+            Log.d(TAG, "doInBackground: result is: " + result.toString());
 
             return result.toString();
 

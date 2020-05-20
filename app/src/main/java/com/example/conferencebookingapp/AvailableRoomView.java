@@ -23,17 +23,10 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
     private boolean finishedDownloading = false;
 
     private String requestJson = "{" +
-            "    \"first_name\": \"Jon\"," +
-            "    \"last_name\": \"Mjo\"," +
-            "    \"username\": \"z_jon@intrusec.se\"," +
-            "    \"password\": \"123\"," +
-            "    \"email\": \"jon@intrusec.se\"," +
-            "    \"phone_number\": \"12345\"," +
-            "    \"organization_name\": \"Intrusec\"," +
-            "    \"organization_nr\": \"6789\"," +
-            "    \"street\": \"KG4\"," +
-            "    \"city_name\": \"GBG\"," +
-            "    \"zipCode\": \"42242\"" +
+            "    \"objectIds\": \"1\"," +
+            "    \"objectType\": \"city\"," +
+            "    \"fromDate\": \"2020-05-21\"," +
+            "    \"toDate\": \"2020-05-21\" "+
             "}";
 
     @Override
@@ -42,11 +35,15 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         setContentView(R.layout.activity_available_room_view);
 
         availableRooms = new ArrayList<>();
-        String urlAddress = getIntent().getStringExtra(MainActivity.URL_MESSAGE);
+       // String urlAddress = getIntent().getStringExtra(MainActivity.URL_MESSAGE);
+        String urlAddress = "https://dev-be.timetomeet.se/service/rest/search/availability/period/v3";
         Log.d(TAG, "onCreate: urlAddress is: " + urlAddress);
 
-        Downloader downloader = new Downloader(AvailableRoomView.this);
-        downloader.execute(urlAddress);
+        //Downloader downloader = new Downloader(AvailableRoomView.this);
+        //downloader.execute(urlAddress);
+
+        APIRequester requester = new APIRequester(AvailableRoomView.this);
+        requester.execute(urlAddress, requestJson);
 
         searchHeading = findViewById(R.id.resultsTextView);
         searchHeading.setText("Sökresultat");
@@ -65,9 +62,10 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
     public void onDownloadComplete(String results) {
 
         Log.d(TAG, "onDownloadComplete: download completed");
-        //availableRooms = results;
-        //finishedDownloading = true;
-        //AvailableRoomListAdapter newAdapter = new AvailableRoomListAdapter(availableRooms);
-        //recyclerView.setAdapter(newAdapter);
+        JsonParser parser = new JsonParser();
+        availableRooms = parser.parseRoom(results);
+        finishedDownloading = true;
+        AvailableRoomListAdapter newAdapter = new AvailableRoomListAdapter(availableRooms);
+        recyclerView.setAdapter(newAdapter);
     }
 }

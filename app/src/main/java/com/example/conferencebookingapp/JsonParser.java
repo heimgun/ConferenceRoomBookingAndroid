@@ -2,8 +2,6 @@ package com.example.conferencebookingapp;
 
 import android.util.Log;
 
-import com.google.gson.JsonArray;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +18,8 @@ public class JsonParser {
 
         try{
             JSONObject jsonResult = new JSONObject(jsonString);
-            JSONArray jsonRooms = jsonResult.getJSONArray("results");
+            JSONArray jsonRooms = jsonResult.getJSONArray("result");
+
 
             int numberOfRooms = jsonRooms.length();
 
@@ -29,11 +28,10 @@ public class JsonParser {
             for (int i = 0; i < numberOfRooms; i++) {
                 JSONObject jsonRoom = jsonRooms.getJSONObject(i);
                 ConferenceRoom newRoom = new ConferenceRoom();
-                newRoom.setName(jsonRoom.getString("name"));
+                newRoom.setName(jsonRoom.getString("room_id"));
                 Log.d(TAG, "parseRoom: name is: " + newRoom.getName());
                 newRoom.setPrice(jsonRoom.getString("fullDayPrice"));
                 Log.d(TAG, "parseRoom: price is: " + newRoom.getPrice());
-                newRoom.findPlant(jsonRoom.getInt("plant"));
 
                 availableRooms.add(newRoom);
             }

@@ -32,7 +32,7 @@ TODO:
  */
 
 
-public class CreateUserView extends AppCompatActivity {
+public class CreateUserView extends AppCompatActivity implements CallbackActivity{
 
     EditText firstName, lastName, phone, email, organization, orgNumber, street, city, zipCode;
     Button submit;
@@ -132,25 +132,28 @@ public class CreateUserView extends AppCompatActivity {
         progressDialog.setMessage("Please wait");
         progressDialog.show();
 
-        AsyncTask<String, Void, String> asyncTask = null;
+       // AsyncTask<String, Void, String> asyncTask = null;
+        APIRequester requester = null;
 
         try {
-            asyncTask = new RestConnection();
+            //asyncTask = new RestConnection();
+            requester = new APIRequester(CreateUserView.this);
 
             String jsonCreateUser = "{" +
                     "    \"first_name\": \"" + user.getFirstName() + "\"," +
-                    "    \"last_name\"" + user.getLastName() + "\"," +
-                    "    \"username\"" + user.getEmail() + "\"," +
-                    "    \"password\"" + user.getPassword() + "\"," +
-                    "    \"email\"" + user.getEmail() + "\"," +
-                    "    \"phone_number\"" + user.getPhone() + "\"," +
-                    "    \"organization_name\"" + user.getOrganization() + "\"," +
-                    "    \"organization_nr\"" + user.getOrgNumber() + "\"," +
-                    "    \"street\"" + user.getStreet() + "\"," +
-                    "    \"city_name\"" + user.getCity() + "\"," +
-                    "    \"zipCode\"" + user.getZipCode() + "\"," +
+                    "    \"last_name\": \"" + user.getLastName() + "\"," +
+                    "    \"username\": \"z_" + user.getEmail() + "\"," +
+                    "    \"password\": \"" + user.getPassword() + "\"," +
+                    "    \"email\": \"" + user.getEmail() + "\"," +
+                    "    \"phone_number\": \"" + user.getPhone() + "\"," +
+                    "    \"organization_name\": \"" + user.getOrganization() + "\"," +
+                    "    \"organization_nr\": \"" + user.getOrgNumber() + "\"," +
+                    "    \"street\": \"" + user.getStreet() + "\"," +
+                    "    \"city_name\": \"" + user.getCity() + "\"," +
+                    "    \"zipCode\": \"" + user.getZipCode() + "\"" +
                     "}";
-            asyncTask.execute("https://dev-be.timetomeet.se/service/rest/user/add/", jsonCreateUser);
+            //asyncTask.execute("https://dev-be.timetomeet.se/service/rest/user/add/", jsonCreateUser);
+            requester.execute("https://dev-be.timetomeet.se/service/rest/user/add/", jsonCreateUser);
 
             System.out.println("Success");
             progressDialog.dismiss();
@@ -171,9 +174,11 @@ public class CreateUserView extends AppCompatActivity {
 
     public void logIn() {
 
-        AsyncTask<String, Void, String> asyncTask = null;
+        APIRequester requester = null;
+        //AsyncTask<String, Void, String> asyncTask = null;
         try {
-            asyncTask = new RestConnection();
+            //asyncTask = new RestConnection();
+            requester = new APIRequester(CreateUserView.this);
 
             String jsonLogin = "{ \"username\": \"" + user.getEmail() + "\", \"password\": \"" + user.getPassword() + "\" }";
             asyncTask.execute("https://dev-be.timetomeet.se/service/rest/api-token-auth/", jsonLogin);
@@ -190,7 +195,7 @@ public class CreateUserView extends AppCompatActivity {
     }
 
     public void onDownloadComplete(String s) {
-
+        System.out.println("Download complete. Results are: " + s);
     }
 
 
