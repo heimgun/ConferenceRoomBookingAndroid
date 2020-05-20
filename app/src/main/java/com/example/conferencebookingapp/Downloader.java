@@ -25,12 +25,12 @@ public class Downloader extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        System.out.println("Download complete. Resulting data is: " + s);
+        //System.out.println("Download complete. Resulting data is: " + s);
 
-        JsonParser parser = new JsonParser();
-        List<ConferenceRoom> availableRooms = parser.parseRoom(s);
-        Log.d(TAG, "onPostExecute: number of rooms is: " + availableRooms.size());
-        context.onDownloadComplete(availableRooms);
+        //JsonParser parser = new JsonParser();
+        //List<ConferenceRoom> availableRooms = parser.parseRoom(s);
+        //Log.d(TAG, "onPostExecute: number of rooms is: " + availableRooms.size());
+        context.onDownloadComplete(s);
     }
 
     @Override
