@@ -1,51 +1,60 @@
 package com.example.conferencebookingapp;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class Downloader extends AsyncTask<String, Void, String> {
-    private static final String TAG = "Downloader";
+import javax.net.ssl.HttpsURLConnection;
+
+public class APIRequester extends AsyncTask<String, Void, String> {
+
+    private static final String TAG = "APIRequester";
+    private String token;
     private CallbackActivity context;
 
-    public Downloader(CallbackActivity context) {
-        super();
-        this.context = context;
+    public APIRequester(CallbackActivity context) {
+        this("", context);
     }
 
-
-    @Override
-    protected void onPostExecute(String s) {
-        System.out.println("Download complete. Resulting data is: " + s);
-
-        JsonParser parser = new JsonParser();
-        List<ConferenceRoom> availableRooms = parser.parseRoom(s);
-        Log.d(TAG, "onPostExecute: number of rooms is: " + availableRooms.size());
-        context.onDownloadComplete(availableRooms);
+    public APIRequester(String token, CallbackActivity context){
+        super();
+        this.token = token;
+        this.context = context;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-
-        HttpURLConnection connection = null;
+        HttpsURLConnection connection = null;
         BufferedReader reader = null;
 
         try {
-
             URL url = new URL(strings[0]);
 
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+            connection = (HttpsURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Accept","application/json");
+
+
+            if(!token.equals("")) {
+                connection.setRequestProperty("Authorization",token);
+            }
+
+            connection.setDoOutput(true);
             connection.connect();
+
+
+            OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+            wr.write(strings[1]);
+            wr.flush();
 
             StringBuilder result = new StringBuilder();
 
@@ -76,6 +85,17 @@ public class Downloader extends AsyncTask<String, Void, String> {
             }
         }
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+
+        super.onPostExecute(s);
+       // JsonParser parser = new JsonParser();
+        //List<ConferenceRoom> availableRooms = parser.parseRoom(s);
+       // Log.d(TAG, "onPostExecute: number of rooms is: " + availableRooms.size());
+        context.onDownloadComplete(s);
+
     }
 
 }
