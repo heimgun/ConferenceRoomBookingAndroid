@@ -8,7 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AvailableRoomView extends AppCompatActivity implements CallbackActivity {
@@ -25,8 +29,8 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
     private String requestJson = "{" +
             "    \"objectIds\": \"1\"," +
             "    \"objectType\": \"city\"," +
-            "    \"fromDate\": \"2020-05-21\"," +
-            "    \"toDate\": \"2020-05-21\" "+
+            "    \"fromDate\": \"%s\"," +
+            "    \"toDate\": \"%s\" "+
             "}";
 
     @Override
@@ -42,8 +46,13 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         //Downloader downloader = new Downloader(AvailableRoomView.this);
         //downloader.execute(urlAddress);
 
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = df.format(date);
+        Log.d(TAG, "onCreate: date is: " + dateString);
+
         APIRequester requester = new APIRequester(AvailableRoomView.this);
-        requester.execute(urlAddress, requestJson);
+        requester.execute(urlAddress, String.format(requestJson, dateString, dateString));
 
         searchHeading = findViewById(R.id.resultsTextView);
         searchHeading.setText("Sökresultat");
