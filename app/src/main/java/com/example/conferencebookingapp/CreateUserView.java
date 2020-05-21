@@ -2,47 +2,34 @@ package com.example.conferencebookingapp;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.UUID;
-
-import javax.net.ssl.HttpsURLConnection;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
-/*
-TODO:
- 1. Move Async Restconnection-Class/implement w APIRequester-class
- 2. Create onFocusListener for email with params
-
- */
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
-public class CreateUserView extends AppCompatActivity implements CallbackActivity{
+
+
+public class CreateUserView extends AppCompatActivity implements CallbackActivity {
 
     EditText firstName, lastName, phone, email, organization, orgNumber, street, city, zipCode;
     Button submit;
 
-    RestConnection asyncTask = null;
 
     User user = new User();
 
     int phoneInt, orgNumberInt, zipInt;
-    String token;
+
 
 
     @Override
@@ -66,7 +53,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
             @Override
             public void onClick(View v) {
 
-                if (validate(firstName) && validate(lastName) && validate(phone) && validate(email) && validate(organization) && validate(orgNumber) && validate(street) && validate(city) && validate(zipCode)) {
+                if (validate(firstName) && validate(lastName) && validate(phone) && validate(email) && validate(organization) && validate(orgNumber) && validate(street) && validate(city) && validate(zipCode) && validateEmail(email)) {
 
                     System.out.println("Validation complete");
 
@@ -124,6 +111,23 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
 
     }
 
+    public boolean validateEmail(EditText editText) {
+
+        boolean lowerCase = editText.getText().toString().equals(editText.getText().toString().toUpperCase());
+        Pattern special = Pattern.compile("[!#$%&*()_+=|<>?{}\\[\\]~-]");
+        Matcher match = special.matcher(editText.getText().toString().trim());
+        boolean specialCharacter = match.find();
+
+
+        if (editText.getText().toString().contains("@") && !lowerCase && !specialCharacter) {
+            return true;
+        }
+
+        editText.setError("Please enter a correct email");
+        editText.requestFocus();
+        return false;
+    }
+
 
     public void createUser() {
 
@@ -132,11 +136,9 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
         progressDialog.setMessage("Please wait");
         progressDialog.show();
 
-       // AsyncTask<String, Void, String> asyncTask = null;
         APIRequester requester = null;
 
         try {
-            //asyncTask = new RestConnection();
             requester = new APIRequester(CreateUserView.this);
 
             String jsonCreateUser = "{" +
@@ -152,7 +154,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
                     "    \"city_name\": \"" + user.getCity() + "\"," +
                     "    \"zipCode\": \"" + user.getZipCode() + "\"" +
                     "}";
-            //asyncTask.execute("https://dev-be.timetomeet.se/service/rest/user/add/", jsonCreateUser);
+
             requester.execute("https://dev-be.timetomeet.se/service/rest/user/add/", jsonCreateUser);
 
             System.out.println("Success");
@@ -175,13 +177,12 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
     public void logIn() {
 
         APIRequester requester = null;
-        //AsyncTask<String, Void, String> asyncTask = null;
         try {
-            //asyncTask = new RestConnection();
+
             requester = new APIRequester(CreateUserView.this);
 
-            String jsonLogin = "{ \"username\": \"" + user.getEmail() + "\", \"password\": \"" + user.getPassword() + "\" }";
-            asyncTask.execute("https://dev-be.timetomeet.se/service/rest/api-token-auth/", jsonLogin);
+            String jsonLogin = "{\"username\": \"z_" + user.getEmail() + "\", \"password\": \"" + user.getPassword() + "\"}";
+            requester.execute("https://dev-be.timetomeet.se/service/rest/api-token-auth/", jsonLogin);
 
             System.out.println("Login Success");
 
@@ -194,102 +195,30 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
 
     }
 
-    public void onDownloadComplete(String s) {
+    public void onDownloadComplete(String s) throws JSONException {
         System.out.println("Download complete. Results are: " + s);
+
+        final JSONObject json = new JSONObject(s);
+        System.out.println(json.getString("token"));
+
+        user.setToken(json.getString("token"));
+
+
     }
 
-
-    //TODO: Move this class
-    class RestConnection extends AsyncTask<String, Void, String> {
-        //private HttpURLConnection Client ;
-        private String responseContent;
-        private String Error = null;
-
-
-        protected String doInBackground(String... requestData) {
-            BufferedReader reader = null;
-
-
-            try {
-                URL url = new URL(requestData[0]);
-
-                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setRequestProperty("Accept", "application/json");
-                connection.setDoOutput(true); // True för POST, PUT. False för GET
-
-                OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-                wr.write(requestData[1]); // { "username": ....
-                wr.flush();
-
-                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line + "  \n");
-                }
-                int code = connection.getResponseCode();
-
-                responseContent = sb.toString();
-            } catch (Exception ex) {
-                Error = ex.getMessage();
-            } finally {
-                try {
-                    reader.close();
-                } catch (Exception ex) {
-
-                }
-            }
-
-            return responseContent;
-        }
-
-    }
 }
 
-/*
-
-   public void register(){
-
-        //ProgressDialog
-        final ProgressDialog progressDialog = new ProgressDialog(CreateUserView.this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Please wait");
-        progressDialog.show();
-
-        APIRestAdapter.getClient().registration(firstName.getText().toString().trim(),
-                lastName.getText().toString().trim(),
-                email.getText().toString().trim(),
-                generateRandom(),
-                email.getText().toString().trim(),
-                phoneInt,
-                organization.getText().toString().trim(),
-                orgNumberInt,
-                street.getText().toString().trim(),
-                city.getText().toString().trim(),
-                zipInt,
-                new Callback<User>() {
-                    @Override
-                    public void success(User userResponse, Response response) {
-                        progressDialog.dismiss();
-                        user = userResponse;
-
-                        Toast.makeText(CreateUserView.this, "User created: " + userResponse.getUsername(), Toast.LENGTH_SHORT).show();
-                        System.out.println("Success");
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Toast.makeText(CreateUserView.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                        System.out.println("Failure");
-
-                    }
-                });
 
 
-    } */
+
+
+
+
+
+
+
+
+
 
 
 

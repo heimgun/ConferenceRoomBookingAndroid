@@ -14,6 +14,12 @@ public class User {
     String city;
     int zipCode;
 
+    String token;
+
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -57,6 +63,11 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+
+    public String getToken() {
+        return token;
     }
 
     public String getFirstName() {

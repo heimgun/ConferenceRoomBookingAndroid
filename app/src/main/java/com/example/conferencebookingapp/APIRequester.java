@@ -3,6 +3,8 @@ package com.example.conferencebookingapp;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -99,7 +101,11 @@ public class APIRequester extends AsyncTask<String, Void, String> {
        // JsonParser parser = new JsonParser();
         //List<ConferenceRoom> availableRooms = parser.parseRoom(s);
        // Log.d(TAG, "onPostExecute: number of rooms is: " + availableRooms.size());
-        context.onDownloadComplete(s);
+        try {
+            context.onDownloadComplete(s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
