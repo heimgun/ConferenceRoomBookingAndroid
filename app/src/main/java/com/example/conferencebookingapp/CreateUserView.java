@@ -199,7 +199,6 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
         System.out.println("Download complete. Results are: " + s);
 
         final JSONObject json = new JSONObject(s);
-        System.out.println(json.getString("token"));
 
         user.setToken(json.getString("token"));
 
