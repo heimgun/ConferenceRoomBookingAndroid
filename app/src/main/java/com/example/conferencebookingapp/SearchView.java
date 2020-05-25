@@ -27,6 +27,7 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
 
     private Spinner citiesSpinner;
     private EditText numberOfPeopleEditText;
+    private EditText dateEditText;
 
 
     private String requestPlantsJSON = "{" +
@@ -67,6 +68,7 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
         numberOfPeopleEditText = findViewById(R.id.numberOfPeopleEditText);
         numberOfPeople = 1;
 
+        dateEditText = findViewById(R.id.dateEditText);
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         chosenDate = df.format(date);
@@ -102,10 +104,13 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
                 break;
             default:
         }
+
         numberOfPeople = Integer.parseInt(numberOfPeopleEditText.getText().toString());
+        chosenDate = dateEditText.getText().toString();
 
         Log.d(TAG, "OnSearchButtonClicked: city is: " + city);
         Log.d(TAG, "OnSearchButtonClicked: numberOfPeople is: " + numberOfPeople);
+        Log.d(TAG, "OnSearchButtonClicked: chosenDate is: " + chosenDate);
 
         boolean ready = validateData();
         if(ready) {
