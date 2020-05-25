@@ -21,15 +21,25 @@ public class APIRequester extends AsyncTask<String, Void, String> {
     private static final String TAG = "APIRequester";
     private String token;
     private CallbackActivity context;
+    private String message;
 
     public APIRequester(CallbackActivity context) {
-        this("", context);
+        this("", context, "");
+    }
+
+    public APIRequester(CallbackActivity context, String message) {
+        this("", context, message);
     }
 
     public APIRequester(String token, CallbackActivity context){
+       this(token, context, "");
+    }
+
+    public APIRequester(String token, CallbackActivity context, String message) {
         super();
         this.token = token;
         this.context = context;
+        this.message = message;
     }
 
     @Override
@@ -98,11 +108,8 @@ public class APIRequester extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
 
         super.onPostExecute(s);
-       // JsonParser parser = new JsonParser();
-        //List<ConferenceRoom> availableRooms = parser.parseRoom(s);
-       // Log.d(TAG, "onPostExecute: number of rooms is: " + availableRooms.size());
         try {
-            context.onDownloadComplete(s);
+            context.onDownloadComplete(s, message);
         } catch (JSONException e) {
             e.printStackTrace();
         }

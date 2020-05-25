@@ -195,7 +195,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
 
     }
 
-    public void onDownloadComplete(String s) throws JSONException {
+    public void onDownloadComplete(String s, String message) throws JSONException {
         System.out.println("Download complete. Results are: " + s);
 
         final JSONObject json = new JSONObject(s);

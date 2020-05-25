@@ -18,10 +18,16 @@ import java.util.List;
 public class Downloader extends AsyncTask<String, Void, String> {
     private static final String TAG = "Downloader";
     private CallbackActivity context;
+    private String message;
 
     public Downloader(CallbackActivity context) {
+        this(context, "");
+    }
+
+    public Downloader(CallbackActivity  context, String message) {
         super();
         this.context = context;
+        this.message = message;
     }
 
 
@@ -33,7 +39,7 @@ public class Downloader extends AsyncTask<String, Void, String> {
         //List<ConferenceRoom> availableRooms = parser.parseRoom(s);
         //Log.d(TAG, "onPostExecute: number of rooms is: " + availableRooms.size());
         try {
-            context.onDownloadComplete(s);
+            context.onDownloadComplete(s, message);
         } catch (JSONException e) {
             e.printStackTrace();
         }

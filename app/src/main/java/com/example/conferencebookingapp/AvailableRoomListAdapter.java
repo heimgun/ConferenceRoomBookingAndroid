@@ -1,6 +1,5 @@
 package com.example.conferencebookingapp;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +32,13 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        TextView roomNameTextView = holder.roomView.findViewById(R.id.roomNameTextView);
+        TextView roomNameTextView = holder.roomView.findViewById(R.id.plantNameTextView);
         TextView priceTextView = holder.roomView.findViewById(R.id.priceTextView);
 
 
         roomNameTextView.setText(availableRooms.get(position).getName());
-        priceTextView.setText("Pris per dag: " + availableRooms.get(position).getPrice() + " kr");
+        String priceText = String.format("Pris per dag: %s kr", availableRooms.get(position).getFullDayPrice());
+        priceTextView.setText(priceText);
     }
 
     @Override

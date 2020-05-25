@@ -8,10 +8,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ConferenceRoom {
 
+    private String roomId;
     private String name;
     private String city;
-    private String plant;
-    private String price;
+    private String plantId;
+    private String fullDayPrice;
+    private String preNoonPrice;
+    private String afternoonPrice;
+    private String preNoonBookingCode;
+    private String afternoonBookingCode;
 
 
     public String getName() {
@@ -30,23 +35,59 @@ public class ConferenceRoom {
         this.city = city;
     }
 
-    public String getPlant() {
-        return plant;
+    public String getFullDayPrice() {
+        return fullDayPrice;
     }
 
-    public void setPlant(String plant) {
-        this.plant = plant;
+    public void setFullDayPrice(String price) {
+        this.fullDayPrice = price;
     }
 
-    public String getPrice() {
-        return price;
+    public String getRoomId() {
+        return roomId;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
 
-    public void findPlant(int plantNumber) {
+    public String getPlantId() {
+        return plantId;
+    }
 
+    public void setPlantId(String plantId) {
+        this.plantId = plantId;
+    }
+
+    public String getPreNoonPrice() {
+        return preNoonPrice;
+    }
+
+    public void setPreNoonPrice(String preNoonPrice) {
+        this.preNoonPrice = preNoonPrice;
+    }
+
+    public String getAfternoonPrice() {
+        return afternoonPrice;
+    }
+
+    public void setAfternoonPrice(String afternoonPrice) {
+        this.afternoonPrice = afternoonPrice;
+    }
+
+    public String getPreNoonBookingCode() {
+        return preNoonBookingCode;
+    }
+
+    public void setPreNoonBookingCode(String preNoonBookingCode) {
+        this.preNoonBookingCode = preNoonBookingCode;
+    }
+
+    public String getAfternoonBookingCode() {
+        return afternoonBookingCode;
+    }
+
+    public void setAfternoonBookingCode(String afternoonBookingCode) {
+        this.afternoonBookingCode = afternoonBookingCode;
     }
 }

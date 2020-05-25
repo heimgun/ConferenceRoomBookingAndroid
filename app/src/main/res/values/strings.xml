@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ConferenceBookingApp</string>
+    <string name="show_rooms">Visa rum</string>
 </resources>
