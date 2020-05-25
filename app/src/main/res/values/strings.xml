@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">ConferenceBookingApp</string>
     <string name="show_rooms">Visa rum</string>
+    <string name="number_of_people">Antal personer</string>
+    <string name="date_input">Datum (ÅÅÅÅ-MM-DD)</string>
+    <string name="search">Sök</string>
 </resources>

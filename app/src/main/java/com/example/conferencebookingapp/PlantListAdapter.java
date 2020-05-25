@@ -48,14 +48,16 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
 
         holder.numberOfRoomsTextView.setText(String.format(numberOfRoomsText, numberOfRooms));
 
-       /* holder.showRoomsButton.setOnClickListener(new View.OnClickListener() {
+        /*holder.showRoomsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CreateUserView.class));
+                startActivity(new Intent(, CreateUserView.class));
             }
         });
 
-        */
+         */
+
+
 
     }
 

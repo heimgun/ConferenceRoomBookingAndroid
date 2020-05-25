@@ -75,6 +75,8 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         availableRooms = new ArrayList<>();
         availablePlants = new ArrayList<>();
 
+        String requestFromSearchView = getIntent().getStringExtra(SearchView.SEARCH_PARAMETERS_INFO);
+
        // String urlAddress = getIntent().getStringExtra(MainActivity.URL_MESSAGE);
        // String urlAddress = "https://dev-be.timetomeet.se/service/rest/search/availability/period/v3";
        // Log.d(TAG, "onCreate: urlAddress is: " + urlAddress);
@@ -82,15 +84,17 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         //Downloader downloader = new Downloader(AvailableRoomView.this);
         //downloader.execute(urlAddress);
 
-        Date date = Calendar.getInstance().getTime();
+        /*Date date = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = df.format(date);
         String dateStringFrom = dateString + "T09:00:00+02:00";
         String dateStringTo = dateString + "T15:00:00+02:00";
         Log.d(TAG, "onCreate: date is: " + dateString);
 
+         */
+
         APIRequester plantRequester = new APIRequester(AvailableRoomView.this, FIND_PLANTS);
-        plantRequester.execute(PLANT_URL, String.format(requestPlants, dateStringFrom, dateStringTo));
+        plantRequester.execute(PLANT_URL, requestFromSearchView);
 
         //APIRequester requester = new APIRequester(AvailableRoomView.this, FIND_ROOMS);
         //requester.execute(urlAddress, String.format(requestJson, dateString, dateString));

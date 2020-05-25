@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String URL_MESSAGE = "com.example.conferencebookingapp.URL";
 
-    String urlAddress = "https://dev-be.timetomeet.se/service/rest/conferenceroom/";
+    //String urlAddress = "https://dev-be.timetomeet.se/service/rest/conferenceroom/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
         searchForRooms.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AvailableRoomView.class);
-                intent.putExtra(URL_MESSAGE, urlAddress);
-                startActivity(intent);
+                //Intent intent = new Intent(MainActivity.this, AvailableRoomView.class);
+                //intent.putExtra(URL_MESSAGE, urlAddress);
+                startActivity(new Intent(MainActivity.this, SearchView.class));
             }
         });
 
