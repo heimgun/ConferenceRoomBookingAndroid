@@ -2,7 +2,6 @@ package com.example.conferencebookingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +18,9 @@ import java.util.Date;
 public class SearchView extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "SearchView";
-    public static final String SEARCH_PARAMETERS_INFO = "com.example.conferencebookingapp.SEARCH_PARAMETERS";
+    public static final String CHOSEN_CITY_INFO = "com.example.conferencebookingapp.CITY";
+    public static final String CHOSEN_NUMBER_OF_PEOPLE_INFO = "com.example.conferencebookingapp.NUMBER_OF_PEOPLE";
+    public static final String CHOSEN_DATE_INFO = "com.example.conferencebookingapp.DATE";
 
     private String city;
     private int numberOfPeople;
@@ -28,29 +29,6 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
     private Spinner citiesSpinner;
     private EditText numberOfPeopleEditText;
     private EditText dateEditText;
-
-
-    private String requestPlantsJSON = "{" +
-            "    \"cityId\": \"%s\"," +
-            "    \"distanceInMeters\": null," +
-            "    \"distanceSkipInMeters\": null," +
-            "    \"seats\": \"%d\"," +
-            "    \"priceFrom\": null," +
-            "    \"priceTo\": null," +
-            "    \"plantId\": null," +
-            "    \"organizationId\": null," +
-            "    \"dateTimeFrom\": \"%s\"," +
-            "    \"dateTimeTo\": \"%s\", "+
-            "    \"foodBeverageList\": \"\"," +
-            "    \"technologyList\": \"\"," +
-            "    \"technologyGroup\": \"\"," +
-            "    \"rating\": null," +
-            "    \"orderBy\": \"\"," +
-            "    \"orderDirection\": null," +
-            "    \"page\": \"1\"," +
-            "    \"pages\": null," +
-            "    \"pageSize\": null" +
-            "}";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,11 +92,10 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
 
         boolean ready = validateData();
         if(ready) {
-            String dateStringFrom = chosenDate + "T09:00:00+02:00";
-            String dateStringTo = chosenDate + "T15:00:00+02:00";
-            String searchJSON = String.format(requestPlantsJSON, cityId, numberOfPeople, dateStringFrom, dateStringTo);
             Intent intent = new Intent(this, AvailableRoomView.class);
-            intent.putExtra(SEARCH_PARAMETERS_INFO, searchJSON);
+            intent.putExtra(CHOSEN_CITY_INFO, cityId);
+            intent.putExtra(CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
+            intent.putExtra(CHOSEN_DATE_INFO, chosenDate);
             startActivity(intent);
         }
 
@@ -126,6 +103,9 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
 
     private boolean validateData() {
         // Implement method for checking data input
-        return true;
+        // Check that city != "Stad"
+        // Check that numberOfPeople > 0
+        // Check validity of date input
+        return true; // false if data not valid
     }
 }

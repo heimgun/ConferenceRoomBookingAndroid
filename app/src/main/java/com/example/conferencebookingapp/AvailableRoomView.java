@@ -25,6 +25,10 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    private String cityId;
+    private int numberOfPeople;
+    private String chosenDate;
+
     public static final String FIND_ROOMS = "find rooms";
     public static final String FIND_PLANTS = "find plants";
 
@@ -39,10 +43,10 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
             "}";
 
     private String requestPlants = "{" +
-            "    \"cityId\": \"1\"," +
+            "    \"cityId\": \"%s\"," +
             "    \"distanceInMeters\": null," +
             "    \"distanceSkipInMeters\": null," +
-            "    \"seats\": \"5\"," +
+            "    \"seats\": \"%d\"," +
             "    \"priceFrom\": null," +
             "    \"priceTo\": null," +
             "    \"plantId\": null," +
@@ -61,7 +65,7 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
             "}";
 
     private String requestRoomData = "{" +
-            "    \"id\": \"%\"," +
+            "    \"id\": \"%s\"," +
             "    \"objectType\": \"city\"," +
             "    \"fromDate\": \"%s\"," +
             "    \"toDate\": \"%s\" "+
@@ -75,7 +79,9 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         availableRooms = new ArrayList<>();
         availablePlants = new ArrayList<>();
 
-        String requestFromSearchView = getIntent().getStringExtra(SearchView.SEARCH_PARAMETERS_INFO);
+        cityId = getIntent().getStringExtra(SearchView.CHOSEN_CITY_INFO);
+        numberOfPeople = getIntent().getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
+        chosenDate = getIntent().getStringExtra(SearchView.CHOSEN_DATE_INFO);
 
        // String urlAddress = getIntent().getStringExtra(MainActivity.URL_MESSAGE);
        // String urlAddress = "https://dev-be.timetomeet.se/service/rest/search/availability/period/v3";
@@ -84,17 +90,17 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         //Downloader downloader = new Downloader(AvailableRoomView.this);
         //downloader.execute(urlAddress);
 
-        /*Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = df.format(date);
-        String dateStringFrom = dateString + "T09:00:00+02:00";
-        String dateStringTo = dateString + "T15:00:00+02:00";
-        Log.d(TAG, "onCreate: date is: " + dateString);
+        //Date date = Calendar.getInstance().getTime();
+        //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        //String dateString = df.format(date);
 
-         */
+        String dateStringFrom = chosenDate + "T09:00:00+02:00";
+        String dateStringTo = chosenDate + "T15:00:00+02:00";
+
+        String plantRequest = String.format(requestPlants, cityId, numberOfPeople, dateStringFrom, dateStringTo);
 
         APIRequester plantRequester = new APIRequester(AvailableRoomView.this, FIND_PLANTS);
-        plantRequester.execute(PLANT_URL, requestFromSearchView);
+        plantRequester.execute(PLANT_URL, plantRequest);
 
         //APIRequester requester = new APIRequester(AvailableRoomView.this, FIND_ROOMS);
         //requester.execute(urlAddress, String.format(requestJson, dateString, dateString));

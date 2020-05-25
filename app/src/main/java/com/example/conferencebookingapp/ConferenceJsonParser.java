@@ -83,6 +83,8 @@ public class ConferenceJsonParser {
 
                 for (int j = 0; j < numberOfImages; j++) {
                     JSONObject jsonImage = jsonImages.getJSONObject(j);
+                    //String imageUrl = "http:" + jsonImage.getString("image");
+                    //newPlant.addImageUrl(imageUrl);
                     newPlant.addImageUrl(jsonImage.getString("image"));
                 }
 
