@@ -99,4 +99,82 @@ public class ConferenceJsonParser {
             return null;
         }
     }
+
+    public String parseExtraRoomInfo(String jsonString, List<ConferenceRoom> rooms) {
+
+        String nextPage = "";
+        try {
+            JSONObject jsonResult = new JSONObject(jsonString);
+
+            nextPage = jsonResult.getString("next");
+
+            Log.d(TAG, "parseExtraRoomInfo: nextPage is: " + nextPage);
+
+            JSONArray jsonRooms = jsonResult.getJSONArray("results");
+            int numberOfRooms = jsonRooms.length();
+
+            for (int i = 0; i < numberOfRooms; i++) {
+
+                JSONObject jsonRoom =  jsonRooms.getJSONObject(i);
+                String roomId = jsonRoom.getString("id");
+                for (ConferenceRoom room : rooms) {
+                    if (room.getRoomId().equals(roomId)) {
+                        room.setDescription(jsonRoom.getString("description"));
+                        room.setName(jsonRoom.getString("name"));
+
+
+                        JSONArray jsonDefaultSeatings = jsonRoom.getJSONArray("defaultSeating");
+                        JSONArray jsonSeatingDetails = jsonRoom.getJSONArray("seats");
+
+                        int numberOfSeatings = jsonDefaultSeatings.length();
+                        Log.d(TAG, "parseExtraRoomInfo: numberOfSeatings is: " + numberOfSeatings);
+
+                        for (int j = 0; j < numberOfSeatings; j++) {
+                            JSONObject defaultSeating = jsonDefaultSeatings.getJSONObject(j);
+                            String seatingId = defaultSeating.getString("id");
+                            String seatId = defaultSeating.getString("standardSeating");
+                            String seatDescription = "";
+
+                            for (int k = 0; k < jsonSeatingDetails.length(); k++) {
+                                JSONObject seat = jsonSeatingDetails.getJSONObject(k);
+
+                                String newSeatId = seat.getString("id");
+                                if(newSeatId.equals(seatId)) {
+                                    seatDescription = seat.getString("name");
+                                }
+                            }
+
+                            String maxNumberOfPeople = defaultSeating.getString("numberOfSeat");
+
+                            room.addSeating(seatDescription, maxNumberOfPeople);
+                            room.addSeatingId(seatDescription, seatingId);
+                        }
+
+                        JSONArray jsonTechnologies = jsonRoom.getJSONArray("technologies");
+                        int numberOfTechnologies = jsonTechnologies.length();
+
+                        for (int j = 0; j < numberOfTechnologies; j++) {
+                            JSONObject jsonTechnology = jsonTechnologies.getJSONObject(j);
+                            String technologyId = jsonTechnology.getString("id");
+                            String technologyDescription = jsonTechnology.getString("name");
+
+                            room.addTechnology(technologyDescription, technologyId);
+                        }
+
+                        JSONArray jsonMedia = jsonRoom.getJSONArray("blobs");
+                        for (int j = 0; j < jsonMedia.length(); j++) {
+                            JSONObject jsonMediaObject = jsonMedia.getJSONObject(j);
+                            String imageUrl = jsonMediaObject.getString("url");
+
+                            room.addImageUrl(imageUrl);
+                        }
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "parseExtraRoomInfo: JSONException: " + e.getMessage());
+        }
+        return nextPage;
+
+    }
 }

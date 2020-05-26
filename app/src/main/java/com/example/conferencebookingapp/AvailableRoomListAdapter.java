@@ -24,7 +24,7 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.available_room, parent, false);
+                .inflate(R.layout.available_conference_room, parent, false);
 
         return new MyViewHolder(v);
     }
@@ -32,13 +32,11 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        TextView roomNameTextView = holder.roomView.findViewById(R.id.plantNameTextView);
-        TextView priceTextView = holder.roomView.findViewById(R.id.priceTextView);
+        holder.roomNameTextView.setText(availableRooms.get(position).getName());
+        holder.descriptionTextView.setText(availableRooms.get(position).getDescription());
 
-        roomNameTextView.setText(availableRooms.get(position).getRoomId());
-
-        String priceText = String.format("Pris per dag: %s kr", availableRooms.get(position).getFullDayPrice());
-        priceTextView.setText(priceText);
+        String priceText = String.format("Pris för heldag: %s kr", availableRooms.get(position).getFullDayPrice());
+        holder.priceTextView.setText(priceText);
     }
 
     @Override
@@ -49,11 +47,16 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public View roomView;
+        public TextView roomNameTextView;
+        public TextView descriptionTextView;
+        public TextView priceTextView;
+
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            roomView = itemView;
+            roomNameTextView = itemView.findViewById(R.id.roomNameTextView);
+            descriptionTextView = itemView.findViewById(R.id.roomDescriptionTextView);
+            priceTextView = itemView.findViewById(R.id.roomPriceTextView);
         }
     }
 }

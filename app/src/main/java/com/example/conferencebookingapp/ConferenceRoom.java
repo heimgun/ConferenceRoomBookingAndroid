@@ -6,6 +6,11 @@ import android.telecom.Conference;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ConferenceRoom {
 
     private String roomId;
@@ -17,6 +22,29 @@ public class ConferenceRoom {
     private String afternoonPrice;
     private String preNoonBookingCode;
     private String afternoonBookingCode;
+    private String description;
+    private Map<String, String> seatings;
+    private Map<String, String> seatingIds;
+    private Map<String, String> technologies;
+    private List<String> imageUrls;
+
+
+    public ConferenceRoom() {
+        roomId = "";
+        name = "";
+        city = "";
+        plantId = "";
+        fullDayPrice = "";
+        preNoonPrice = "";
+        afternoonPrice = "";
+        preNoonBookingCode = "";
+        afternoonBookingCode = "";
+        description = "";
+        seatings = new HashMap<>();
+        seatingIds = new HashMap<>();
+        technologies = new HashMap<>();
+        imageUrls = new ArrayList<>();
+    }
 
 
     public String getName() {
@@ -89,5 +117,46 @@ public class ConferenceRoom {
 
     public void setAfternoonBookingCode(String afternoonBookingCode) {
         this.afternoonBookingCode = afternoonBookingCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    public Map<String, String> getSeatings() {
+        return seatings;
+    }
+
+    public void addSeating(String description, String numberOfPeople) {
+        seatings.put(description, numberOfPeople);
+    }
+
+    public Map<String, String> getSeatingIds() {
+        return seatingIds;
+    }
+
+    public void addSeatingId(String description, String id) {
+        seatings.put(description, id);
+    }
+
+    public Map<String, String> getTechnologies() {
+        return technologies;
+    }
+
+    public void addTechnology(String description, String id) {
+        technologies.put(description, id);
+    }
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void addImageUrl(String url) {
+        imageUrls.add(url);
     }
 }
