@@ -35,8 +35,8 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
         TextView roomNameTextView = holder.roomView.findViewById(R.id.plantNameTextView);
         TextView priceTextView = holder.roomView.findViewById(R.id.priceTextView);
 
+        roomNameTextView.setText(availableRooms.get(position).getRoomId());
 
-        roomNameTextView.setText(availableRooms.get(position).getName());
         String priceText = String.format("Pris per dag: %s kr", availableRooms.get(position).getFullDayPrice());
         priceTextView.setText(priceText);
     }

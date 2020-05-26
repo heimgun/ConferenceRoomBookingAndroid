@@ -95,7 +95,7 @@ public class ConferenceJsonParser {
             return plants;
 
         } catch(JSONException e) {
-            Log.e(TAG, "parseRoom: JSONException " + e.getMessage());
+            Log.e(TAG, "parsePlants: JSONException " + e.getMessage());
             return null;
         }
     }

@@ -18,7 +18,8 @@ import java.util.Date;
 public class SearchView extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "SearchView";
-    public static final String CHOSEN_CITY_INFO = "com.example.conferencebookingapp.CITY";
+    public static final String CHOSEN_CITY_ID = "com.example.conferencebookingapp.CITY_ID";
+    public static final String CHOSEN_CITY_NAME = "com.example.conferencebookingapp.CITY_NAME";
     public static final String CHOSEN_NUMBER_OF_PEOPLE_INFO = "com.example.conferencebookingapp.NUMBER_OF_PEOPLE";
     public static final String CHOSEN_DATE_INFO = "com.example.conferencebookingapp.DATE";
 
@@ -92,8 +93,9 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
 
         boolean ready = validateData();
         if(ready) {
-            Intent intent = new Intent(this, AvailableRoomView.class);
-            intent.putExtra(CHOSEN_CITY_INFO, cityId);
+            Intent intent = new Intent(this, AvailablePlantView.class);
+            intent.putExtra(CHOSEN_CITY_ID, cityId);
+            intent.putExtra(CHOSEN_CITY_NAME, city);
             intent.putExtra(CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
             intent.putExtra(CHOSEN_DATE_INFO, chosenDate);
             startActivity(intent);

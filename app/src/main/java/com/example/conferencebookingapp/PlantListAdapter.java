@@ -27,10 +27,18 @@ import java.util.List;
 public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.PlantViewHolder> {
     private static final String TAG = "PlantListAdapter";
 
+    private ClickHandler clickHandler;
+
+    public interface ClickHandler {
+        void onButtonClicked(int position);
+    }
+
     private List<Plant> availablePlants;
 
-    public PlantListAdapter(List<Plant> availablePlants) {
+    public PlantListAdapter(List<Plant> availablePlants, ClickHandler clickHandler) {
+        super();
         this.availablePlants = availablePlants;
+        this.clickHandler = clickHandler;
     }
 
     @NonNull
@@ -40,11 +48,14 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.available_plant, parent, false);
 
+
         return new PlantViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PlantViewHolder holder, int position) {
+
+        holder.clickHandler = this.clickHandler;
 
         //String imageUrl = availablePlants.get(position).getImageUrls().get(0);
 
@@ -134,9 +145,8 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
 
 
 
-    public static class PlantViewHolder extends RecyclerView.ViewHolder {
+    public static class PlantViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public View plantView;
         public ImageView plantImageView;
         public TextView plantNameTextView;
         public TextView addressTextView;
@@ -145,16 +155,27 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
         public TextView numberOfRoomsTextView;
         public Button showRoomsButton;
 
+        private ClickHandler clickHandler;
+
         public PlantViewHolder(@NonNull View itemView) {
             super(itemView);
-            plantView = itemView;
-            plantImageView = plantView.findViewById(R.id.plantImageView);
-            plantNameTextView = plantView.findViewById(R.id.plantNameTextView);
-            addressTextView = plantView.findViewById(R.id.plantAddressTextView);
-            plantInfoTextView = plantView.findViewById(R.id.plantInfoTextView);
-            priceFromTextView = plantView.findViewById(R.id.priceFromTextView);
-            numberOfRoomsTextView = plantView.findViewById(R.id.numberOfRoomsTextView);
-            showRoomsButton = plantView.findViewById(R.id.showRoomsButton);
+            plantImageView = itemView.findViewById(R.id.plantImageView);
+            plantNameTextView = itemView.findViewById(R.id.plantNameTextView);
+            addressTextView = itemView.findViewById(R.id.plantAddressTextView);
+            plantInfoTextView = itemView.findViewById(R.id.plantInfoTextView);
+            priceFromTextView = itemView.findViewById(R.id.priceFromTextView);
+            numberOfRoomsTextView = itemView.findViewById(R.id.numberOfRoomsTextView);
+            showRoomsButton = itemView.findViewById(R.id.showRoomsButton);
+
+            showRoomsButton.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (clickHandler != null) {
+                clickHandler.onButtonClicked(getAdapterPosition());
+            }
+
         }
     }
 }
