@@ -17,6 +17,9 @@ public class ConferenceRoom {
     private String name;
     private String city;
     private String plantId;
+    private String preNoonHours;
+    private String afternoonHours;
+    private String fullDayHours;
     private String fullDayPrice;
     private String preNoonPrice;
     private String afternoonPrice;
@@ -35,6 +38,9 @@ public class ConferenceRoom {
         name = "";
         city = "";
         plantId = "";
+        preNoonHours = "";
+        afternoonHours = "";
+        fullDayHours = "";
         fullDayPrice = "";
         preNoonPrice = "";
         afternoonPrice = "";
@@ -87,6 +93,30 @@ public class ConferenceRoom {
 
     public void setPlantId(String plantId) {
         this.plantId = plantId;
+    }
+
+    public String getPreNoonHours() {
+        return preNoonHours;
+    }
+
+    public void setPreNoonHours(String preNoonHours) {
+        this.preNoonHours = preNoonHours;
+    }
+
+    public String getAfternoonHours() {
+        return afternoonHours;
+    }
+
+    public void setAfternoonHours(String afternoonHours) {
+        this.afternoonHours = afternoonHours;
+    }
+
+    public String getFullDayHours() {
+        return fullDayHours;
+    }
+
+    public void setFullDayHours(String fullDayHours) {
+        this.fullDayHours = fullDayHours;
     }
 
     public String getPreNoonPrice() {

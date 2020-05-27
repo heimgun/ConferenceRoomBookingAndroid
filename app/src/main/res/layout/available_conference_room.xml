@@ -103,7 +103,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/afternoon"
         app:layout_constraintStart_toStartOf="@+id/roomPreNoonTextView"
-        app:layout_constraintTop_toBottomOf="@+id/roomPreNoonTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/roomPreNoonHoursTextView" />
 
     <TextView
         android:id="@+id/roomAfternoonPriceTextView"
@@ -120,7 +120,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/full_day"
         app:layout_constraintStart_toStartOf="@+id/roomAfternoonTextView"
-        app:layout_constraintTop_toBottomOf="@+id/roomAfternoonTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/roomAfternoonHoursTextView" />
 
     <TextView
         android:id="@+id/roomFullDayPriceTextView"
@@ -142,5 +142,38 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/roomAfternoonPriceTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/roomAfternoonPriceTextView" />
+
+    <TextView
+        android:id="@+id/roomPreNoonHoursTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/roomPreNoonTextView"
+        app:layout_constraintTop_toBottomOf="@+id/roomPreNoonTextView"
+        tools:text="08:00 - 12:00" />
+
+    <TextView
+        android:id="@+id/roomAfternoonHoursTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/roomAfternoonTextView"
+        app:layout_constraintTop_toBottomOf="@+id/roomAfternoonTextView"
+        tools:text="13:00 - 17:00" />
+
+    <TextView
+        android:id="@+id/roomFullDayHoursTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/roomFulldayTextView"
+        app:layout_constraintTop_toBottomOf="@+id/roomFulldayTextView"
+        tools:text="08:00 - 17:00" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

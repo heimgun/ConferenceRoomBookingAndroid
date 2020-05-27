@@ -136,6 +136,19 @@ public class ConferenceJsonParser {
                         room.setDescription(jsonRoom.getString("description"));
                         room.setName(jsonRoom.getString("name"));
 
+                        String preNoonHours = jsonRoom.getString("preNoonAvailabilityHourStart").substring(0, 5) +
+                                " - " + jsonRoom.getString("preNoonAvailabilityHourEnd").substring(0, 5);
+                        room.setPreNoonHours(preNoonHours);
+
+                        String afternoonHours = jsonRoom.getString("afterNoonAvailabilityHourStart").substring(0, 5) +
+                                " - " + jsonRoom.getString("afterNoonAvailabilityHourEnd").substring(0, 5);
+                        room.setAfternoonHours(afternoonHours);
+
+                        String fullDayHours = jsonRoom.getString("preNoonAvailabilityHourStart").substring(0, 5) +
+                                " - " + jsonRoom.getString("afterNoonAvailabilityHourEnd").substring(0, 5);
+                        room.setFullDayHours(fullDayHours);
+
+
                         JSONArray jsonDefaultSeatings = jsonRoom.getJSONArray("defaultSeating");
                         JSONArray jsonSeatingDetails = jsonRoom.getJSONArray("seats");
 
