@@ -1,17 +1,21 @@
 package com.example.conferencebookingapp;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -29,7 +33,8 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
 
     private Spinner citiesSpinner;
     private EditText numberOfPeopleEditText;
-    private EditText dateEditText;
+    private DatePicker datePicker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +52,8 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
         numberOfPeopleEditText = findViewById(R.id.numberOfPeopleEditText);
         numberOfPeople = 1;
 
-        dateEditText = findViewById(R.id.dateEditText);
-        Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        chosenDate = df.format(date);
+        datePicker = (DatePicker) findViewById(R.id.datePicker);
+
 
     }
 
@@ -60,11 +63,14 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
         city = chosenCity.toString();
     }
 
+
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         city = "Stad";
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void OnSearchButtonClicked(View v) {
 
         String cityId = "";
@@ -84,8 +90,14 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
             default:
         }
 
+        //Calendar spinner stuff
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        chosenDate = df.format(calendar.getTime());
+
         numberOfPeople = Integer.parseInt(numberOfPeopleEditText.getText().toString());
-        chosenDate = dateEditText.getText().toString();
+
 
         Log.d(TAG, "OnSearchButtonClicked: city is: " + city);
         Log.d(TAG, "OnSearchButtonClicked: numberOfPeople is: " + numberOfPeople);

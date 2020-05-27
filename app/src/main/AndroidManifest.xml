@@ -6,14 +6,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/timetomeet_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/timetomeet_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AvailablePlantView"></activity>
-        <activity android:name=".SearchView" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".AvailablePlantView"
+            android:parentActivityName=".SearchView"></activity>
+        <activity android:name=".SearchView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,11 +21,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CreateUserView"
-            android:parentActivityName=".MainActivity" />
+            android:name=".CreateUserView" />
         <activity
-            android:name=".AvailableRoomView"
-            android:parentActivityName=".MainActivity" />
+            android:name=".AvailableRoomView" />
     </application>
 
 </manifest>
