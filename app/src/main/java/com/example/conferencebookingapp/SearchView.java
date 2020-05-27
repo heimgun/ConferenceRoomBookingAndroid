@@ -96,8 +96,12 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         chosenDate = df.format(calendar.getTime());
 
-        numberOfPeople = Integer.parseInt(numberOfPeopleEditText.getText().toString());
-
+        if(numberOfPeopleEditText.getText().toString().length() > 0) {
+            numberOfPeople = Integer.parseInt(numberOfPeopleEditText.getText().toString());
+        }
+        else{
+            numberOfPeople = 0;
+        }
 
         Log.d(TAG, "OnSearchButtonClicked: city is: " + city);
         Log.d(TAG, "OnSearchButtonClicked: numberOfPeople is: " + numberOfPeople);
@@ -121,7 +125,7 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
     private boolean validateData() {
 
 
-        if (!citiesSpinner.getSelectedItem().equals("Stad") && !numberOfPeopleEditText.getText().toString().equals("")){
+        if (!citiesSpinner.getSelectedItem().equals("Stad") && numberOfPeople != 0){
             return true;
         }
 

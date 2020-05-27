@@ -123,7 +123,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
             return true;
         }
 
-        editText.setError("Please enter a correct email");
+        editText.setError("Please enter a valid email");
         editText.requestFocus();
         return false;
     }
