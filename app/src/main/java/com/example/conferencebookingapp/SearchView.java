@@ -13,11 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
 public class SearchView extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -53,6 +52,7 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
         numberOfPeople = 1;
 
         datePicker = (DatePicker) findViewById(R.id.datePicker);
+        datePicker.setMinDate(System.currentTimeMillis() - 1000);
 
 
     }
@@ -112,14 +112,20 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
             intent.putExtra(CHOSEN_DATE_INFO, chosenDate);
             startActivity(intent);
         }
+        else{
+            Toast.makeText(getApplicationContext(), "Error in input, please enter correct information", Toast.LENGTH_LONG).show();
+        }
 
     }
 
     private boolean validateData() {
-        // Implement method for checking data input
-        // Check that city != "Stad"
-        // Check that numberOfPeople > 0
-        // Check validity of date input
-        return true; // false if data not valid
+
+
+        if (!citiesSpinner.getSelectedItem().equals("Stad") && !numberOfPeopleEditText.getText().toString().equals("")){
+            return true;
+        }
+
+
+        return false;
     }
 }
