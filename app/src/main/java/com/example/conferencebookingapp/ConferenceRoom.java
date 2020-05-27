@@ -23,6 +23,7 @@ public class ConferenceRoom {
     private String preNoonBookingCode;
     private String afternoonBookingCode;
     private String description;
+    private int maxNumberOfPeople;
     private Map<String, String> seatings;
     private Map<String, String> seatingIds;
     private Map<String, String> technologies;
@@ -40,6 +41,7 @@ public class ConferenceRoom {
         preNoonBookingCode = "";
         afternoonBookingCode = "";
         description = "";
+        maxNumberOfPeople = 0;
         seatings = new HashMap<>();
         seatingIds = new HashMap<>();
         technologies = new HashMap<>();
@@ -127,6 +129,14 @@ public class ConferenceRoom {
         this.description = description;
     }
 
+
+    public int getMaxNumberOfPeople() {
+        return maxNumberOfPeople;
+    }
+
+    public void setMaxNumberOfPeople(int maxNumberOfPeople) {
+        this.maxNumberOfPeople = maxNumberOfPeople;
+    }
 
     public Map<String, String> getSeatings() {
         return seatings;

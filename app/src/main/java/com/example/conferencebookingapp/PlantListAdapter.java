@@ -55,6 +55,7 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
     @Override
     public void onBindViewHolder(@NonNull PlantViewHolder holder, int position) {
 
+
         holder.clickHandler = this.clickHandler;
 
         //String imageUrl = availablePlants.get(position).getImageUrls().get(0);
@@ -74,16 +75,16 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
 
          */
 
-        holder.plantNameTextView.setText(availablePlants.get(position).getName());
+        Plant plant = availablePlants.get(position);
 
-        String addressText = String.format("%s, %s", availablePlants.get(position).getAddress(),
-                availablePlants.get(position).getCity());
+        holder.plantNameTextView.setText(plant.getName());
+
+        String addressText = String.format("%s, %s", plant.getAddress(), plant.getCity());
         holder.addressTextView.setText(addressText);
-        holder.plantInfoTextView.setText(availablePlants.get(position).getFacts());
-        String priceText = availablePlants.get(position).getPriceFrom() + "0 kr";
-        holder.priceFromTextView.setText(priceText);
+        holder.plantInfoTextView.setText(plant.getFacts());
+        holder.priceFromTextView.setText(String.format("%s kr", plant.getPriceFrom()));
 
-        String numberOfRooms = availablePlants.get(position).getNumberOfAvailableRooms();
+        String numberOfRooms = plant.getNumberOfAvailableRooms();
         String numberOfRoomsText = numberOfRooms.equals("1") ? "%s rum tillgängligt" : "%s rum tillgängliga";
 
         holder.numberOfRoomsTextView.setText(String.format(numberOfRoomsText, numberOfRooms));

@@ -1,17 +1,20 @@
 package com.example.conferencebookingapp;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Map;
 
 public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoomListAdapter.MyViewHolder> {
-    private static final String TAG = "AvailableRoomListAdapter";
+    private static final String TAG = "RoomListAdapter";
 
     private List<ConferenceRoom> availableRooms;
 
@@ -32,11 +35,34 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.roomNameTextView.setText(availableRooms.get(position).getName());
-        holder.descriptionTextView.setText(availableRooms.get(position).getDescription());
+        ConferenceRoom room = availableRooms.get(position);
+        holder.roomNameTextView.setText(room.getName());
 
-        String priceText = String.format("Pris för heldag: %s kr", availableRooms.get(position).getFullDayPrice());
-        holder.priceTextView.setText(priceText);
+        String maxNumberText = String.format("Max antal deltagare: %d personer", room.getMaxNumberOfPeople());
+        holder.maxNumberTextView.setText(maxNumberText);
+
+        StringBuilder seatingStringBuilder = new StringBuilder("Tillgängliga möbleringar: \n");
+        Map<String, String> seatings = room.getSeatings();
+        for (String key: seatings.keySet()) {
+            seatingStringBuilder.append("- ").append(key).append("\n");
+        }
+        holder.seatingsTextView.setText(seatingStringBuilder.toString());
+
+        StringBuilder technologyStringBuilder = new StringBuilder("Bokningsbar teknologi: \n");
+        Map<String, String> technologies = room.getTechnologies();
+        for (String key: technologies.keySet()) {
+            technologyStringBuilder.append("- ").append(key).append("\n");
+        }
+        holder.technologyTextView.setText(technologyStringBuilder.toString());
+        Log.d(TAG, "onBindViewHolder: technology text set");
+
+        holder.descriptionTextView.setText(room.getDescription());
+        Log.d(TAG, "onBindViewHolder: description text set");
+
+
+        holder.preNoonPriceTextView.setText(String.format("%s kr", room.getPreNoonPrice()));
+        holder.afternoonPriceTextView.setText(String.format("%s kr", room.getAfternoonPrice()));
+        holder.fullDayPriceTextView.setText(String.format("%s kr", room.getFullDayPrice()));
     }
 
     @Override
@@ -48,15 +74,27 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView roomNameTextView;
+        public TextView maxNumberTextView;
+        public TextView seatingsTextView;
+        public TextView technologyTextView;
         public TextView descriptionTextView;
-        public TextView priceTextView;
+        public TextView preNoonPriceTextView;
+        public TextView afternoonPriceTextView;
+        public TextView fullDayPriceTextView;
+        public Button bookRoomButton;
 
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             roomNameTextView = itemView.findViewById(R.id.roomNameTextView);
+            maxNumberTextView = itemView.findViewById(R.id.maxNumberTextView);
+            seatingsTextView = itemView.findViewById(R.id.seatingsTextView);
+            technologyTextView = itemView.findViewById(R.id.technologyTextView);
             descriptionTextView = itemView.findViewById(R.id.roomDescriptionTextView);
-            priceTextView = itemView.findViewById(R.id.roomPriceTextView);
+            preNoonPriceTextView = itemView.findViewById(R.id.roomPreNoonPriceTextView);
+            afternoonPriceTextView = itemView.findViewById(R.id.roomAfternoonPriceTextView);
+            fullDayPriceTextView = itemView.findViewById(R.id.roomFullDayPriceTextView);
+            bookRoomButton = itemView.findViewById(R.id.bookRoomButton);
         }
     }
 }

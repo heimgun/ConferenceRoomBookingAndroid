@@ -5,4 +5,8 @@
     <string name="date_input">Datum (ÅÅÅÅ-MM-DD)</string>
     <string name="search">Sök</string>
     <string name="price_from">"Pris från "</string>
+    <string name="pre_noon">Förmiddag</string>
+    <string name="afternoon">Eftermiddag</string>
+    <string name="full_day">Heldag</string>
+    <string name="book_room">Boka rum</string>
 </resources>

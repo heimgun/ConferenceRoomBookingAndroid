@@ -30,10 +30,20 @@ public class ConferenceJsonParser {
                 ConferenceRoom newRoom = new ConferenceRoom();
                 newRoom.setRoomId(jsonRoom.getString("room_id"));
                 Log.d(TAG, "parseRoom: roomId is: " + newRoom.getRoomId());
-                newRoom.setFullDayPrice(jsonRoom.getString("fullDayPrice"));
+
+                String fullDayPrice = jsonRoom.getString("fullDayPrice");
+                fullDayPrice = fullDayPrice.replace(".00", "");
+                newRoom.setFullDayPrice(fullDayPrice);
                 Log.d(TAG, "parseRoom: price is: " + newRoom.getFullDayPrice());
-                newRoom.setPreNoonPrice(jsonRoom.getString("preNoonPrice"));
-                newRoom.setAfternoonPrice(jsonRoom.getString("afterNoonPrice"));
+
+                String preNoonPrice = jsonRoom.getString("preNoonPrice");
+                preNoonPrice = preNoonPrice.replace(".00", "");
+                newRoom.setPreNoonPrice(preNoonPrice);
+
+                String afternoonPrice = jsonRoom.getString("afterNoonPrice");
+                afternoonPrice = afternoonPrice.replace(".00", "");
+                newRoom.setAfternoonPrice(afternoonPrice);
+
                 newRoom.setPreNoonBookingCode(jsonRoom.getString("id31"));
                 newRoom.setAfternoonBookingCode(jsonRoom.getString("id32"));
                 newRoom.setPlantId(jsonRoom.getString("plant_id"));
@@ -70,7 +80,11 @@ public class ConferenceJsonParser {
                 newPlant.setPlantId (jsonPlant.getString("plantId"));
                 newPlant.setName(jsonPlant.getString("plantName"));
                 newPlant.setFacts(jsonPlant.getString("plantFacts"));
-                newPlant.setPriceFrom(jsonPlant.getString("priceFrom"));
+
+                String priceFrom = jsonPlant.getString("priceFrom");
+                priceFrom = priceFrom.replace(".0", "");
+                newPlant.setPriceFrom(priceFrom);
+
                 newPlant.setNumberOfAvailableRooms(jsonPlant.getString("roomsAvailable"));
 
                 JSONObject jsonAddress = jsonPlant.getJSONObject("visitingAddress");
@@ -122,12 +136,13 @@ public class ConferenceJsonParser {
                         room.setDescription(jsonRoom.getString("description"));
                         room.setName(jsonRoom.getString("name"));
 
-
                         JSONArray jsonDefaultSeatings = jsonRoom.getJSONArray("defaultSeating");
                         JSONArray jsonSeatingDetails = jsonRoom.getJSONArray("seats");
 
                         int numberOfSeatings = jsonDefaultSeatings.length();
                         Log.d(TAG, "parseExtraRoomInfo: numberOfSeatings is: " + numberOfSeatings);
+
+                        int maxNumber = 0;
 
                         for (int j = 0; j < numberOfSeatings; j++) {
                             JSONObject defaultSeating = jsonDefaultSeatings.getJSONObject(j);
@@ -146,9 +161,14 @@ public class ConferenceJsonParser {
 
                             String maxNumberOfPeople = defaultSeating.getString("numberOfSeat");
 
+                            int numberOfPeople = Integer.parseInt(maxNumberOfPeople);
+                            maxNumber = Math.max(numberOfPeople, maxNumber);
+
                             room.addSeating(seatDescription, maxNumberOfPeople);
                             room.addSeatingId(seatDescription, seatingId);
                         }
+
+                        room.setMaxNumberOfPeople(maxNumber);
 
                         JSONArray jsonTechnologies = jsonRoom.getJSONArray("technologies");
                         int numberOfTechnologies = jsonTechnologies.length();

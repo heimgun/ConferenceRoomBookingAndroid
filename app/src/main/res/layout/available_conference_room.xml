@@ -8,7 +8,8 @@
     <ImageView
         android:id="@+id/roomImageView"
         android:layout_width="0dp"
-        android:layout_height="@dimen/image_height"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,12 +22,47 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:text="TextView"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roomImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/roomImageView"
+        tools:text="Namn på rummet" />
+
+    <TextView
+        android:id="@+id/maxNumberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roomNameTextView"
+        tools:text="Max antal personer" />
+
+    <TextView
+        android:id="@+id/seatingsTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maxNumberTextView"
+        tools:text="Tillgängliga seatings" />
+
+    <TextView
+        android:id="@+id/technologyTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seatingsTextView"
+        tools:text="Tillgänglig teknologi" />
 
     <TextView
         android:id="@+id/roomDescriptionTextView"
@@ -35,22 +71,76 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roomNameTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/technologyTextView"
+        tools:text="Beskrivning av rummet" />
 
     <TextView
-        android:id="@+id/roomPriceTextView"
+        android:id="@+id/roomPreNoonTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginTop="24dp"
+        android:text="@string/pre_noon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/roomDescriptionTextView" />
+
+    <TextView
+        android:id="@+id/roomPreNoonPriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/roomPreNoonTextView"
+        app:layout_constraintStart_toEndOf="@+id/roomPreNoonTextView"
+        tools:text="Pris förmiddag" />
+
+    <TextView
+        android:id="@+id/roomAfternoonTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/afternoon"
+        app:layout_constraintStart_toStartOf="@+id/roomPreNoonTextView"
+        app:layout_constraintTop_toBottomOf="@+id/roomPreNoonTextView" />
+
+    <TextView
+        android:id="@+id/roomAfternoonPriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/roomAfternoonTextView"
+        app:layout_constraintStart_toStartOf="@+id/roomPreNoonPriceTextView"
+        tools:text="Pris eftermiddag" />
+
+    <TextView
+        android:id="@+id/roomFulldayTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/full_day"
+        app:layout_constraintStart_toStartOf="@+id/roomAfternoonTextView"
+        app:layout_constraintTop_toBottomOf="@+id/roomAfternoonTextView" />
+
+    <TextView
+        android:id="@+id/roomFullDayPriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/roomFulldayTextView"
+        app:layout_constraintStart_toStartOf="@+id/roomAfternoonPriceTextView"
+        tools:text="Pris heldag" />
+
+    <Button
+        android:id="@+id/bookRoomButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/green"
+        android:text="@string/book_room"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBaseline_toBaselineOf="@+id/roomAfternoonPriceTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/roomAfternoonPriceTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
