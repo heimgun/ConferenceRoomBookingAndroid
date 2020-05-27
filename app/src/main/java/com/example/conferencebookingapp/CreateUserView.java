@@ -205,6 +205,10 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
 
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }
 
 

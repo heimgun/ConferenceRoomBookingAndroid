@@ -108,11 +108,13 @@ public class APIRequester extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
 
         super.onPostExecute(s);
-        try {
-            context.onDownloadComplete(s, message);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            try {
+                context.onDownloadComplete(s, message);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
 
     }
 

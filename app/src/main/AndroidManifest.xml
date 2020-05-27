@@ -11,8 +11,9 @@
         android:roundIcon="@drawable/timetomeet_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AvailablePlantView"
-            android:parentActivityName=".SearchView"></activity>
+        <activity
+            android:name=".AvailablePlantView"
+            android:parentActivityName=".SearchView" />
         <activity android:name=".SearchView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +24,8 @@
         <activity
             android:name=".CreateUserView" />
         <activity
-            android:name=".AvailableRoomView" />
+            android:name=".AvailableRoomView"
+            android:parentActivityName=".AvailablePlantView"/>
     </application>
 
 </manifest>

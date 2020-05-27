@@ -124,12 +124,6 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
 
     private boolean validateData() {
 
-
-        if (!citiesSpinner.getSelectedItem().equals("Stad") && numberOfPeople != 0){
-            return true;
-        }
-
-
-        return false;
+        return !citiesSpinner.getSelectedItem().equals("Stad") && numberOfPeople != 0;
     }
 }

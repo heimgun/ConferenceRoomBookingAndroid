@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -81,6 +83,7 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
         searchHeading.setText(String.format("Tillgängliga anläggningar %s i %s", chosenDate, city));
         recyclerView = findViewById(R.id.resultsRecyclerView);
 
+
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -123,4 +126,7 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
 
         startActivity(intent);
     }
+
+
+
 }
