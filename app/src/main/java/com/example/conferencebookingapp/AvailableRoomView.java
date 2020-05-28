@@ -49,6 +49,7 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
             "    \"toDate\": \"%s\" "+
             "}";
 
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,13 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new AvailableRoomListAdapter(availableRooms);
+        adapter = new AvailableRoomListAdapter(availableRooms, new AvailableRoomListAdapter.ClickHandler() {
+            @Override
+            public void onButtonClicked(int position) {
+                onContinueToBookingButtonClicked(position);
+            }
+        });
+
 
         recyclerView.setAdapter(adapter);
         Log.d(TAG, "onCreate: adapter set");
@@ -113,7 +120,13 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
             Log.d(TAG, "onDownloadComplete: nextPage is: " + nextPage);
             if (nextPage == null || nextPage.equals("") || nextPage.equals("null")) {
                 Log.d(TAG, "onDownloadComplete: finished downloading");
-                AvailableRoomListAdapter newAdapter = new AvailableRoomListAdapter(availableRooms);
+                AvailableRoomListAdapter newAdapter = new AvailableRoomListAdapter(availableRooms, new AvailableRoomListAdapter.ClickHandler() {
+                    @Override
+                    public void onButtonClicked(int position) {
+                            onContinueToBookingButtonClicked(position);
+
+                    }
+                });
                 recyclerView.setAdapter(newAdapter);
             } else {
                 Log.d(TAG, "onDownloadComplete: Downloading. NextPage is: " + nextPage);
@@ -122,6 +135,21 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
 
             }
         }
+
+
+    }
+
+    private void onContinueToBookingButtonClicked(int position){
+        ConferenceRoom chosenRoom = availableRooms.get(position);
+
+        //Add Intent.putExtras
+
+
+        Intent intent = new Intent(this, CreateUserView.class);
+        startActivity(intent);
+
+
+
     }
 
 

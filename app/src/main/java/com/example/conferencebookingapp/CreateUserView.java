@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,8 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
 
     EditText firstName, lastName, phone, email, organization, orgNumber, street, city, zipCode;
     Button submit;
+
+    TextView tv;
 
 
     User user = new User();
@@ -45,6 +48,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
         street = (EditText) findViewById(R.id.street);
         city = (EditText) findViewById(R.id.city);
         zipCode = (EditText) findViewById(R.id.zipCode);
+        tv = (TextView) findViewById(R.id.TV);
 
         submit = (Button) findViewById(R.id.SubmitBtn);
 

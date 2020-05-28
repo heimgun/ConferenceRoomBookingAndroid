@@ -18,8 +18,17 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
 
     private List<ConferenceRoom> availableRooms;
 
-    public AvailableRoomListAdapter(List<ConferenceRoom> availableRooms) {
+    private ClickHandler clickHandler;
+
+
+    public interface ClickHandler {
+        void onButtonClicked(int position);
+    }
+
+    public AvailableRoomListAdapter(List<ConferenceRoom> availableRooms, ClickHandler clickHandler) {
+        super();
         this.availableRooms = availableRooms;
+        this.clickHandler = clickHandler;
     }
 
     @NonNull
@@ -34,6 +43,8 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
+        holder.clickHandler = this.clickHandler;
 
         ConferenceRoom room = availableRooms.get(position);
         holder.roomNameTextView.setText(room.getName());
@@ -74,7 +85,7 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
     }
 
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView roomNameTextView;
         public TextView maxNumberTextView;
@@ -88,6 +99,9 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
         public TextView fullDayHoursTextView;
         public TextView fullDayPriceTextView;
         public Button bookRoomButton;
+
+
+        private ClickHandler clickHandler;
 
 
         public MyViewHolder(@NonNull View itemView) {
@@ -104,6 +118,16 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
             fullDayHoursTextView = itemView.findViewById(R.id.roomFullDayHoursTextView);
             fullDayPriceTextView = itemView.findViewById(R.id.roomFullDayPriceTextView);
             bookRoomButton = itemView.findViewById(R.id.bookRoomButton);
+            bookRoomButton.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+                if(clickHandler != null){
+                    clickHandler.onButtonClicked(getAdapterPosition());
+                }
+
         }
     }
+
 }
