@@ -1,7 +1,9 @@
 package com.example.conferencebookingapp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Plant {
 
@@ -14,6 +16,7 @@ public class Plant {
     private String facts;
     private String priceFrom;
     private String numberOfAvailableRooms;
+    private Map<String, String> foodAndBeverages;
 
     public Plant() {
         plantId = "";
@@ -22,6 +25,11 @@ public class Plant {
         city = "";
         address = "";
         imageUrls = new ArrayList<>();
+        facts = "";
+        priceFrom = "";
+        numberOfAvailableRooms = "";
+        foodAndBeverages = new HashMap<>();
+
     }
 
     public String getPlantId() {
@@ -93,5 +101,13 @@ public class Plant {
 
     public void setNumberOfAvailableRooms(String numberOfAvailableRooms) {
         this.numberOfAvailableRooms = numberOfAvailableRooms;
+    }
+
+    public Map<String, String> getFoodAndBeverages() {
+        return foodAndBeverages;
+    }
+
+    public void addFoodAndBeverage(String description, String price) {
+        foodAndBeverages.put(description, price);
     }
 }

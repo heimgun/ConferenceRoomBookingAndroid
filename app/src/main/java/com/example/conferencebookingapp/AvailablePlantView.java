@@ -34,8 +34,14 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
 
     public static final String CHOSEN_PLANT_ID = "com.example.conferencebookingapp.PLANT_ID";
     public static final String CHOSEN_PLANT_NAME = "com.example.conferencebookingapp.PLANT_NAME";
-    public static final String FIND_PLANTS = "find plants";
+
+    public static final String FIND_PLANTS = "com.example.conferencebookingapp.FIND_PLANTS";
+    public static final String FIND_FOOD_INFO = "com.example.conferencebookingapp.FIND_FOOD_INFO";
+    public static final String ADD_AVAILABLE_FOOD = "com.example.conferencebookingapp.ADD_FOOD";
+
     public static final String PLANT_URL = "https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/";
+    public static final String FOOD_INFO_URL = "https://dev-be.timetomeet.se/service/rest/foodbeverage/";
+    public static final String AVAILABLE_FOOD_URL = "https://dev-be.timetomeet.se/service/rest/plantfoodbeverage/";
 
     private String requestPlants = "{" +
             "    \"cityId\": \"%s\"," +
@@ -103,8 +109,21 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
     @Override
     public void onDownloadComplete(String results, String message) throws JSONException {
 
-        ConferenceJsonParser parser = new ConferenceJsonParser();
-        availablePlants = parser.parsePlants(results);
+        if (message.equals(FIND_PLANTS)) {
+            ConferenceJsonParser parser = new ConferenceJsonParser();
+            availablePlants = parser.parsePlants(results);
+
+            Downloader downloader = new Downloader(AvailablePlantView.this, FIND_FOOD_INFO);
+            downloader.execute(FOOD_INFO_URL, FIND_FOOD_INFO);
+
+        } else if (message.equals(FIND_FOOD_INFO)) {
+            ConferenceJsonParser parser = new ConferenceJsonParser();
+
+
+        } else if (message.equals(ADD_AVAILABLE_FOOD)) {
+
+        }
+
 
         PlantListAdapter newAdapter = new PlantListAdapter(availablePlants, new PlantListAdapter.ClickHandler() {
             @Override
@@ -112,7 +131,6 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
                 onShowRoomsButtonClicked(position);
             }
         });
-
         recyclerView.setAdapter(newAdapter);
     }
 
@@ -123,6 +141,8 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
         intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
         intent.putExtra(CHOSEN_PLANT_ID, chosenPlant.getPlantId());
         intent.putExtra(CHOSEN_PLANT_NAME, chosenPlant.getName());
+        intent.putExtra(SearchView.CHOSEN_CITY_NAME, city);
+        intent.putExtra(SearchView.CHOSEN_CITY_ID, cityId);
 
         startActivity(intent);
     }

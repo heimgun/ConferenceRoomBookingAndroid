@@ -7,7 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConferenceJsonParser {
     private static final String TAG = "ConferenceJsonParser";
@@ -209,5 +211,64 @@ public class ConferenceJsonParser {
         }
         return nextPage;
 
+    }
+
+    public void parsePlantFood(String jsonString, List<Plant> plants) {
+        try {
+            JSONArray jsonFoods = new JSONArray(jsonString);
+
+            for (int i = 0; i < jsonFoods.length(); i++) {
+                JSONObject jsonFood = jsonFoods.getJSONObject(i);
+                String jsonPlantId = jsonFood.getString("plant");
+                for (Plant plant : plants) {
+                    if (plant.getPlantId().equals(jsonPlantId)) {
+                        String foodItemId = jsonFood.getString("foodBeverage");
+                        String foodDescription = "";
+                        switch (foodItemId) {
+                            case "1":
+                                foodDescription = "Lunch i restaurang / annan plats";
+                                break;
+                            case "2":
+                                foodDescription = "Lunch i konferensrummet";
+                                break;
+                            case "3":
+                                foodDescription = "Frukost";
+                                break;
+                            case "4":
+                                foodDescription = "Förmiddagsfika, inkl. kaffe/te";
+                                break;
+                            case "5":
+                                foodDescription = "Enbart kaffe / tee";
+                                break;
+                            case "6":
+                                foodDescription = "Eftermiddagsfika, inkl. kaffe/te";
+                                break;
+                            case "7":
+                                foodDescription = "Frukt";
+                                break;
+                            case "8":
+                                foodDescription = "Vatten";
+                            default:
+                        }
+                        String foodPrice = String.format("%s kr", jsonFood.getString("price"));
+                        plant.addFoodAndBeverage(foodDescription, foodPrice);
+                    }
+                }
+            }
+
+        } catch(JSONException e) {
+            Log.e(TAG, "parsePlantFood: JSONException: " + e.getMessage());
+        }
+    }
+
+    public Map<String, String> parseFoodInfo(String jsonString) {
+        Map<String, String> foodInfo = new HashMap<>();
+        try {
+            JSONArray jsonFoodItems = new JSONArray(jsonString);
+
+        } catch (JSONException e) {
+            Log.e(TAG, "parseFoodInfo: JSONException: " + e.getMessage());
+        }
+        return foodInfo;
     }
 }
