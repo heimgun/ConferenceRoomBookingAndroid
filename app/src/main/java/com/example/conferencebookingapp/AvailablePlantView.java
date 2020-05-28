@@ -143,6 +143,7 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
         intent.putExtra(CHOSEN_PLANT_NAME, chosenPlant.getName());
         intent.putExtra(SearchView.CHOSEN_CITY_NAME, city);
         intent.putExtra(SearchView.CHOSEN_CITY_ID, cityId);
+        intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
 
         startActivity(intent);
     }
