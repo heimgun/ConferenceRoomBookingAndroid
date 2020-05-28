@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+import java.util.Map;
 
 public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.PlantViewHolder> {
     private static final String TAG = "PlantListAdapter";
@@ -82,24 +83,20 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
         String addressText = String.format("%s, %s", plant.getAddress(), plant.getCity());
         holder.addressTextView.setText(addressText);
         holder.plantInfoTextView.setText(plant.getFacts());
+
+        StringBuilder foodStringBuilder = new StringBuilder("Tillgänglig mat och dryck: \n");
+        Map<String, String> foodItems = plant.getFoodAndBeverages();
+        for (String foodItem : foodItems.keySet()) {
+            foodStringBuilder.append("- ").append(foodItem).append("\n");
+        }
+        holder.foodTextView.setText(foodStringBuilder.toString());
+
         holder.priceFromTextView.setText(String.format("%s kr", plant.getPriceFrom()));
 
         String numberOfRooms = plant.getNumberOfAvailableRooms();
         String numberOfRoomsText = numberOfRooms.equals("1") ? "%s rum tillgängligt" : "%s rum tillgängliga";
 
         holder.numberOfRoomsTextView.setText(String.format(numberOfRoomsText, numberOfRooms));
-
-        /*holder.showRoomsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(, CreateUserView.class));
-            }
-        });
-
-         */
-
-
-
 
     }
 
@@ -152,6 +149,7 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
         public TextView plantNameTextView;
         public TextView addressTextView;
         public TextView plantInfoTextView;
+        public TextView foodTextView;
         public TextView priceFromTextView;
         public TextView numberOfRoomsTextView;
         public Button showRoomsButton;
@@ -164,6 +162,7 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
             plantNameTextView = itemView.findViewById(R.id.plantNameTextView);
             addressTextView = itemView.findViewById(R.id.plantAddressTextView);
             plantInfoTextView = itemView.findViewById(R.id.plantInfoTextView);
+            foodTextView = itemView.findViewById(R.id.plantFoodTextView);
             priceFromTextView = itemView.findViewById(R.id.priceFromTextView);
             numberOfRoomsTextView = itemView.findViewById(R.id.numberOfRoomsTextView);
             showRoomsButton = itemView.findViewById(R.id.showRoomsButton);

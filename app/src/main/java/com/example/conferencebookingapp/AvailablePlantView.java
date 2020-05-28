@@ -14,7 +14,9 @@ import android.widget.TextView;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AvailablePlantView extends AppCompatActivity implements CallbackActivity {
 
@@ -31,6 +33,7 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
     private String city;
     private int numberOfPeople;
     private String chosenDate;
+    private Map<String, String> foodItems;
 
     public static final String CHOSEN_PLANT_ID = "com.example.conferencebookingapp.PLANT_ID";
     public static final String CHOSEN_PLANT_NAME = "com.example.conferencebookingapp.PLANT_NAME";
@@ -76,6 +79,7 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
         city = getIntent().getStringExtra(SearchView.CHOSEN_CITY_NAME);
         numberOfPeople = getIntent().getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
         chosenDate = getIntent().getStringExtra(SearchView.CHOSEN_DATE_INFO);
+        foodItems = new HashMap<>();
 
         String dateStringFrom = chosenDate + "T09:00:00+02:00";
         String dateStringTo = chosenDate + "T15:00:00+02:00";
@@ -114,17 +118,24 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
             availablePlants = parser.parsePlants(results);
 
             Downloader downloader = new Downloader(AvailablePlantView.this, FIND_FOOD_INFO);
-            downloader.execute(FOOD_INFO_URL, FIND_FOOD_INFO);
+            downloader.execute(FOOD_INFO_URL);
 
         } else if (message.equals(FIND_FOOD_INFO)) {
             ConferenceJsonParser parser = new ConferenceJsonParser();
+            foodItems = parser.parseFoodInfo(results);
 
+            Downloader downloader = new Downloader(this, ADD_AVAILABLE_FOOD);
+            downloader.execute(AVAILABLE_FOOD_URL);
 
         } else if (message.equals(ADD_AVAILABLE_FOOD)) {
 
+            ConferenceJsonParser parser = new ConferenceJsonParser();
+            parser.parsePlantFood(results, availablePlants, foodItems);
+            showPage();
         }
+    }
 
-
+    private void showPage() {
         PlantListAdapter newAdapter = new PlantListAdapter(availablePlants, new PlantListAdapter.ClickHandler() {
             @Override
             public void onButtonClicked(int position) {

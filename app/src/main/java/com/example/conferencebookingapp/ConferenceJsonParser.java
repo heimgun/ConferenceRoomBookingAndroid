@@ -213,7 +213,7 @@ public class ConferenceJsonParser {
 
     }
 
-    public void parsePlantFood(String jsonString, List<Plant> plants) {
+    public void parsePlantFood(String jsonString, List<Plant> plants, Map<String, String> foodItems) {
         try {
             JSONArray jsonFoods = new JSONArray(jsonString);
 
@@ -223,33 +223,7 @@ public class ConferenceJsonParser {
                 for (Plant plant : plants) {
                     if (plant.getPlantId().equals(jsonPlantId)) {
                         String foodItemId = jsonFood.getString("foodBeverage");
-                        String foodDescription = "";
-                        switch (foodItemId) {
-                            case "1":
-                                foodDescription = "Lunch i restaurang / annan plats";
-                                break;
-                            case "2":
-                                foodDescription = "Lunch i konferensrummet";
-                                break;
-                            case "3":
-                                foodDescription = "Frukost";
-                                break;
-                            case "4":
-                                foodDescription = "Förmiddagsfika, inkl. kaffe/te";
-                                break;
-                            case "5":
-                                foodDescription = "Enbart kaffe / tee";
-                                break;
-                            case "6":
-                                foodDescription = "Eftermiddagsfika, inkl. kaffe/te";
-                                break;
-                            case "7":
-                                foodDescription = "Frukt";
-                                break;
-                            case "8":
-                                foodDescription = "Vatten";
-                            default:
-                        }
+                        String foodDescription = foodItems.get(foodItemId);
                         String foodPrice = String.format("%s kr", jsonFood.getString("price"));
                         plant.addFoodAndBeverage(foodDescription, foodPrice);
                     }
@@ -265,6 +239,13 @@ public class ConferenceJsonParser {
         Map<String, String> foodInfo = new HashMap<>();
         try {
             JSONArray jsonFoodItems = new JSONArray(jsonString);
+            for (int i = 0; i < jsonFoodItems.length(); i++) {
+                JSONObject jsonFoodItem = jsonFoodItems.getJSONObject(i);
+                String foodId = jsonFoodItem.getString("id");
+                String foodDescription = jsonFoodItem.getString("name");
+
+                foodInfo.put(foodId, foodDescription);
+            }
 
         } catch (JSONException e) {
             Log.e(TAG, "parseFoodInfo: JSONException: " + e.getMessage());
