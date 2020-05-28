@@ -126,7 +126,18 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         }
     }
 
-    /*
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, AvailablePlantView.class);
+        intent.putExtra(SearchView.CHOSEN_CITY_ID, cityId);
+        intent.putExtra(SearchView.CHOSEN_CITY_NAME, city);
+        intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
+        intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
+        startActivity(intent);
+
+    }
+
+  /*
 
     public boolean onOptionsItemSelected(MenuItem item){
         if (item.getItemId() == android.R.id.home) {

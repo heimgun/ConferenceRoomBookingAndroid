@@ -25,7 +25,7 @@
             android:name=".CreateUserView" />
         <activity
             android:name=".AvailableRoomView"
-            android:parentActivityName=".AvailablePlantView"/>
+          android:parentActivityName=".AvailablePlantView"/>
     </application>
 
 </manifest>
