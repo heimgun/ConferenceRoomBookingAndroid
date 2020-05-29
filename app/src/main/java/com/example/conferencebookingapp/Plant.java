@@ -1,11 +1,14 @@
 package com.example.conferencebookingapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Plant {
+public class Plant implements Parcelable {
 
     private String plantId;
     private String name;
@@ -31,6 +34,46 @@ public class Plant {
         foodAndBeverages = new HashMap<>();
 
     }
+
+    protected Plant(Parcel in) {
+        plantId = in.readString();
+        name = in.readString();
+        city = in.readString();
+        address = in.readString();
+        imageUrls = in.createStringArrayList();
+        facts = in.readString();
+        priceFrom = in.readString();
+        numberOfAvailableRooms = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(plantId);
+        dest.writeString(name);
+        dest.writeString(city);
+        dest.writeString(address);
+        dest.writeStringList(imageUrls);
+        dest.writeString(facts);
+        dest.writeString(priceFrom);
+        dest.writeString(numberOfAvailableRooms);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Plant> CREATOR = new Creator<Plant>() {
+        @Override
+        public Plant createFromParcel(Parcel in) {
+            return new Plant(in);
+        }
+
+        @Override
+        public Plant[] newArray(int size) {
+            return new Plant[size];
+        }
+    };
 
     public String getPlantId() {
         return plantId;

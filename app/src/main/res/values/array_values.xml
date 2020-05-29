@@ -7,4 +7,9 @@
         <item>Skövde</item>
         <item>Stockholm</item>
     </string-array>
+    <string-array name="sort_by_array">
+        <item>Popularitet</item>
+        <item>Lägsta pris</item>
+        <item>Namn</item>
+    </string-array>
 </resources>

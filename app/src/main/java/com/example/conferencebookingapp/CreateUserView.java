@@ -48,7 +48,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
         street = (EditText) findViewById(R.id.street);
         city = (EditText) findViewById(R.id.city);
         zipCode = (EditText) findViewById(R.id.zipCode);
-        tv = (TextView) findViewById(R.id.TV);
+        //tv = (TextView) findViewById(R.id.TV);
 
         submit = (Button) findViewById(R.id.SubmitBtn);
 

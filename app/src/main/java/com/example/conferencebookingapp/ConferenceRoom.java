@@ -2,16 +2,15 @@ package com.example.conferencebookingapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.telecom.Conference;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ConferenceRoom {
+public class ConferenceRoom implements Parcelable{
+
+    private Plant plant;
 
     private String roomId;
     private String name;
@@ -34,6 +33,7 @@ public class ConferenceRoom {
 
 
     public ConferenceRoom() {
+        plant = null;
         roomId = "";
         name = "";
         city = "";
@@ -54,6 +54,61 @@ public class ConferenceRoom {
         imageUrls = new ArrayList<>();
     }
 
+
+    protected ConferenceRoom(Parcel in) {
+        plant = in.readParcelable(Plant.class.getClassLoader());
+        roomId = in.readString();
+        name = in.readString();
+        city = in.readString();
+        plantId = in.readString();
+        preNoonHours = in.readString();
+        afternoonHours = in.readString();
+        fullDayHours = in.readString();
+        fullDayPrice = in.readString();
+        preNoonPrice = in.readString();
+        afternoonPrice = in.readString();
+        preNoonBookingCode = in.readString();
+        afternoonBookingCode = in.readString();
+        description = in.readString();
+        maxNumberOfPeople = in.readInt();
+        imageUrls = in.createStringArrayList();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(roomId);
+        dest.writeString(name);
+        dest.writeString(city);
+        dest.writeString(plantId);
+        dest.writeString(preNoonHours);
+        dest.writeString(afternoonHours);
+        dest.writeString(fullDayHours);
+        dest.writeString(fullDayPrice);
+        dest.writeString(preNoonPrice);
+        dest.writeString(afternoonPrice);
+        dest.writeString(preNoonBookingCode);
+        dest.writeString(afternoonBookingCode);
+        dest.writeString(description);
+        dest.writeInt(maxNumberOfPeople);
+        dest.writeStringList(imageUrls);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<ConferenceRoom> CREATOR = new Creator<ConferenceRoom>() {
+        @Override
+        public ConferenceRoom createFromParcel(Parcel in) {
+            return new ConferenceRoom(in);
+        }
+
+        @Override
+        public ConferenceRoom[] newArray(int size) {
+            return new ConferenceRoom[size];
+        }
+    };
 
     public String getName() {
         return name;
