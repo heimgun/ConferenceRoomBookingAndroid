@@ -59,10 +59,12 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
 
         holder.clickHandler = this.clickHandler;
 
-        //String imageUrl = availablePlants.get(position).getImageUrls().get(0);
+        String imageUrl = availablePlants.get(position).getImageUrls().get(0);
+        String formattedUrl = setProtocol(imageUrl);
+        Log.d(TAG, "onBindViewHolder: formattedUrl is: " + formattedUrl);
 
-       //BitmapTask bitmapTask = new BitmapTask(holder.plantImageView);
-        //bitmapTask.execute(imageUrl);
+        BitmapTask bitmapTask = new BitmapTask(holder.plantImageView);
+        bitmapTask.execute(formattedUrl);
 
 
         /*if(!imageUrl.equals("")) {
@@ -100,12 +102,22 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
 
     }
 
+    private String setProtocol(String url) {
+        Log.d(TAG, "setProtocol: url is: " + url);
+        Log.d(TAG, "setProtocol: protocol is: " + url.substring(0,5));
+        String formattedUrl = url;
+        if(!url.substring(0,5).equals("https")) {
+           formattedUrl = "https:" + url;
+        }
+        return formattedUrl;
+    }
+
     @Override
     public int getItemCount() {
         return availablePlants.size();
     }
 
-    /*private class BitmapTask extends AsyncTask<String, Void, Bitmap> {
+    private class BitmapTask extends AsyncTask<String, Void, Bitmap> {
 
         private ImageView imageView;
 
@@ -116,9 +128,10 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
 
         @Override
         protected Bitmap doInBackground(String... strings) {  // the code in this method is taken from https://stackoverflow.com/questions/3870638/how-to-use-setimageuri-on-android
+            Log.d(TAG, "doInBackground: BitMapTask started");
             Bitmap bm = null;
             try {
-                URL aURL = new URL(strings[0]);
+                /*URL aURL = new URL(strings[0]);
                 URLConnection conn = aURL.openConnection();
                 conn.connect();
                 InputStream is = conn.getInputStream();
@@ -126,6 +139,10 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
                 bm = BitmapFactory.decodeStream(bis);
                 bis.close();
                 is.close();
+                
+                 */
+                bm = BitmapFactory.decodeStream((InputStream)new URL(strings[0]).getContent());
+                Log.d(TAG, "doInBackground: bitmap created");
             } catch (IOException e) {
                 Log.e(TAG, "Error getting bitmap", e);
             }
@@ -138,7 +155,6 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
         }
     }
 
-     */
 
 
 
