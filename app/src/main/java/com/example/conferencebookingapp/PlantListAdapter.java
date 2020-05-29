@@ -58,27 +58,14 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
 
 
         holder.clickHandler = this.clickHandler;
+        Plant plant = availablePlants.get(position);
 
-        String imageUrl = availablePlants.get(position).getImageUrls().get(0);
+        String imageUrl = plant.getImageUrls().get(0);
         String formattedUrl = setProtocol(imageUrl);
         Log.d(TAG, "onBindViewHolder: formattedUrl is: " + formattedUrl);
 
-        BitmapTask bitmapTask = new BitmapTask(holder.plantImageView);
-        bitmapTask.execute(formattedUrl);
-
-
-        /*if(!imageUrl.equals("")) {
-            Log.d(TAG, "onBindViewHolder: imageUrl is: " + imageUrl);
-            Uri imageUri = Uri.parse(imageUrl);
-            holder.plantImageView.setImageURI(imageUri);
-            Log.d(TAG, "onBindViewHolder: imageUri set");
-        } else {
-            Log.d(TAG, "onBindViewHolder: no imageUrl received");
-        }
-
-         */
-
-        Plant plant = availablePlants.get(position);
+        ImageDecoder imageDecoder = new ImageDecoder(holder.plantImageView);
+        imageDecoder.execute(formattedUrl);
 
         holder.plantNameTextView.setText(plant.getName());
 
@@ -116,48 +103,6 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
     public int getItemCount() {
         return availablePlants.size();
     }
-
-    private class BitmapTask extends AsyncTask<String, Void, Bitmap> {
-
-        private ImageView imageView;
-
-        public BitmapTask(ImageView imageView) {
-            super();
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... strings) {  // the code in this method is taken from https://stackoverflow.com/questions/3870638/how-to-use-setimageuri-on-android
-            Log.d(TAG, "doInBackground: BitMapTask started");
-            Bitmap bm = null;
-            try {
-                /*URL aURL = new URL(strings[0]);
-                URLConnection conn = aURL.openConnection();
-                conn.connect();
-                InputStream is = conn.getInputStream();
-                BufferedInputStream bis = new BufferedInputStream(is);
-                bm = BitmapFactory.decodeStream(bis);
-                bis.close();
-                is.close();
-                
-                 */
-                bm = BitmapFactory.decodeStream((InputStream)new URL(strings[0]).getContent());
-                Log.d(TAG, "doInBackground: bitmap created");
-            } catch (IOException e) {
-                Log.e(TAG, "Error getting bitmap", e);
-
-            }
-            return bm;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            imageView.setImageBitmap(bitmap);
-        }
-    }
-
-
-
 
 
     public static class PlantViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,13 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
         holder.clickHandler = this.clickHandler;
 
         ConferenceRoom room = availableRooms.get(position);
+
+        String imageUrl = room.getImageUrls().get(0);
+        String formattedUrl = setProtocol(imageUrl);
+
+        ImageDecoder imageDecoder = new ImageDecoder(holder.roomImageView);
+        imageDecoder.execute(formattedUrl);
+
         holder.roomNameTextView.setText(room.getName());
 
         String maxNumberText = String.format("Max antal deltagare: %d personer", room.getMaxNumberOfPeople());
@@ -84,9 +92,19 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
         return availableRooms.size();
     }
 
+    private String setProtocol(String url) {
+        Log.d(TAG, "setProtocol: url is: " + url);
+        Log.d(TAG, "setProtocol: protocol is: " + url.substring(0,5));
+        String formattedUrl = url;
+        if(!url.substring(0,5).equals("https")) {
+            formattedUrl = "https:" + url;
+        }
+        return formattedUrl;
+    }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+        public ImageView roomImageView;
         public TextView roomNameTextView;
         public TextView maxNumberTextView;
         public TextView seatingsTextView;
@@ -106,6 +124,7 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            roomImageView = itemView.findViewById(R.id.roomImageView);
             roomNameTextView = itemView.findViewById(R.id.roomNameTextView);
             maxNumberTextView = itemView.findViewById(R.id.maxNumberTextView);
             seatingsTextView = itemView.findViewById(R.id.seatingsTextView);
