@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.net.URL;
 
 public class ImageDecoder extends AsyncTask<String, Void, Bitmap>{
     private static final String TAG = "ImageDecoder";
+
 
     private ImageView imageView;
 
@@ -33,8 +35,14 @@ public class ImageDecoder extends AsyncTask<String, Void, Bitmap>{
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        imageView.setImageBitmap(bitmap);
-    }
+        if (bitmap == null) {
+            imageView.setImageResource(R.drawable.timetomeet_logo);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        } else {
+            imageView.setImageBitmap(bitmap);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
 
+    }
 
 }

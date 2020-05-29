@@ -1,10 +1,5 @@
 package com.example.conferencebookingapp;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
+import org.json.JSONException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +20,7 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
     private static final String TAG = "PlantListAdapter";
 
     private ClickHandler clickHandler;
+
 
     public interface ClickHandler {
         void onButtonClicked(int position);
@@ -60,12 +52,16 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
         holder.clickHandler = this.clickHandler;
         Plant plant = availablePlants.get(position);
 
-        String imageUrl = plant.getImageUrls().get(0);
-        String formattedUrl = setProtocol(imageUrl);
-        Log.d(TAG, "onBindViewHolder: formattedUrl is: " + formattedUrl);
+        int imageNumber = 0;
+        int numberOfImages = plant.getImageUrls().size();
 
-        ImageDecoder imageDecoder = new ImageDecoder(holder.plantImageView);
-        imageDecoder.execute(formattedUrl);
+        String imageUrl = plant.getImageUrls().get(imageNumber);
+        String formattedUrl = setProtocol(imageUrl);
+        ImageDecoder decoder = new ImageDecoder(holder.plantImageView);
+        decoder.execute(formattedUrl);
+
+
+
 
         holder.plantNameTextView.setText(plant.getName());
 
@@ -87,13 +83,15 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
 
         holder.numberOfRoomsTextView.setText(String.format(numberOfRoomsText, numberOfRooms));
 
+
+
     }
 
     private String setProtocol(String url) {
         Log.d(TAG, "setProtocol: url is: " + url);
         Log.d(TAG, "setProtocol: protocol is: " + url.substring(0,5));
         String formattedUrl = url;
-        if(!url.substring(0,5).equals("https")) {
+        if(!url.substring(0,4).equals("http")) {
            formattedUrl = "https:" + url;
         }
         return formattedUrl;
