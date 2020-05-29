@@ -145,6 +145,7 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
                 Log.d(TAG, "doInBackground: bitmap created");
             } catch (IOException e) {
                 Log.e(TAG, "Error getting bitmap", e);
+
             }
             return bm;
         }
