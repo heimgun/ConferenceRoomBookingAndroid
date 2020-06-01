@@ -48,7 +48,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         chosenFoodAndBeverages = new ArrayList<>();
 
         APIRequester apiRequester = new APIRequester(token, this, CREATE_BOOKING_MESSAGE);
-        apiRequester.execute(CREATE_BOOKING_URL);
+        //apiRequester.execute(CREATE_BOOKING_URL);
     }
 
     @Override
