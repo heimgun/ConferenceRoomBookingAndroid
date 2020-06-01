@@ -41,6 +41,7 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
 
     public static final String CHOSEN_PLANT_ID = "com.example.conferencebookingapp.PLANT_ID";
     public static final String CHOSEN_PLANT_NAME = "com.example.conferencebookingapp.PLANT_NAME";
+    public static final String CHOSEN_PLANT = "com.example.conferencebookingapp.PLANT";
 
     public static final String FIND_PLANTS = "com.example.conferencebookingapp.FIND_PLANTS";
     public static final String FIND_FOOD_INFO = "com.example.conferencebookingapp.FIND_FOOD_INFO";
@@ -168,6 +169,7 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
         intent.putExtra(SearchView.CHOSEN_CITY_NAME, city);
         intent.putExtra(SearchView.CHOSEN_CITY_ID, cityId);
         intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
+        intent.putExtra(CHOSEN_PLANT, chosenPlant);
 
         startActivity(intent);
     }

@@ -57,17 +57,20 @@ public class APIRequester extends AsyncTask<String, Void, String> {
 
 
             if(!token.equals("")) {
-                connection.setRequestProperty("Authorization",token);
+                String tokenRequest = "Token " + token;
+                connection.setRequestProperty("Authorization",String.format("\"%s\"", tokenRequest));
             }
 
             connection.setDoOutput(true);
             connection.connect();
 
-
             OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-            Log.d(TAG, "doInBackground: jsonRequest is: " + strings[1]);
-            wr.write(strings[1]);
-            wr.flush();
+
+            if (strings.length > 1) {
+                Log.d(TAG, "doInBackground: jsonRequest is: " + strings[1]);
+                wr.write(strings[1]);
+                wr.flush();
+            }
 
             StringBuilder result = new StringBuilder();
 

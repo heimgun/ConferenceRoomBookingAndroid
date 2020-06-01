@@ -28,17 +28,27 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
 
     TextView tv;
 
+    ConferenceRoom room;
 
     User user = new User();
 
     int phoneInt, orgNumberInt, zipInt;
 
 
+    public static final String CREATE_USER = "com.example.conferencebookingapp.CREATE_USER";
+    public static final String LOGIN =  "com.example.conferencebookingapp.LOGIN";
+    public static final String TOKEN_INFO = "com.example.conferencebookingapp.TOKEN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_user_view);
+
+        Intent intentIn = getIntent();
+        intentIn.setExtrasClassLoader(ConferenceRoom.class.getClassLoader());
+
+        room = intentIn.getParcelableExtra(AvailableRoomView.CHOSEN_ROOM_INFO);
+
         firstName = (EditText) findViewById(R.id.firstName);
         lastName = (EditText) findViewById(R.id.lastName);
         phone = (EditText) findViewById(R.id.phone);
@@ -85,7 +95,6 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
                     createUser();
                     logIn();
 
-                    startActivity(new Intent(CreateUserView.this, AvailableRoomView.class));
 
                 }
 
@@ -143,7 +152,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
         APIRequester requester = null;
 
         try {
-            requester = new APIRequester(CreateUserView.this);
+            requester = new APIRequester(CreateUserView.this, CREATE_USER);
 
             String jsonCreateUser = "{" +
                     "    \"first_name\": \"" + user.getFirstName() + "\"," +
@@ -183,7 +192,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
         APIRequester requester = null;
         try {
 
-            requester = new APIRequester(CreateUserView.this);
+            requester = new APIRequester(CreateUserView.this, LOGIN);
 
             String jsonLogin = "{\"username\": \"z_" + user.getEmail() + "\", \"password\": \"" + user.getPassword() + "\"}";
             requester.execute("https://dev-be.timetomeet.se/service/rest/api-token-auth/", jsonLogin);
@@ -200,11 +209,27 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
     }
 
     public void onDownloadComplete(String s, String message) throws JSONException {
+
         System.out.println("Download complete. Results are: " + s);
 
-        final JSONObject json = new JSONObject(s);
+        switch (message) {
+            case CREATE_USER:
+                break;
+            case LOGIN:
+                final JSONObject json = new JSONObject(s);
 
-        user.setToken(json.getString("token"));
+                user.setToken(json.getString("token"));
+
+                Intent intent = new Intent(CreateUserView.this, BookingView.class);
+                intent.putExtra(AvailableRoomView.CHOSEN_ROOM_INFO, room);
+                intent.putExtra(TOKEN_INFO, user.getToken());
+                startActivity(intent);
+                break;
+            default:
+        }
+
+
+
 
 
     }

@@ -11,6 +11,7 @@
         android:roundIcon="@drawable/timetomeet_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".BookingView"></activity>
         <activity
             android:name=".AvailablePlantView"
             android:parentActivityName=".SearchView" />
@@ -21,11 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".CreateUserView" />
+        <activity android:name=".CreateUserView" />
         <activity
             android:name=".AvailableRoomView"
-          android:parentActivityName=".AvailablePlantView"/>
+            android:parentActivityName=".AvailablePlantView" />
     </application>
 
 </manifest>

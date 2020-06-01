@@ -28,16 +28,19 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    private Plant plant;
     private String plantId;
     private String plantName;
     private String chosenDate;
     private String city;
     private String cityId;
-    private String numberOfPeople;
+    private int numberOfPeople;
 
     public static final String FIND_ROOMS = "com.example.conferencebookingapp.FIND_ROOMS";
     public static final String GET_ROOM_INFO = "com.example.conferencebookingapp.GET_ROOM_INFO";
     public static final String END_OF_GET_ROOM_INFO = "com.example.conferencebookingapp.GET_ROOM_INFO_STOP";
+
+    public static final String CHOSEN_ROOM_INFO = "com.example.conferencebookingapp.CHOSEN_ROOM";
 
     public static final String ROOM_URL = "https://dev-be.timetomeet.se/service/rest/search/availability/period/v3";
     public static final String EXTRA_INFO_URL = "https://dev-be.timetomeet.se/service/rest/conferenceroom/";
@@ -57,13 +60,20 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         setContentView(R.layout.activity_available_room_view);
 
         availableRooms = new ArrayList<>();
+        Intent intentIn = getIntent();
+        intentIn.setExtrasClassLoader(Plant.class.getClassLoader());
 
-        plantId = getIntent().getStringExtra(AvailablePlantView.CHOSEN_PLANT_ID);
-        plantName = getIntent().getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
-        chosenDate = getIntent().getStringExtra(SearchView.CHOSEN_DATE_INFO);
-        cityId = getIntent().getStringExtra(SearchView.CHOSEN_CITY_ID);
-        city = getIntent().getStringExtra(SearchView.CHOSEN_CITY_NAME);
-        numberOfPeople = getIntent().getStringExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO);
+        plant = intentIn.getParcelableExtra(AvailablePlantView.CHOSEN_PLANT);
+        if (plant != null) {
+            Log.d(TAG, "onCreate: plant name from parcel is: " + plant.getName());
+        }
+
+        plantId = intentIn.getStringExtra(AvailablePlantView.CHOSEN_PLANT_ID);
+        plantName = intentIn.getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
+        chosenDate = intentIn.getStringExtra(SearchView.CHOSEN_DATE_INFO);
+        cityId = intentIn.getStringExtra(SearchView.CHOSEN_CITY_ID);
+        city = intentIn.getStringExtra(SearchView.CHOSEN_CITY_NAME);
+        numberOfPeople = intentIn.getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
 
         String roomRequest = String.format(requestRooms, plantId, chosenDate, chosenDate);
 
@@ -99,6 +109,10 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
     public void updateRoomData() {
 
         Log.d(TAG, "updateRoomData: start");
+        for (ConferenceRoom room: availableRooms) {
+            room.setPlant(plant);
+        }
+
         Downloader downloader = new Downloader(AvailableRoomView.this, GET_ROOM_INFO);
         downloader.execute(EXTRA_INFO_URL);
 
@@ -142,10 +156,8 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
     private void onContinueToBookingButtonClicked(int position){
         ConferenceRoom chosenRoom = availableRooms.get(position);
 
-        //Add Intent.putExtras
-
-
         Intent intent = new Intent(this, CreateUserView.class);
+        intent.putExtra(CHOSEN_ROOM_INFO, chosenRoom);
         startActivity(intent);
 
 

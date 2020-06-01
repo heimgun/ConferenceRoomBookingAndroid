@@ -76,6 +76,7 @@ public class ConferenceRoom implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(plant, flags);
         dest.writeString(roomId);
         dest.writeString(name);
         dest.writeString(city);
@@ -109,6 +110,14 @@ public class ConferenceRoom implements Parcelable{
             return new ConferenceRoom[size];
         }
     };
+
+    public Plant getPlant() {
+        return plant;
+    }
+
+    public void setPlant(Plant plant) {
+        this.plant = plant;
+    }
 
     public String getName() {
         return name;
