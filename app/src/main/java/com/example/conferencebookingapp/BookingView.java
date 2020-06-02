@@ -37,7 +37,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
             "    \"wantActivityInfo\": false," +
             "    \"specialRequest\": \"\"," +
             "    \"numberOfParticipants\": \"%d\","+
-            "    \"bookingSourceSystem\": \"2\","+
+            "    \"bookingSourceSystem\": \"1\","+
             "    \"agreementNumber\": \"\""+
             "}";
 
@@ -53,6 +53,8 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         intentIn.setExtrasClassLoader(Plant.class.getClassLoader());
 
         room = intentIn.getParcelableExtra(AvailableRoomView.CHOSEN_ROOM_INFO);
+        Log.d(TAG, "onCreate: foodItem 1 is: " + room.getPlant().getFoodAndBeverages().get(0).getDescription());
+        Log.d(TAG, "onCreate: technology 1 is: " + room.getTechnologies().get(0).getDescription());
         token = intentIn.getStringExtra(CreateUserView.TOKEN_INFO);
         Log.d(TAG, "onCreate: token is: " + token);
         numberOfPeople = intentIn.getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);

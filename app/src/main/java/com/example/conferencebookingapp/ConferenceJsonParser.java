@@ -99,8 +99,6 @@ public class ConferenceJsonParser {
 
                 for (int j = 0; j < numberOfImages; j++) {
                     JSONObject jsonImage = jsonImages.getJSONObject(j);
-                    //String imageUrl = "http:" + jsonImage.getString("image");
-                    //newPlant.addImageUrl(imageUrl);
                     newPlant.addImageUrl(jsonImage.getString("image"));
                 }
 
@@ -161,26 +159,28 @@ public class ConferenceJsonParser {
 
                         for (int j = 0; j < numberOfSeatings; j++) {
                             JSONObject defaultSeating = jsonDefaultSeatings.getJSONObject(j);
-                            String seatingId = defaultSeating.getString("id");
+
+                            Seating seating = new Seating();
+                            seating.setId(defaultSeating.getString("id"));
+
                             String seatId = defaultSeating.getString("standardSeating");
-                            String seatDescription = "";
 
                             for (int k = 0; k < jsonSeatingDetails.length(); k++) {
                                 JSONObject seat = jsonSeatingDetails.getJSONObject(k);
 
                                 String newSeatId = seat.getString("id");
                                 if(newSeatId.equals(seatId)) {
-                                    seatDescription = seat.getString("name");
+                                    seating.setDescription(seat.getString("name"));
                                 }
                             }
 
                             String maxNumberOfPeople = defaultSeating.getString("numberOfSeat");
+                            seating.setNumberOfPeople(maxNumberOfPeople);
 
                             int numberOfPeople = Integer.parseInt(maxNumberOfPeople);
                             maxNumber = Math.max(numberOfPeople, maxNumber);
 
-                            room.addSeating(seatDescription, maxNumberOfPeople);
-                            room.addSeatingId(seatDescription, seatingId);
+                            room.addSeating(seating);
                         }
 
                         room.setMaxNumberOfPeople(maxNumber);
@@ -190,10 +190,11 @@ public class ConferenceJsonParser {
 
                         for (int j = 0; j < numberOfTechnologies; j++) {
                             JSONObject jsonTechnology = jsonTechnologies.getJSONObject(j);
-                            String technologyId = jsonTechnology.getString("id");
-                            String technologyDescription = jsonTechnology.getString("name");
+                            TechnologyItem technologyItem = new TechnologyItem();
+                            technologyItem.setId(jsonTechnology.getString("id"));
+                            technologyItem.setDescription(jsonTechnology.getString("name"));
 
-                            room.addTechnology(technologyDescription, technologyId);
+                            room.addTechnology(technologyItem);
                         }
 
                         JSONArray jsonMedia = jsonRoom.getJSONArray("blobs");
@@ -222,10 +223,13 @@ public class ConferenceJsonParser {
                 String jsonPlantId = jsonFood.getString("plant");
                 for (Plant plant : plants) {
                     if (plant.getPlantId().equals(jsonPlantId)) {
-                        String foodItemId = jsonFood.getString("foodBeverage");
-                        String foodDescription = foodItems.get(foodItemId);
+                        FoodItem foodItem = new FoodItem();
+                        foodItem.setId(jsonFood.getString("id"));
+                        String foodItemDescription = jsonFood.getString("foodBeverage");
+                        foodItem.setDescription(foodItems.get(foodItemDescription));
                         String foodPrice = String.format("%s kr", jsonFood.getString("price"));
-                        plant.addFoodAndBeverage(foodDescription, foodPrice);
+                        foodItem.setPrice(foodPrice);
+                        plant.addFoodAndBeverage(foodItem);
                     }
                 }
             }

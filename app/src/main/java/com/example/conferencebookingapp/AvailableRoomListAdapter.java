@@ -61,16 +61,16 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
         holder.maxNumberTextView.setText(maxNumberText);
 
         StringBuilder seatingStringBuilder = new StringBuilder("Tillgängliga möbleringar: \n");
-        Map<String, String> seatings = room.getSeatings();
-        for (String key: seatings.keySet()) {
-            seatingStringBuilder.append("- ").append(key).append("\n");
+        List<Seating> seatings = room.getSeatings();
+        for (Seating seating : seatings) {
+            seatingStringBuilder.append("- ").append(seating.getDescription()).append("\n");
         }
         holder.seatingsTextView.setText(seatingStringBuilder.toString());
 
         StringBuilder technologyStringBuilder = new StringBuilder("Bokningsbar teknologi: \n");
-        Map<String, String> technologies = room.getTechnologies();
-        for (String key: technologies.keySet()) {
-            technologyStringBuilder.append("- ").append(key).append("\n");
+        List<TechnologyItem> technologies = room.getTechnologies();
+        for (TechnologyItem technology: technologies) {
+            technologyStringBuilder.append("- ").append(technology.getDescription()).append("\n");
         }
         holder.technologyTextView.setText(technologyStringBuilder.toString());
         Log.d(TAG, "onBindViewHolder: technology text set");

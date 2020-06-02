@@ -70,9 +70,9 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
         holder.plantInfoTextView.setText(plant.getFacts());
 
         StringBuilder foodStringBuilder = new StringBuilder("Tillgänglig mat och dryck: \n");
-        Map<String, String> foodItems = plant.getFoodAndBeverages();
-        for (String foodItem : foodItems.keySet()) {
-            foodStringBuilder.append("- ").append(foodItem).append("\n");
+        List<FoodItem> foodItems = plant.getFoodAndBeverages();
+        for (FoodItem foodItem : foodItems) {
+            foodStringBuilder.append("- ").append(foodItem.getDescription()).append("\n");
         }
         holder.foodTextView.setText(foodStringBuilder.toString());
 

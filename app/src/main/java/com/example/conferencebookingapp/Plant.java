@@ -1,5 +1,6 @@
 package com.example.conferencebookingapp;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -20,7 +21,7 @@ public class Plant implements Parcelable {
     private String facts;
     private String priceFrom;
     private String numberOfAvailableRooms;
-    private Map<String, String> foodAndBeverages;
+    private List<FoodItem> foodAndBeverages;
 
     public Plant() {
         plantId = "";
@@ -32,7 +33,7 @@ public class Plant implements Parcelable {
         facts = "";
         priceFrom = "";
         numberOfAvailableRooms = "";
-        foodAndBeverages = new HashMap<>();
+        foodAndBeverages = new ArrayList<>();
 
     }
 
@@ -45,6 +46,8 @@ public class Plant implements Parcelable {
         facts = in.readString();
         priceFrom = in.readString();
         numberOfAvailableRooms = in.readString();
+        foodAndBeverages = new ArrayList<>();
+        in.readTypedList(foodAndBeverages, FoodItem.CREATOR);
     }
 
     @Override
@@ -57,6 +60,7 @@ public class Plant implements Parcelable {
         dest.writeString(facts);
         dest.writeString(priceFrom);
         dest.writeString(numberOfAvailableRooms);
+        dest.writeTypedList(foodAndBeverages);
     }
 
     @Override
@@ -155,11 +159,21 @@ public class Plant implements Parcelable {
         this.numberOfAvailableRooms = numberOfAvailableRooms;
     }
 
-    public Map<String, String> getFoodAndBeverages() {
+    public List<FoodItem> getFoodAndBeverages() {
+        return foodAndBeverages;
+    }
+
+    public void addFoodAndBeverage (FoodItem foodItem) {
+        foodAndBeverages.add(foodItem);
+    }
+
+    /*public Map<String, String> getFoodAndBeverages() {
         return foodAndBeverages;
     }
 
     public void addFoodAndBeverage(String description, String price) {
         foodAndBeverages.put(description, price);
     }
+
+     */
 }

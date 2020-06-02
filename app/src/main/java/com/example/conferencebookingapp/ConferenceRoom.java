@@ -26,9 +26,8 @@ public class ConferenceRoom implements Parcelable{
     private String afternoonBookingCode;
     private String description;
     private int maxNumberOfPeople;
-    private Map<String, String> seatings;
-    private Map<String, String> seatingIds;
-    private Map<String, String> technologies;
+    private List<Seating> seatings;
+    private List<TechnologyItem> technologies;
     private List<String> imageUrls;
 
 
@@ -48,9 +47,8 @@ public class ConferenceRoom implements Parcelable{
         afternoonBookingCode = "";
         description = "";
         maxNumberOfPeople = 0;
-        seatings = new HashMap<>();
-        seatingIds = new HashMap<>();
-        technologies = new HashMap<>();
+        seatings = new ArrayList<>();
+        technologies = new ArrayList<>();
         imageUrls = new ArrayList<>();
     }
 
@@ -72,6 +70,10 @@ public class ConferenceRoom implements Parcelable{
         description = in.readString();
         maxNumberOfPeople = in.readInt();
         imageUrls = in.createStringArrayList();
+        seatings = new ArrayList<>();
+        technologies = new ArrayList<>();
+        in.readTypedList(seatings, Seating.CREATOR);
+        in.readTypedList(technologies, TechnologyItem.CREATOR);
     }
 
     @Override
@@ -92,6 +94,8 @@ public class ConferenceRoom implements Parcelable{
         dest.writeString(description);
         dest.writeInt(maxNumberOfPeople);
         dest.writeStringList(imageUrls);
+        dest.writeTypedList(seatings);
+        dest.writeTypedList(technologies);
     }
 
     @Override
@@ -232,28 +236,20 @@ public class ConferenceRoom implements Parcelable{
         this.maxNumberOfPeople = maxNumberOfPeople;
     }
 
-    public Map<String, String> getSeatings() {
+    public List<Seating> getSeatings() {
         return seatings;
     }
 
-    public void addSeating(String description, String numberOfPeople) {
-        seatings.put(description, numberOfPeople);
+    public void addSeating(Seating seating) {
+        seatings.add(seating);
     }
 
-    public Map<String, String> getSeatingIds() {
-        return seatingIds;
-    }
-
-    public void addSeatingId(String description, String id) {
-        seatings.put(description, id);
-    }
-
-    public Map<String, String> getTechnologies() {
+    public List<TechnologyItem> getTechnologies() {
         return technologies;
     }
 
-    public void addTechnology(String description, String id) {
-        technologies.put(description, id);
+    public void addTechnology(TechnologyItem technologyItem) {
+        technologies.add(technologyItem);
     }
 
     public List<String> getImageUrls() {
