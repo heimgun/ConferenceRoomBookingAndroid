@@ -21,9 +21,6 @@
         android:textStyle="bold"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:text="Dina Uppgifter" />
 
 
@@ -34,10 +31,6 @@
         android:hint="organization"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/orgNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
         android:layout_gravity="center"/>
 
         <EditText
@@ -48,10 +41,6 @@
             android:inputType="number"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/street"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/organization"
             android:layout_gravity="center"/>
 
     <EditText
@@ -61,11 +50,6 @@
         android:hint="company address"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/city"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orgNumber"
         android:layout_gravity="center"/>
 
         <EditText
@@ -76,10 +60,6 @@
             android:inputType="number"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/city"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/street"
             android:layout_gravity="center"/>
 
         <EditText
@@ -89,10 +69,6 @@
             android:hint="city"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/SubmitBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/zipCode"
             android:layout_gravity="center"/>
 
 
@@ -104,11 +80,6 @@
         android:inputType="number"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastName"
         android:layout_gravity="center"/>
 
     <EditText
@@ -118,11 +89,6 @@
         android:hint="first name"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/lastName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_gravity="center"/>
 
     <EditText
@@ -132,11 +98,6 @@
         android:hint="last name"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/phone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstName"
         android:layout_gravity="center"/>
 
     <EditText
@@ -147,10 +108,6 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/organization"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone"
         android:layout_gravity="center"/>
 
 
@@ -163,10 +120,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="5dp"
         android:textColor="@android:color/background_light"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city"
         android:layout_gravity="center"/>
 
     </LinearLayout>
