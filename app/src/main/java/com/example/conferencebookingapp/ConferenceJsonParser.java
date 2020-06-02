@@ -161,9 +161,10 @@ public class ConferenceJsonParser {
                             JSONObject defaultSeating = jsonDefaultSeatings.getJSONObject(j);
 
                             Seating seating = new Seating();
-                            seating.setId(defaultSeating.getString("id"));
+
 
                             String seatId = defaultSeating.getString("standardSeating");
+                            seating.setId(seatId);
 
                             for (int k = 0; k < jsonSeatingDetails.length(); k++) {
                                 JSONObject seat = jsonSeatingDetails.getJSONObject(k);
@@ -224,11 +225,11 @@ public class ConferenceJsonParser {
                 for (Plant plant : plants) {
                     if (plant.getPlantId().equals(jsonPlantId)) {
                         FoodItem foodItem = new FoodItem();
-                        foodItem.setId(jsonFood.getString("id"));
-                        String foodItemDescription = jsonFood.getString("foodBeverage");
-                        foodItem.setDescription(foodItems.get(foodItemDescription));
-                        String foodPrice = String.format("%s kr", jsonFood.getString("price"));
-                        foodItem.setPrice(foodPrice);
+
+                        String foodItemId = jsonFood.getString("foodBeverage");
+                        foodItem.setId(foodItemId);
+                        foodItem.setDescription(foodItems.get(foodItemId));
+                        foodItem.setPrice(jsonFood.getString("price"));
                         plant.addFoodAndBeverage(foodItem);
                     }
                 }

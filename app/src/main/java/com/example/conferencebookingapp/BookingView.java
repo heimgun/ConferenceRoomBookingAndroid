@@ -17,6 +17,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
     private ConferenceRoom room;
     private String token;
     private int numberOfPeople;
+    private String chosenDate;
 
     private String chosenSeatingId;
     private String bookingCode;
@@ -24,12 +25,15 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
     private List<String> chosenFoodAndBeverages;
 
     public static final String CREATE_BOOKING_URL = "https://dev-be.timetomeet.se/service/rest/booking/add/";
-    public static final String BOOK_ROOM_URL = "https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/book/%s";
+    public static final String BOOK_ROOM_URL = "https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/book/%s/";
     public static final String ADD_FOOD_URL = "https://dev-be.timetomeet.se/service/rest/bookingfoodbeverage/add/";
     public static final String ADD_TECHNOLOGY_URL = "https://dev-be.timetomeet.se/service/rest/bookingselectabletechnology/add/";
     public static final String COMPLETE_BOOKING_URL = "https://dev-be.timetomeet.se/service/rest/booking/completed/";
 
     public static final String CREATE_BOOKING_MESSAGE = "com.example.conferencebookingapp.CREATE_BOOKING";
+    public static final String BOOK_ROOM_MESSAGE = "com.example.conferencebookingapp.BOOK_ROOM";
+    public static final String ADD_FOOD_MESSAGE = "com.example.conferencebookingapp.ADD_FOOD";
+    public static final String FINAL_FOOD_ADDED_MESSAGE = "com.example.conferencebookingapp.FINAL_FOOD";
 
     public String jsonCreateBooking = "{" +
             "    \"paymentAlternative\": \"1\"," +
@@ -41,6 +45,18 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
             "    \"agreementNumber\": \"\""+
             "}";
 
+    public String jsonBookRoom = "{" +
+            "    \"chosenSeating\": \"%s\"," +
+            "    \"reservation_guid\": \"\"" +
+            "}";
+
+    public String jsonAddFoodToBooking = "{" +
+            "    \"conferenceRoomAvailability\": \"%s\"," +
+            "    \"foodBeverage\": \"%s\"," +
+            "    \"amount\": \"%d\"," +
+            "    \"comment\": \"\"," +
+            "    \"timeToServe\": \"%s\"" +
+            "}";
 
 
 
@@ -58,11 +74,16 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         token = intentIn.getStringExtra(CreateUserView.TOKEN_INFO);
         Log.d(TAG, "onCreate: token is: " + token);
         numberOfPeople = intentIn.getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
+        chosenDate = intentIn.getStringExtra(SearchView.CHOSEN_DATE_INFO);
 
-        chosenSeatingId = ""; // get input from user
-        bookingCode = ""; // get input if user wants prenoon, afternoon or full day
+        chosenSeatingId = room.getSeatings().get(0).getId(); // get input from user
+        bookingCode = room.getPreNoonBookingCode(); // get input if user wants prenoon, afternoon or full day
         chosenTechnologies = new ArrayList<>(); // get input from user (available technologies will soon be available in room)
         chosenFoodAndBeverages = new ArrayList<>(); // get input from user (available food will soon be available in room)
+        chosenFoodAndBeverages.add(room.getPlant().getFoodAndBeverages().get(0).getId());
+        if (room.getPlant().getFoodAndBeverages().size() > 1) {
+            chosenFoodAndBeverages.add(room.getPlant().getFoodAndBeverages().get(1).getId());
+        }
 
         APIRequester apiRequester = new APIRequester(token, this, CREATE_BOOKING_MESSAGE);
         String formattedJsonCreateBooking = String.format(jsonCreateBooking, numberOfPeople);
@@ -76,6 +97,39 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         switch(message ) {
             case CREATE_BOOKING_MESSAGE:
                 Log.d(TAG, "onDownloadComplete: results are: " + results);
+                APIRequester roomRequester = new APIRequester(token, this, BOOK_ROOM_MESSAGE);
+                String bookRoomUrl = String.format(BOOK_ROOM_URL, bookingCode);
+                String formattedJsonBookRoom = String.format(jsonBookRoom, chosenSeatingId);
+                roomRequester.execute(bookRoomUrl, formattedJsonBookRoom);
+                break;
+            case BOOK_ROOM_MESSAGE:
+                Log.d(TAG, "onDownloadComplete: results are: " + results);
+
+
+                int numberOfItemsRequested = chosenFoodAndBeverages.size();
+                if(numberOfItemsRequested > 0) {
+                    for (int i = 0; i < numberOfItemsRequested; i++) {
+                        String servingTime = chosenDate + "T10:30:00";
+                        Log.d(TAG, "onDownloadComplete: serving time is: " + servingTime);
+                        String formattedJsonAddFood = String.format(jsonAddFoodToBooking, bookingCode, chosenFoodAndBeverages.get(i),
+                                numberOfPeople, servingTime);
+                        Log.d(TAG, "onDownloadComplete: formattedJsonAddFood is: " + formattedJsonAddFood);
+
+                        String addFoodMessage = i == numberOfItemsRequested - 1 ? FINAL_FOOD_ADDED_MESSAGE : ADD_FOOD_MESSAGE;
+                        APIRequester foodRequester = new APIRequester(token, this, addFoodMessage);
+                        foodRequester.execute(ADD_FOOD_URL, formattedJsonAddFood);
+                    }
+                }
+
+                break;
+            case ADD_FOOD_MESSAGE:
+                Log.d(TAG, "onDownloadComplete: result is: " + results);
+                break;
+            case FINAL_FOOD_ADDED_MESSAGE:
+                Log.d(TAG, "onDownloadComplete: final food added. Result is: " + results);
+                break;
+
+            default:
 
         }
 

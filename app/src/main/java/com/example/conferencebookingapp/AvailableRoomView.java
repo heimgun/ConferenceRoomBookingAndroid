@@ -157,6 +157,7 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         Intent intent = new Intent(this, CreateUserView.class);
         intent.putExtra(CHOSEN_ROOM_INFO, chosenRoom);
         intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
+        intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
         startActivity(intent);
 
 

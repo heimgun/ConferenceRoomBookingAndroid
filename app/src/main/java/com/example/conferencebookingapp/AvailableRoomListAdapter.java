@@ -49,11 +49,17 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
 
         ConferenceRoom room = availableRooms.get(position);
 
-        String imageUrl = room.getImageUrls().get(0);
-        String formattedUrl = setProtocol(imageUrl);
+        if(room.getImageUrls().size() > 0) {
 
-        ImageDecoder imageDecoder = new ImageDecoder(holder.roomImageView);
-        imageDecoder.execute(formattedUrl);
+            String imageUrl = room.getImageUrls().get(0);
+            String formattedUrl = setProtocol(imageUrl);
+
+            ImageDecoder imageDecoder = new ImageDecoder(holder.roomImageView);
+            imageDecoder.execute(formattedUrl);
+        } else {
+            holder.roomImageView.setImageResource(R.drawable.timetomeet_logo);
+        }
+
 
         holder.roomNameTextView.setText(room.getName());
 

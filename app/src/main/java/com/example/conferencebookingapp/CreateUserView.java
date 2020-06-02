@@ -30,6 +30,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
 
     ConferenceRoom room;
     int numberOfPeople;
+    String chosenDate;
 
     User user = new User();
 
@@ -50,6 +51,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
 
         room = intentIn.getParcelableExtra(AvailableRoomView.CHOSEN_ROOM_INFO);
         numberOfPeople = intentIn.getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
+        chosenDate = intentIn.getStringExtra(SearchView.CHOSEN_DATE_INFO);
 
         firstName = (EditText) findViewById(R.id.firstName);
         lastName = (EditText) findViewById(R.id.lastName);
@@ -225,6 +227,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
                 Intent intent = new Intent(CreateUserView.this, BookingView.class);
                 intent.putExtra(AvailableRoomView.CHOSEN_ROOM_INFO, room);
                 intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
+                intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
                 intent.putExtra(TOKEN_INFO, user.getToken());
                 startActivity(intent);
                 break;

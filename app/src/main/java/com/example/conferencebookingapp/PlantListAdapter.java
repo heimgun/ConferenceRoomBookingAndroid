@@ -52,16 +52,16 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.Plan
         holder.clickHandler = this.clickHandler;
         Plant plant = availablePlants.get(position);
 
-        int imageNumber = 0;
-        int numberOfImages = plant.getImageUrls().size();
+        if(plant.getImageUrls().size() > 0) {
 
-        String imageUrl = plant.getImageUrls().get(imageNumber);
-        String formattedUrl = setProtocol(imageUrl);
-        ImageDecoder decoder = new ImageDecoder(holder.plantImageView);
-        decoder.execute(formattedUrl);
+            String imageUrl = plant.getImageUrls().get(0);
+            String formattedUrl = setProtocol(imageUrl);
 
-
-
+            ImageDecoder imageDecoder = new ImageDecoder(holder.plantImageView);
+            imageDecoder.execute(formattedUrl);
+        } else {
+            holder.plantImageView.setImageResource(R.drawable.timetomeet_logo);
+        }
 
         holder.plantNameTextView.setText(plant.getName());
 
