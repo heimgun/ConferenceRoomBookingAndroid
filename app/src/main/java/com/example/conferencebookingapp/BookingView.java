@@ -65,7 +65,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         APIRequester apiRequester = new APIRequester(token, this, CREATE_BOOKING_MESSAGE);
         String formattedJsonCreateBooking = String.format(jsonCreateBooking, numberOfPeople);
         Log.d(TAG, "onCreate: jsonString is: " + formattedJsonCreateBooking);
-        //apiRequester.execute(CREATE_BOOKING_URL);
+        apiRequester.execute(CREATE_BOOKING_URL, formattedJsonCreateBooking);
     }
 
     @Override

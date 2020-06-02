@@ -21,6 +21,7 @@ public class APIRequester extends AsyncTask<String, Void, String> {
     private CallbackActivity context;
     private String message;
 
+
     public APIRequester(CallbackActivity context) {
         this("", context, "");
     }
@@ -57,12 +58,15 @@ public class APIRequester extends AsyncTask<String, Void, String> {
 
 
             if(!token.equals("")) {
-                String tokenRequest = "Token " + token;
-                connection.setRequestProperty("Authorization",String.format("\"%s\"", tokenRequest));
+                String tokenRequest = "Token %s";
+
+                connection.setRequestProperty("Authorization",String.format(tokenRequest, token));
+                Log.d(TAG, "doInBackground: tokenRequest is: " + String.format(tokenRequest, token));
             }
 
             connection.setDoOutput(true);
             connection.connect();
+
 
             OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
 
@@ -72,15 +76,23 @@ public class APIRequester extends AsyncTask<String, Void, String> {
                 wr.flush();
             }
 
+            if(connection.getResponseCode()/100 == 2) {
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                Log.d(TAG, "doInBackground: reader ready");
+
+            } else {
+                reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                Log.e(TAG, "doInBackground: response code is: " + connection.getResponseCode());
+            }
+
             StringBuilder result = new StringBuilder();
-
-            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            Log.d(TAG, "doInBackground: reader ready");
-
             for(String line = reader.readLine(); line != null; line = reader.readLine()) {
                 result.append(line).append("\n");
             }
             Log.d(TAG, "doInBackground: result is: " + result.toString());
+
+
+
 
             return result.toString();
 
