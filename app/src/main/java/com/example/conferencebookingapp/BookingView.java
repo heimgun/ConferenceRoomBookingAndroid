@@ -19,6 +19,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
     private String token;
     private int numberOfPeople;
     private String chosenDate;
+    private String chosenPlant, city, chosenRoom;
 
     private String chosenSeatingId;
     private String bookingCode;
@@ -74,6 +75,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         chosenDateTV = (TextView) findViewById(R.id.chosenDateTextView);
         numberOfPeopleTV = (TextView) findViewById(R.id.numberOfPeopleTextView);
 
+
         Intent intentIn = getIntent();
         intentIn.setExtrasClassLoader(Plant.class.getClassLoader());
 
@@ -82,8 +84,17 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         Log.d(TAG, "onCreate: technology 1 is: " + room.getTechnologies().get(0).getDescription());
         token = intentIn.getStringExtra(CreateUserView.TOKEN_INFO);
         Log.d(TAG, "onCreate: token is: " + token);
-        numberOfPeople = intentIn.getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
-        chosenDate = intentIn.getStringExtra(SearchView.CHOSEN_DATE_INFO);
+        numberOfPeople = getIntent().getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
+        chosenDate = getIntent().getStringExtra(SearchView.CHOSEN_DATE_INFO);
+        chosenPlant = getIntent().getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
+        city = getIntent().getStringExtra(SearchView.CHOSEN_CITY_NAME);
+        chosenRoom = getIntent().getStringExtra(AvailableRoomView.CHOSEN_ROOM_INFO);
+
+        roomNameTV.setText(chosenRoom);
+        plantNameTV.setText(chosenPlant);
+        cityTV.setText(city);
+        numberOfPeopleTV.setText(Integer.toString(numberOfPeople));
+        chosenDateTV.setText(chosenDate);
 
 
         chosenSeatingId = room.getSeatings().get(0).getId(); // get input from user
