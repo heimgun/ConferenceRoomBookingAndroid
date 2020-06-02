@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import org.json.JSONException;
 
@@ -23,6 +24,8 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
     private String bookingCode;
     private List<String> chosenTechnologies;
     private List<String> chosenFoodAndBeverages;
+
+    TextView roomNameTV, plantNameTV, numberOfPeopleTV, cityTV, chosenDateTV;
 
     public static final String CREATE_BOOKING_URL = "https://dev-be.timetomeet.se/service/rest/booking/add/";
     public static final String BOOK_ROOM_URL = "https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/book/%s/";
@@ -65,6 +68,12 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_view);
 
+        roomNameTV = (TextView) findViewById(R.id.roomNameTextView);
+        plantNameTV = (TextView) findViewById(R.id.plantNameTextView);
+        cityTV = (TextView) findViewById(R.id.plantCityTextView);
+        chosenDateTV = (TextView) findViewById(R.id.chosenDateTextView);
+        numberOfPeopleTV = (TextView) findViewById(R.id.numberOfPeopleTextView);
+
         Intent intentIn = getIntent();
         intentIn.setExtrasClassLoader(Plant.class.getClassLoader());
 
@@ -75,6 +84,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         Log.d(TAG, "onCreate: token is: " + token);
         numberOfPeople = intentIn.getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
         chosenDate = intentIn.getStringExtra(SearchView.CHOSEN_DATE_INFO);
+
 
         chosenSeatingId = room.getSeatings().get(0).getId(); // get input from user
         bookingCode = room.getPreNoonBookingCode(); // get input if user wants prenoon, afternoon or full day

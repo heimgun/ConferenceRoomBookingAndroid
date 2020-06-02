@@ -29,9 +29,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.08"
-                app:layout_constraintStart_toStartOf="parent"
                 android:text="Blabla se över din bokning" />
 
 
@@ -48,10 +45,10 @@
                 android:text="Plant Name" />
 
             <TextView
-                android:id="@+id/plantAddressTextView"
+                android:id="@+id/plantCityTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Booking Adress" />
+                android:text="City" />
 
             <TextView
                 android:id="@+id/numberOfPeopleTextView"
