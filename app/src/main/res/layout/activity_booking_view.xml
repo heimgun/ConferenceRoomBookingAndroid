@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,87 +8,67 @@
     android:orientation="vertical"
     tools:ignore="ExtraText">
 
-
     <LinearLayout
-        android:id="@+id/headerLayout"
         android:layout_width="match_parent"
-        android:layout_height="78dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/timeSpinner"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/labelTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="399dp"
+            android:layout_height="116dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/timeSpinner"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:text="Blabla se över din bokning" />
+            android:layout_marginBottom="10dp">
 
-        <TextView
-            android:id="@+id/roomNameTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="308dp"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@id/plantNameTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelTextView"
-            tools:text="Room Name" />
+            <TextView
+                android:id="@+id/labelTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.08"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Blabla se över din bokning" />
 
-        <TextView
-            android:id="@+id/plantNameTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="312dp"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@id/plantAddressTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/roomNameTextView"
-            tools:text="Plant Name" />
 
-        <TextView
-            android:id="@+id/plantAddressTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="288dp"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@id/numberOfPeopleTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/plantNameTextView"
-            tools:text="Booking Adress" />
+            <TextView
+                android:id="@+id/roomNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Room Name" />
 
-        <TextView
-            android:id="@+id/numberOfPeopleTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="272dp"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@id/chosenDateTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/plantAddressTextView"
-            tools:text="Number of People" />
+            <TextView
+                android:id="@+id/plantNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Plant Name" />
 
-        <TextView
-            android:id="@+id/chosenDateTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="304dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/chosenDateTextView"
-            tools:text="Chosen date" />
+            <TextView
+                android:id="@+id/plantAddressTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Booking Adress" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/numberOfPeopleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Number of People" />
+
+            <TextView
+                android:id="@+id/chosenDateTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green"
+                android:text="Chosen date" />
+
+        </LinearLayout>
 
     <Spinner
         android:id="@+id/timeSpinner"
@@ -107,17 +87,21 @@
         tools:layout_editor_absoluteY="185dp" />
 
 
-    <ScrollView
-        android:id="@+id/radioLayout"
-        android:layout_width="match_parent"
-        android:layout_height="124dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp"
-        tools:ignore="MissingConstraints">
 
         <LinearLayout
+            android:id="@+id/radioLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Möblering"/>
 
             <RadioGroup
                 android:id="@+id/radioSeating"
@@ -131,179 +115,205 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="U-Bord, max 30 pers" />
+                    android:text="U-Bord, max 30 pers"
+                    android:buttonTint="@color/green"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Öar, max 30 pers" />
+                    android:text="Öar, max 30 pers"
+                    android:buttonTint="@color/green"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Kreativ möblering, max 30 pers" />
+                    android:text="Kreativ möblering, max 30 pers"
+                    android:buttonTint="@color/green"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Styrelsesitting, max 30 pers" />
+                    android:text="Styrelsesitting, max 30 pers"
+                    android:buttonTint="@color/green"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="O-Bord, max 30 pers" />
+                    android:text="O-Bord, max 30 pers"
+                    android:buttonTint="@color/green"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bio, max 30 pers" />
+                    android:text="Bio, max 30 pers"
+                    android:buttonTint="@color/green"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Skolsitting, max 30 pers" />
+                    android:text="Skolsitting, max 30 pers"
+                    android:buttonTint="@color/green"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mingel, max 30 pers" />
+                    android:text="Mingel, max 30 pers"
+                    android:buttonTint="@color/green"/>
 
             </RadioGroup>
 
         </LinearLayout>
 
-    </ScrollView>
 
-
-    <ScrollView
-        android:id="@+id/foodLayout"
-        android:layout_width="match_parent"
-        android:layout_height="124dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp">
 
         <LinearLayout
+            android:id="@+id/foodLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
-            <CheckBox
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Eftermiddagsfika, inkl. kaffe/te" />
+                android:text="Mat och Dryck" />
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Eftermiddagsfika, inkl. kaffe/te" />
+                android:text="Eftermiddagsfika, inkl. kaffe/te"
+                android:buttonTint="@color/green"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Förmiddagsfika, inkl. kaffe/te" />
+                android:text="Eftermiddagsfika, inkl. kaffe/te"
+                android:buttonTint="@color/green"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Frukt" />
+                android:text="Förmiddagsfika, inkl. kaffe/te"
+                android:buttonTint="@color/green"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lunsj i resaurant" />
+                android:text="Frukt"
+                android:buttonTint="@color/green"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Frukost" />
+                android:text="Lunsj i resaurant"
+                android:buttonTint="@color/green"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Enbart kaffe/te" />
+                android:text="Frukost"
+                android:buttonTint="@color/green"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vatten" />
+                android:text="Enbart kaffe/te"
+                android:buttonTint="@color/green"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vatten"
+                android:buttonTint="@color/green"/>
 
 
         </LinearLayout>
 
 
-    </ScrollView>
-
-    <ScrollView
-        android:id="@+id/equipmentLayout"
-        android:layout_width="match_parent"
-        android:layout_height="124dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp">
-
         <LinearLayout
+            android:id="@+id/equipmentLayout"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <CheckBox
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Internet (Wifi)" />
+                android:text="Utrustning" />
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Projektorduk" />
+                android:text="Internet (Wifi)"
+                android:buttonTint="@color/green"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Blädderblock" />
+                android:text="Projektorduk"
+                android:buttonTint="@color/green"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Whiteboard" />
+                android:text="Blädderblock"
+                android:buttonTint="@color/green"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Högtalare" />
+                android:text="Whiteboard"
+                android:buttonTint="@color/green"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Videokonferens" />
+                android:text="Högtalare"
+                android:buttonTint="@color/green"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Projektor" />
+                android:text="Videokonferens"
+                android:buttonTint="@color/green"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Anteckningsmaterial" />
+                android:text="Projektor"
+                android:buttonTint="@color/green"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Anteckningsmaterial"
+                android:buttonTint="@color/green"/>
 
 
         </LinearLayout>
 
-
-    </ScrollView>
 
     <TextView
-        android:id="@+id/priceFromTextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/priceTextView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/green"
         android:textSize="24sp"
-        android:layout_marginBottom="5dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintTop_toBottomOf="@id/equipmentLayout"
         app:layout_constraintBottom_toTopOf="@id/confirmBtn"
-        tools:layout_editor_absoluteX="184dp"
-        tools:layout_editor_absoluteY="592dp"
-        tools:text="Pris" />
+        android:text="Pris" />
 
 
     <Button
@@ -312,10 +322,13 @@
         android:layout_height="wrap_content"
         android:background="@color/green"
         android:text="Fortsätt Bokning"
+        android:layout_gravity="center"
         android:textColor="@android:color/background_light"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="143dp"
-        tools:layout_editor_absoluteY="647dp" />
+        app:layout_constraintTop_toBottomOf="@id/priceTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    </LinearLayout>
 
 
-</LinearLayout>
+</ScrollView>
