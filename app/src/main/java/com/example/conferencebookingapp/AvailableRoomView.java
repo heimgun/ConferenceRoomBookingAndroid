@@ -29,8 +29,6 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
     private RecyclerView.LayoutManager layoutManager;
 
     private Plant plant;
-    private String plantId;
-    private String plantName;
     private String chosenDate;
     private String city;
     private String cityId;
@@ -68,11 +66,11 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
             Log.d(TAG, "onCreate: plant name from parcel is: " + plant.getName());
         }
 
-        plantId = intentIn.getStringExtra(AvailablePlantView.CHOSEN_PLANT_ID);
-        plantName = intentIn.getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
+        String plantId = plant.getPlantId();
+        String plantName = plant.getName();
         chosenDate = intentIn.getStringExtra(SearchView.CHOSEN_DATE_INFO);
-        cityId = intentIn.getStringExtra(SearchView.CHOSEN_CITY_ID);
-        city = intentIn.getStringExtra(SearchView.CHOSEN_CITY_NAME);
+        cityId = plant.getCityId();
+        city = plant.getCity();
         numberOfPeople = intentIn.getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
 
         String roomRequest = String.format(requestRooms, plantId, chosenDate, chosenDate);
@@ -158,6 +156,7 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
 
         Intent intent = new Intent(this, CreateUserView.class);
         intent.putExtra(CHOSEN_ROOM_INFO, chosenRoom);
+        intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
         startActivity(intent);
 
 

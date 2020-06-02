@@ -120,6 +120,9 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
             case FIND_PLANTS: {
                 ConferenceJsonParser parser = new ConferenceJsonParser();
                 availablePlants = parser.parsePlants(results);
+                for (Plant plant : availablePlants) {
+                    plant.setCityId(cityId);
+                }
 
                 if(foodItems.isEmpty()) {
                     Downloader downloader = new Downloader(this, FIND_FOOD_INFO);
@@ -164,10 +167,6 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
 
         Intent intent = new Intent(AvailablePlantView.this, AvailableRoomView.class);
         intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
-        intent.putExtra(CHOSEN_PLANT_ID, chosenPlant.getPlantId());
-        intent.putExtra(CHOSEN_PLANT_NAME, chosenPlant.getName());
-        intent.putExtra(SearchView.CHOSEN_CITY_NAME, city);
-        intent.putExtra(SearchView.CHOSEN_CITY_ID, cityId);
         intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
         intent.putExtra(CHOSEN_PLANT, chosenPlant);
 

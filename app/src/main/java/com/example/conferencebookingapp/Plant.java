@@ -14,6 +14,7 @@ public class Plant implements Parcelable {
     private String name;
     private List<ConferenceRoom> rooms;
     private String city;
+    private String cityId;
     private String address;
     private List<String> imageUrls;
     private String facts;
@@ -105,6 +106,14 @@ public class Plant implements Parcelable {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(String cityId) {
+        this.cityId = cityId;
     }
 
     public String getAddress() {

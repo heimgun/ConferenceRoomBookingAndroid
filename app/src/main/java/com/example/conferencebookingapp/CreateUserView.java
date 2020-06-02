@@ -29,6 +29,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
     TextView tv;
 
     ConferenceRoom room;
+    int numberOfPeople;
 
     User user = new User();
 
@@ -48,6 +49,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
         intentIn.setExtrasClassLoader(ConferenceRoom.class.getClassLoader());
 
         room = intentIn.getParcelableExtra(AvailableRoomView.CHOSEN_ROOM_INFO);
+        numberOfPeople = intentIn.getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
 
         firstName = (EditText) findViewById(R.id.firstName);
         lastName = (EditText) findViewById(R.id.lastName);
@@ -222,6 +224,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
 
                 Intent intent = new Intent(CreateUserView.this, BookingView.class);
                 intent.putExtra(AvailableRoomView.CHOSEN_ROOM_INFO, room);
+                intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
                 intent.putExtra(TOKEN_INFO, user.getToken());
                 startActivity(intent);
                 break;
