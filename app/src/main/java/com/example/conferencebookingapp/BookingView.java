@@ -40,6 +40,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
     public static final String FINAL_FOOD_ADDED_MESSAGE = "com.example.conferencebookingapp.FINAL_FOOD";
     public static final String ADD_TECHNOLOGY_MESSAGE = "com.example.conferencebookingapp.ADD_TECHNOLOGY";
     public static final String FINAL_TECHNOLOGY_ADDED_MESSAGE = "com.example.conferencebookingapp.FINAL_TECHNOLOGY";
+    public static final String COMPLETE_BOOKING_MESSAGE = "com.example.conferencebookingapp.COMPLETE_BOOKING";
 
     public String jsonCreateBooking = "{" +
             "    \"paymentAlternative\": \"1\"," +
@@ -167,6 +168,8 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
             case FINAL_TECHNOLOGY_ADDED_MESSAGE:
                 Log.d(TAG, "onDownloadComplete: final technology added. Result is: " + results);
                 completeBooking();
+            case COMPLETE_BOOKING_MESSAGE:
+                Log.d(TAG, "onDownloadComplete: booking completed. Result is: " + results);
             default:
 
         }
@@ -199,5 +202,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
 
     private void completeBooking() {
         Log.d(TAG, "completeBooking: completeBooking called");
+        Downloader downloader = new Downloader(token, this, COMPLETE_BOOKING_MESSAGE);
+        downloader.execute(COMPLETE_BOOKING_URL);
     }
 }

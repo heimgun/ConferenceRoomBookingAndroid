@@ -14,15 +14,25 @@ import java.net.URL;
 
 public class Downloader extends AsyncTask<String, Void, String> {
     private static final String TAG = "Downloader";
+    private String token;
     private CallbackActivity context;
     private String message;
 
     public Downloader(CallbackActivity context) {
-        this(context, "");
+        this("", context, "");
+    }
+
+    public Downloader(String token, CallbackActivity context) {
+        this(token, context, "");
     }
 
     public Downloader(CallbackActivity context, String message) {
+        this("", context, message);
+    }
+
+    public Downloader(String token, CallbackActivity context, String message) {
         super();
+        this.token = token;
         this.context = context;
         this.message = message;
     }
@@ -49,6 +59,13 @@ public class Downloader extends AsyncTask<String, Void, String> {
 
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
+
+            if(!token.equals("")) {
+                String tokenRequest = "Token %s";
+
+                connection.setRequestProperty("Authorization",String.format(tokenRequest, token));
+                Log.d(TAG, "doInBackground: tokenRequest is: " + String.format(tokenRequest, token));
+            }
             connection.connect();
 
             StringBuilder result = new StringBuilder();
