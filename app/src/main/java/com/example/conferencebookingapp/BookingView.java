@@ -140,24 +140,26 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
                 APIRequester roomRequester = new APIRequester(token, this, BOOK_ROOM_MESSAGE);
                 String bookRoomUrl = String.format(BOOK_ROOM_URL, bookingCode);
                 String formattedJsonBookRoom = String.format(jsonBookRoom, chosenSeatingId);
+                Log.d(TAG, "onDownloadComplete: createBookingmessage-if calling book room");
                 roomRequester.execute(bookRoomUrl, formattedJsonBookRoom);
                 break;
             case BOOK_ROOM_MESSAGE:
                 Log.d(TAG, "onDownloadComplete: results are: " + results);
 
-
                 int numberOfFoodItemsRequested = chosenFoodAndBeverages.size();
                 if(numberOfFoodItemsRequested > 0) {
+                    Log.d(TAG, "onDownloadComplete: bookroommessage-if calling add food");
                     addFoodToBooking(numberOfFoodItemsRequested);
                 } else {
                     int numberOfTechnologiesRequested = chosenTechnologies.size();
                     if(numberOfTechnologiesRequested > 0) {
+                        Log.d(TAG, "onDownloadComplete: bookroommessage-if calling add technology");
                         addTechnologyToBooking(numberOfTechnologiesRequested);
                     } else {
+                        Log.d(TAG, "onDownloadComplete: bookroommessage-if calling complete booking");
                         completeBooking();
                     }
                 }
-
                 break;
             case ADD_FOOD_MESSAGE:
                 Log.d(TAG, "onDownloadComplete: result is: " + results);
@@ -166,8 +168,10 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
                 Log.d(TAG, "onDownloadComplete: final food added. Result is: " + results);
                 int numberOfTechnologiesRequested = chosenTechnologies.size();
                 if(numberOfTechnologiesRequested > 0) {
+                    Log.d(TAG, "onDownloadComplete: finalfoodaddedmessage-if calling add technology");
                     addTechnologyToBooking(numberOfTechnologiesRequested);
                 } else {
+                    Log.d(TAG, "onDownloadComplete: finalfoodaddedmessage-if calling complete booking");
                     completeBooking();
                 }
                 break;
@@ -175,9 +179,12 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
                 break;
             case FINAL_TECHNOLOGY_ADDED_MESSAGE:
                 Log.d(TAG, "onDownloadComplete: final technology added. Result is: " + results);
+                Log.d(TAG, "onDownloadComplete: finaltechnologyadded-if calling complete booking");
                 completeBooking();
+                break;
             case COMPLETE_BOOKING_MESSAGE:
                 Log.d(TAG, "onDownloadComplete: booking completed. Result is: " + results);
+                break;
             default:
 
         }
@@ -200,7 +207,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
 
     private void addTechnologyToBooking(int numberOfItemsRequested) {
         for (int i = 0; i < numberOfItemsRequested; i++) {
-            String formattedJsonAddTechnology = String.format(jsonAddTechnologyToBooking, bookingCode, chosenFoodAndBeverages.get(i));
+            String formattedJsonAddTechnology = String.format(jsonAddTechnologyToBooking, bookingCode, chosenTechnologies.get(i));
 
             String addTechnologyMessage = i == numberOfItemsRequested - 1 ? FINAL_TECHNOLOGY_ADDED_MESSAGE : ADD_TECHNOLOGY_MESSAGE;
             APIRequester technologyRequester = new APIRequester(token, this, addTechnologyMessage);
