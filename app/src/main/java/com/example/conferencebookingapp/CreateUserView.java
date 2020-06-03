@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,11 +28,14 @@ import java.util.regex.Pattern;
 
 
 public class CreateUserView extends AppCompatActivity implements CallbackActivity {
+    private static final String TAG = "CreateUserView";
 
     EditText firstName, lastName, phone, email, organization, orgNumber, street, city, zipCode;
     Button submit;
 
     TextView tv;
+
+    Booking booking;
 
     ConferenceRoom room;
     int numberOfPeople;
@@ -55,13 +59,16 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
         setContentView(R.layout.create_user_view);
 
         Intent intentIn = getIntent();
-        intentIn.setExtrasClassLoader(ConferenceRoom.class.getClassLoader());
+        intentIn.setExtrasClassLoader(Booking.class.getClassLoader());
 
-        room = intentIn.getParcelableExtra(AvailableRoomView.CHOSEN_ROOM_INFO);
-        numberOfPeople = intentIn.getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
-        chosenDate = intentIn.getStringExtra(SearchView.CHOSEN_DATE_INFO);
-        chosenPlant = intentIn.getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
-        chosenCity = intentIn.getStringExtra(SearchView.CHOSEN_CITY_NAME);
+        booking = intentIn.getParcelableExtra(BookingView.BOOKING_INFO);
+        Log.d(TAG, "onCreate: number of people in booking is: " + booking.getNumberOfPeople());
+
+        //room = intentIn.getParcelableExtra(AvailableRoomView.CHOSEN_ROOM_INFO);
+        //numberOfPeople = intentIn.getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
+        //chosenDate = intentIn.getStringExtra(SearchView.CHOSEN_DATE_INFO);
+        //chosenPlant = intentIn.getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
+        //chosenCity = intentIn.getStringExtra(SearchView.CHOSEN_CITY_NAME);
 
         firstName = (EditText) findViewById(R.id.firstName);
         lastName = (EditText) findViewById(R.id.lastName);
@@ -236,13 +243,15 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
 
                 user.setToken(json.getString("token"));
 
-                Intent intent = new Intent(CreateUserView.this, BookingView.class);
-                intent.putExtra(AvailableRoomView.CHOSEN_ROOM_INFO, room);
-                intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
-                intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
+                Intent intent = new Intent(CreateUserView.this, ReceiptView.class);
+                intent.putExtra(BookingView.BOOKING_INFO, booking);
+                Log.d(TAG, "onDownloadComplete: number of people in booking is: " + booking.getNumberOfPeople());
+                //intent.putExtra(AvailableRoomView.CHOSEN_ROOM_INFO, room);
+                //intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
+                //intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
                 intent.putExtra(TOKEN_INFO, user.getToken());
-                intent.putExtra(SearchView.CHOSEN_CITY_NAME, chosenCity);
-                intent.putExtra(AvailablePlantView.CHOSEN_PLANT_NAME, chosenPlant);
+                //intent.putExtra(SearchView.CHOSEN_CITY_NAME, chosenCity);
+                //intent.putExtra(AvailablePlantView.CHOSEN_PLANT_NAME, chosenPlant);
                 startActivity(intent);
                 break;
             default:

@@ -162,7 +162,7 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
     private void onContinueToBookingButtonClicked(int position){
         ConferenceRoom chosenRoom = availableRooms.get(position);
 
-        Intent intent = new Intent(this, CreateUserView.class);
+        Intent intent = new Intent(this, BookingView.class);
         intent.putExtra(CHOSEN_ROOM_INFO, chosenRoom);
         intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
         intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
