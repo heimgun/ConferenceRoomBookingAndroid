@@ -26,6 +26,7 @@
         <activity
             android:name=".AvailableRoomView"
             android:parentActivityName=".AvailablePlantView" />
+        <activity android:name=".ReceiptView" />
     </application>
 
 </manifest>
