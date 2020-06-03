@@ -1,16 +1,21 @@
 package com.example.conferencebookingapp;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BookingView extends AppCompatActivity implements CallbackActivity{
     private static final String TAG = "BookingView";
@@ -72,6 +77,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +88,8 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         cityTV = (TextView) findViewById(R.id.plantCityTextView);
         chosenDateTV = (TextView) findViewById(R.id.chosenDateTextView);
         numberOfPeopleTV = (TextView) findViewById(R.id.numberOfPeopleTextView);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
         Intent intentIn = getIntent();
@@ -205,4 +213,34 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         Downloader downloader = new Downloader(token, this, COMPLETE_BOOKING_MESSAGE);
         downloader.execute(COMPLETE_BOOKING_URL);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if (item.getItemId() == android.R.id.home) {
+            onBackClicked();
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void onBackClicked(){
+        Intent intent = new Intent(this, CreateUserView.class);
+        intent.putExtra(AvailableRoomView.CHOSEN_ROOM_INFO, room.getName());
+        intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
+        intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
+        intent.putExtra(SearchView.CHOSEN_CITY_NAME, room.getCity());
+        intent.putExtra(AvailablePlantView.CHOSEN_PLANT_NAME, room.getPlant());
+        startActivity(intent);
+
+    }
+
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+
+
 }
