@@ -38,6 +38,8 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
     public static final String BOOK_ROOM_MESSAGE = "com.example.conferencebookingapp.BOOK_ROOM";
     public static final String ADD_FOOD_MESSAGE = "com.example.conferencebookingapp.ADD_FOOD";
     public static final String FINAL_FOOD_ADDED_MESSAGE = "com.example.conferencebookingapp.FINAL_FOOD";
+    public static final String ADD_TECHNOLOGY_MESSAGE = "com.example.conferencebookingapp.ADD_TECHNOLOGY";
+    public static final String FINAL_TECHNOLOGY_ADDED_MESSAGE = "com.example.conferencebookingapp.FINAL_TECHNOLOGY";
 
     public String jsonCreateBooking = "{" +
             "    \"paymentAlternative\": \"1\"," +
@@ -60,6 +62,11 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
             "    \"amount\": \"%d\"," +
             "    \"comment\": \"\"," +
             "    \"timeToServe\": \"%s\"" +
+            "}";
+
+    public String jsonAddTechnologyToBooking = "{" +
+            "    \"conferenceRoomAvailability\": \"%s\"," +
+            "    \"technology\": \"%s\"" +
             "}";
 
 
@@ -92,7 +99,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         roomNameTV.setText(room.getName());
         plantNameTV.setText(room.getPlant().getName());
         cityTV.setText(city);
-        numberOfPeopleTV.setText("Antall deltakare: " + Integer.toString(numberOfPeople));
+        numberOfPeopleTV.setText("Antal deltagare: " + Integer.toString(numberOfPeople));
         chosenDateTV.setText(chosenDate);
 
 
@@ -103,6 +110,10 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         chosenFoodAndBeverages.add(room.getPlant().getFoodAndBeverages().get(0).getId());
         if (room.getPlant().getFoodAndBeverages().size() > 1) {
             chosenFoodAndBeverages.add(room.getPlant().getFoodAndBeverages().get(1).getId());
+        }
+        chosenTechnologies.add(room.getTechnologies().get(0).getId());
+        if(room.getTechnologies().size() > 1) {
+            chosenTechnologies.add(room.getTechnologies().get(1).getId());
         }
 
         APIRequester apiRequester = new APIRequester(token, this, CREATE_BOOKING_MESSAGE);
@@ -126,18 +137,15 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
                 Log.d(TAG, "onDownloadComplete: results are: " + results);
 
 
-                int numberOfItemsRequested = chosenFoodAndBeverages.size();
-                if(numberOfItemsRequested > 0) {
-                    for (int i = 0; i < numberOfItemsRequested; i++) {
-                        String servingTime = chosenDate + "T10:30:00";
-                        Log.d(TAG, "onDownloadComplete: serving time is: " + servingTime);
-                        String formattedJsonAddFood = String.format(jsonAddFoodToBooking, bookingCode, chosenFoodAndBeverages.get(i),
-                                numberOfPeople, servingTime);
-                        Log.d(TAG, "onDownloadComplete: formattedJsonAddFood is: " + formattedJsonAddFood);
-
-                        String addFoodMessage = i == numberOfItemsRequested - 1 ? FINAL_FOOD_ADDED_MESSAGE : ADD_FOOD_MESSAGE;
-                        APIRequester foodRequester = new APIRequester(token, this, addFoodMessage);
-                        foodRequester.execute(ADD_FOOD_URL, formattedJsonAddFood);
+                int numberOfFoodItemsRequested = chosenFoodAndBeverages.size();
+                if(numberOfFoodItemsRequested > 0) {
+                    addFoodToBooking(numberOfFoodItemsRequested);
+                } else {
+                    int numberOfTechnologiesRequested = chosenTechnologies.size();
+                    if(numberOfTechnologiesRequested > 0) {
+                        addTechnologyToBooking(numberOfTechnologiesRequested);
+                    } else {
+                        completeBooking();
                     }
                 }
 
@@ -147,11 +155,49 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
                 break;
             case FINAL_FOOD_ADDED_MESSAGE:
                 Log.d(TAG, "onDownloadComplete: final food added. Result is: " + results);
+                int numberOfTechnologiesRequested = chosenTechnologies.size();
+                if(numberOfTechnologiesRequested > 0) {
+                    addTechnologyToBooking(numberOfTechnologiesRequested);
+                } else {
+                    completeBooking();
+                }
                 break;
-
+            case ADD_TECHNOLOGY_MESSAGE:
+                break;
+            case FINAL_TECHNOLOGY_ADDED_MESSAGE:
+                Log.d(TAG, "onDownloadComplete: final technology added. Result is: " + results);
+                completeBooking();
             default:
 
         }
 
+    }
+
+    private void addFoodToBooking(int numberOfItemsRequested) {
+
+        for (int i = 0; i < numberOfItemsRequested; i++) {
+            String servingTime = chosenDate + "T10:30:00";
+            Log.d(TAG, "onDownloadComplete: serving time is: " + servingTime);
+            String formattedJsonAddFood = String.format(jsonAddFoodToBooking, bookingCode, chosenFoodAndBeverages.get(i),
+                    numberOfPeople, servingTime);
+
+            String addFoodMessage = i == numberOfItemsRequested - 1 ? FINAL_FOOD_ADDED_MESSAGE : ADD_FOOD_MESSAGE;
+            APIRequester foodRequester = new APIRequester(token, this, addFoodMessage);
+            foodRequester.execute(ADD_FOOD_URL, formattedJsonAddFood);
+        }
+    }
+
+    private void addTechnologyToBooking(int numberOfItemsRequested) {
+        for (int i = 0; i < numberOfItemsRequested; i++) {
+            String formattedJsonAddTechnology = String.format(jsonAddTechnologyToBooking, bookingCode, chosenFoodAndBeverages.get(i));
+
+            String addTechnologyMessage = i == numberOfItemsRequested - 1 ? FINAL_TECHNOLOGY_ADDED_MESSAGE : ADD_TECHNOLOGY_MESSAGE;
+            APIRequester technologyRequester = new APIRequester(token, this, addTechnologyMessage);
+            technologyRequester.execute(ADD_TECHNOLOGY_URL, formattedJsonAddTechnology);
+        }
+    }
+
+    private void completeBooking() {
+        Log.d(TAG, "completeBooking: completeBooking called");
     }
 }
