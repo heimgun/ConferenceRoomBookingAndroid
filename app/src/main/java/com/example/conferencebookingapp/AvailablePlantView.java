@@ -123,25 +123,29 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
                 availablePlants = parser.parsePlants(results);
                 for (Plant plant : availablePlants) {
                     plant.setCityId(cityId);
-                    Log.d(TAG, "onDownloadComplete: cityId is: " + cityId);
                 }
 
                 if(foodItems.isEmpty()) {
+                    Log.d(TAG, "onDownloadComplete: foodItems is empty");
                     Downloader downloader = new Downloader(this, FIND_FOOD_INFO);
                     downloader.execute(FOOD_INFO_URL);
                 } else {
+                    Log.d(TAG, "onDownloadComplete: foodItems is not empty");
                     Downloader downloader = new Downloader(this, ADD_AVAILABLE_FOOD);
+                    Log.d(TAG, "onDownloadComplete: calling available_food_url from find_plants if");
                     downloader.execute(AVAILABLE_FOOD_URL);
                 }
                 break;
             }
             case FIND_FOOD_INFO: {
                 ConferenceJsonParser parser = new ConferenceJsonParser();
-                foodItems = parser.parseFoodInfo(results);
+                if (foodItems.isEmpty()) {
+                    foodItems = parser.parseFoodInfo(results);
 
-                Downloader downloader = new Downloader(this, ADD_AVAILABLE_FOOD);
-                downloader.execute(AVAILABLE_FOOD_URL);
-
+                    Downloader downloader = new Downloader(this, ADD_AVAILABLE_FOOD);
+                    Log.d(TAG, "onDownloadComplete: calling available_food_url from find_food_info if");
+                    downloader.execute(AVAILABLE_FOOD_URL);
+                }
                 break;
             }
             case ADD_AVAILABLE_FOOD: {

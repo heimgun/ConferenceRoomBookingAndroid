@@ -216,6 +216,7 @@ public class ConferenceJsonParser {
     }
 
     public void parsePlantFood(String jsonString, List<Plant> plants, Map<String, String> foodItems) {
+        Log.d(TAG, "parsePlantFood: parsePlantFood called");
         try {
             JSONArray jsonFoods = new JSONArray(jsonString);
 
@@ -224,6 +225,7 @@ public class ConferenceJsonParser {
                 String jsonPlantId = jsonFood.getString("plant");
                 for (Plant plant : plants) {
                     if (plant.getPlantId().equals(jsonPlantId)) {
+                        Log.d(TAG, "parsePlantFood: plant is: " + plant.getName());
                         FoodItem foodItem = new FoodItem();
 
                         String foodItemId = jsonFood.getString("foodBeverage");
@@ -231,6 +233,7 @@ public class ConferenceJsonParser {
                         foodItem.setDescription(foodItems.get(foodItemId));
                         foodItem.setPrice(jsonFood.getString("price"));
                         plant.addFoodAndBeverage(foodItem);
+                        Log.d(TAG, "parsePlantFood: " + plant.getName() + " added " + foodItem.getDescription());
                     }
                 }
             }
