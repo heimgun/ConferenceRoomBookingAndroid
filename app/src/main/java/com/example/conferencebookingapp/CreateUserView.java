@@ -33,7 +33,6 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
     String chosenDate;
     String chosenPlant;
     String chosenCity;
-    String chosenRoom;
 
     User user = new User();
 
@@ -57,7 +56,6 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
         chosenDate = intentIn.getStringExtra(SearchView.CHOSEN_DATE_INFO);
         chosenPlant = intentIn.getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
         chosenCity = intentIn.getStringExtra(SearchView.CHOSEN_CITY_NAME);
-        chosenRoom = intentIn.getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
 
         firstName = (EditText) findViewById(R.id.firstName);
         lastName = (EditText) findViewById(R.id.lastName);
@@ -231,7 +229,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
                 user.setToken(json.getString("token"));
 
                 Intent intent = new Intent(CreateUserView.this, BookingView.class);
-                intent.putExtra(AvailableRoomView.CHOSEN_ROOM_INFO, chosenRoom);
+                intent.putExtra(AvailableRoomView.CHOSEN_ROOM_INFO, room);
                 intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
                 intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
                 intent.putExtra(TOKEN_INFO, user.getToken());

@@ -88,10 +88,9 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         chosenDate = getIntent().getStringExtra(SearchView.CHOSEN_DATE_INFO);
         chosenPlant = getIntent().getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
         city = getIntent().getStringExtra(SearchView.CHOSEN_CITY_NAME);
-        chosenRoom = getIntent().getStringExtra(AvailableRoomView.CHOSEN_ROOM_INFO);
 
-        roomNameTV.setText(chosenRoom);
-        plantNameTV.setText(chosenPlant);
+        roomNameTV.setText(room.getName());
+        plantNameTV.setText(room.getPlant().getName());
         cityTV.setText(city);
         numberOfPeopleTV.setText(Integer.toString(numberOfPeople));
         chosenDateTV.setText(chosenDate);
