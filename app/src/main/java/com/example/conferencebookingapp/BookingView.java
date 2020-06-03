@@ -92,7 +92,7 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         roomNameTV.setText(room.getName());
         plantNameTV.setText(room.getPlant().getName());
         cityTV.setText(city);
-        numberOfPeopleTV.setText(Integer.toString(numberOfPeople));
+        numberOfPeopleTV.setText("Antall deltakare: " + Integer.toString(numberOfPeople));
         chosenDateTV.setText(chosenDate);
 
 
