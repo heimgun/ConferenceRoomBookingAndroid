@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +16,8 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
     private static final String TAG = "ReceiptView";
 
     Button backToSearch;
+
+    TextView roomTV, plantTV, cityTV, addressTV, numberOfPeopleTV, dateTV, foodAndDrinksTV, equipmentTV, seatingTV, priceTV;
 
     private Booking booking;
     private String token;
@@ -80,6 +83,28 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
             //String formattedJsonCreateBooking = String.format(jsonCreateBooking, booking.getNumberOfPeople());
             //Log.d(TAG, "onCreate: jsonString is: " + formattedJsonCreateBooking);
             //apiRequester.execute(CREATE_BOOKING_URL, formattedJsonCreateBooking);
+
+            roomTV = (TextView) findViewById(R.id.roomNameTV);
+            plantTV = (TextView) findViewById(R.id.plantNameTV);
+            cityTV = (TextView) findViewById(R.id.cityTV);
+            addressTV = (TextView) findViewById(R.id.addressTV);
+            numberOfPeopleTV = (TextView) findViewById(R.id.numberOfPeopleTV);
+            dateTV = (TextView) findViewById(R.id.dateTV);
+            foodAndDrinksTV = (TextView) findViewById(R.id.foodAndDrinksTV);
+            equipmentTV = (TextView) findViewById(R.id.equipmentTV);
+            seatingTV = (TextView) findViewById(R.id.sittingTV);
+            priceTV = (TextView) findViewById(R.id.priceTV);
+
+
+            // roomTV.setText(booking.getRoom().toString());
+            // numberOfPeopleTV.setText(booking.getNumberOfPeople());
+            // dateTV.setText(booking.getChosenDate());
+            // foodAndDrinksTV.setText(booking.getChosenFoodAndBeverages().toString());
+            // equipmentTV.setText(booking.getChosenTechnologies().toString());
+            // seatingTV.setText(booking.getChosenSeating().toString());
+
+
+
 
 
 
