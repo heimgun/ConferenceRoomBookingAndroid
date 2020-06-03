@@ -81,6 +81,7 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
         availablePlants = new ArrayList<>();
 
         cityId = getIntent().getStringExtra(SearchView.CHOSEN_CITY_ID);
+        Log.d(TAG, "onCreate: cityId is: " + cityId);
         city = getIntent().getStringExtra(SearchView.CHOSEN_CITY_NAME);
         numberOfPeople = getIntent().getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
         chosenDate = getIntent().getStringExtra(SearchView.CHOSEN_DATE_INFO);
@@ -122,6 +123,7 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
                 availablePlants = parser.parsePlants(results);
                 for (Plant plant : availablePlants) {
                     plant.setCityId(cityId);
+                    Log.d(TAG, "onDownloadComplete: cityId is: " + cityId);
                 }
 
                 if(foodItems.isEmpty()) {
@@ -149,6 +151,7 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
                 showResults();
                 break;
             }
+            default:
         }
     }
 

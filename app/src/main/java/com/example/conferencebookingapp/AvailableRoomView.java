@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +110,13 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
 
         Log.d(TAG, "updateRoomData: start");
         for (ConferenceRoom room: availableRooms) {
-            room.setPlant(plant);
+            if (plant != null) {
+                room.setPlant(plant);
+            } else {
+                Toast.makeText(this, "Ett fel inträffade", Toast.LENGTH_SHORT).show();
+                onBackClicked();
+            }
+
         }
 
         Downloader downloader = new Downloader(AvailableRoomView.this, GET_ROOM_INFO);

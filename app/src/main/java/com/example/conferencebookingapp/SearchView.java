@@ -26,6 +26,7 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
     public static final String CHOSEN_NUMBER_OF_PEOPLE_INFO = "com.example.conferencebookingapp.NUMBER_OF_PEOPLE";
     public static final String CHOSEN_DATE_INFO = "com.example.conferencebookingapp.DATE";
 
+    private String cityId;
     private String city;
     private int numberOfPeople;
     private String chosenDate;
@@ -73,7 +74,7 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void OnSearchButtonClicked(View v) {
 
-        String cityId = "";
+        cityId = "";
         switch(city) {
             case "Göteborg":
                 cityId = "1";
@@ -111,6 +112,7 @@ public class SearchView extends AppCompatActivity implements AdapterView.OnItemS
         if(ready) {
             Intent intent = new Intent(this, AvailablePlantView.class);
             intent.putExtra(CHOSEN_CITY_ID, cityId);
+            Log.d(TAG, "OnSearchButtonClicked: cityId is: " + cityId);
             intent.putExtra(CHOSEN_CITY_NAME, city);
             intent.putExtra(CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
             intent.putExtra(CHOSEN_DATE_INFO, chosenDate);

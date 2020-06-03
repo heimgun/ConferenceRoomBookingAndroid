@@ -13,7 +13,6 @@ public class Plant implements Parcelable {
 
     private String plantId;
     private String name;
-    private List<ConferenceRoom> rooms;
     private String city;
     private String cityId;
     private String address;
@@ -26,8 +25,8 @@ public class Plant implements Parcelable {
     public Plant() {
         plantId = "";
         name = "";
-        rooms = new ArrayList<>();
         city = "";
+        cityId = "";
         address = "";
         imageUrls = new ArrayList<>();
         facts = "";
@@ -41,6 +40,7 @@ public class Plant implements Parcelable {
         plantId = in.readString();
         name = in.readString();
         city = in.readString();
+        cityId = in.readString();
         address = in.readString();
         imageUrls = in.createStringArrayList();
         facts = in.readString();
@@ -55,6 +55,7 @@ public class Plant implements Parcelable {
         dest.writeString(plantId);
         dest.writeString(name);
         dest.writeString(city);
+        dest.writeString(cityId);
         dest.writeString(address);
         dest.writeStringList(imageUrls);
         dest.writeString(facts);
@@ -94,14 +95,6 @@ public class Plant implements Parcelable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<ConferenceRoom> getRooms() {
-        return rooms;
-    }
-
-    public void addRoom(ConferenceRoom room) {
-        rooms.add(room);
     }
 
     public String getCity() {
@@ -167,13 +160,4 @@ public class Plant implements Parcelable {
         foodAndBeverages.add(foodItem);
     }
 
-    /*public Map<String, String> getFoodAndBeverages() {
-        return foodAndBeverages;
-    }
-
-    public void addFoodAndBeverage(String description, String price) {
-        foodAndBeverages.put(description, price);
-    }
-
-     */
 }
