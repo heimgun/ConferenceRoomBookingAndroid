@@ -129,15 +129,15 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
         boolean preNoonRequested = true;
         boolean afternoonRequested = false;
         String timeText = "";
-        int priceForRoom = 0;
+        double priceForRoom = 0;
         if(preNoonRequested && afternoonRequested) {
-            priceForRoom += Integer.parseInt(booking.getRoom().getFullDayPrice());
+            priceForRoom += Double.parseDouble(booking.getRoom().getFullDayPrice());
             timeText = booking.getRoom().getPreNoonHours() + " + " + booking.getRoom().getAfternoonHours();
         } else if(preNoonRequested) {
-            priceForRoom += Integer.parseInt(booking.getRoom().getPreNoonPrice());
+            priceForRoom += Double.parseDouble(booking.getRoom().getPreNoonPrice());
             timeText = booking.getRoom().getPreNoonHours();
         } else {
-            priceForRoom += Integer.parseInt(booking.getRoom().getAfternoonPrice());
+            priceForRoom += Double.parseDouble(booking.getRoom().getAfternoonPrice());
             timeText = booking.getRoom().getAfternoonHours();
         }
 
@@ -161,11 +161,11 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
                 foodAndBeveragesSb.append("\n- ");
                 foodAndBeveragesSb.append(booking.getChosenFoodAndBeverages().get(i).getDescription());
                 int numberOfPeople = booking.getNumberOfPeople();
-                int pricePerFoodItem = Integer.parseInt(booking.getChosenFoodAndBeverages().get(i).getPrice());
-                int totalPriceForFoodItem = numberOfPeople * pricePerFoodItem;
+                double pricePerFoodItem = Double.parseDouble(booking.getChosenFoodAndBeverages().get(i).getPrice());
+                double totalPriceForFoodItem = numberOfPeople * pricePerFoodItem;
                 priceForFood += totalPriceForFoodItem;
 
-                String foodPriceText = String.format("(%d x %d kr = %d kr)", numberOfPeople,
+                String foodPriceText = String.format("(%d x %.2f kr = %.2f kr)", numberOfPeople,
                         pricePerFoodItem, totalPriceForFoodItem);
                 foodAndBeveragesSb.append(foodPriceText);
             }
