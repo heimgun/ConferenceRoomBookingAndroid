@@ -9,7 +9,7 @@ import java.util.List;
 public class Booking implements Parcelable {
     private ConferenceRoom room;
     private String chosenDate;
-    private String bookingCode;
+    private List<String> bookingCodes;
     private Seating chosenSeating;
     private int numberOfPeople;
     private List<FoodItem> chosenFoodAndBeverages;
@@ -18,7 +18,7 @@ public class Booking implements Parcelable {
     public Booking() {
         room = null;
         chosenDate = "";
-        bookingCode = "";
+        bookingCodes = new ArrayList<>();
         chosenSeating = null;
         numberOfPeople = 0;
         chosenFoodAndBeverages = new ArrayList<>();
@@ -28,7 +28,8 @@ public class Booking implements Parcelable {
     protected Booking(Parcel in) {
         room = in.readParcelable(ConferenceRoom.class.getClassLoader());
         chosenDate = in.readString();
-        bookingCode = in.readString();
+        bookingCodes = new ArrayList<>();
+        in.readStringList(bookingCodes);
         chosenSeating = in.readParcelable(Seating.class.getClassLoader());
         numberOfPeople = in.readInt();
         chosenFoodAndBeverages = in.createTypedArrayList(FoodItem.CREATOR);
@@ -39,7 +40,7 @@ public class Booking implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(room, flags);
         dest.writeString(chosenDate);
-        dest.writeString(bookingCode);
+        dest.writeStringList(bookingCodes);
         dest.writeParcelable(chosenSeating, flags);
         dest.writeInt(numberOfPeople);
         dest.writeTypedList(chosenFoodAndBeverages);
@@ -79,12 +80,12 @@ public class Booking implements Parcelable {
         this.chosenDate = chosenDate;
     }
 
-    public String getBookingCode() {
-        return bookingCode;
+    public List<String> getBookingCodes() {
+        return bookingCodes;
     }
 
-    public void setBookingCode(String bookingCode) {
-        this.bookingCode = bookingCode;
+    public void addBookingCode(String bookingCode) {
+        bookingCodes.add(bookingCode);
     }
 
     public Seating getChosenSeating() {

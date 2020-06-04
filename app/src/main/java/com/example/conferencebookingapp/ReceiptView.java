@@ -109,7 +109,7 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
 
     public boolean isValidBooking() {
         return booking != null && booking.getRoom() != null && booking.getNumberOfPeople() > 0
-                && booking.getChosenSeating() != null && !booking.getBookingCode().equals("null");
+                && booking.getChosenSeating() != null && !booking.getBookingCodes().isEmpty();
     }
 
     public void setUpWindow() {
@@ -201,7 +201,7 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
             case CREATE_BOOKING_MESSAGE:
                 Log.d(TAG, "onDownloadComplete: results are: " + results);
                 APIRequester roomRequester = new APIRequester(token, this, BOOK_ROOM_MESSAGE);
-                String bookRoomUrl = String.format(BOOK_ROOM_URL, booking.getBookingCode());
+                String bookRoomUrl = String.format(BOOK_ROOM_URL, booking.getBookingCodes().get(0));
                 String formattedJsonBookRoom = String.format(jsonBookRoom, booking.getChosenSeating().getId());
                 Log.d(TAG, "onDownloadComplete: createBookingmessage-if calling book room");
                 roomRequester.execute(bookRoomUrl, formattedJsonBookRoom);
@@ -257,7 +257,7 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
         for (int i = 0; i < numberOfItemsRequested; i++) {
             String servingTime = booking.getChosenDate() + "T10:30:00";
             Log.d(TAG, "onDownloadComplete: serving time is: " + servingTime);
-            String formattedJsonAddFood = String.format(jsonAddFoodToBooking, booking.getBookingCode(), booking.getChosenFoodAndBeverages().get(i).getId(),
+            String formattedJsonAddFood = String.format(jsonAddFoodToBooking, booking.getBookingCodes().get(0), booking.getChosenFoodAndBeverages().get(i).getId(),
                     booking.getNumberOfPeople(), servingTime);
 
             String addFoodMessage = i == numberOfItemsRequested - 1 ? FINAL_FOOD_ADDED_MESSAGE : ADD_FOOD_MESSAGE;
@@ -268,7 +268,7 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
 
     private void addTechnologyToBooking(int numberOfItemsRequested) {
         for (int i = 0; i < numberOfItemsRequested; i++) {
-            String formattedJsonAddTechnology = String.format(jsonAddTechnologyToBooking, booking.getBookingCode(),
+            String formattedJsonAddTechnology = String.format(jsonAddTechnologyToBooking, booking.getBookingCodes().get(0),
                     booking.getChosenTechnologies().get(i).getId());
 
             String addTechnologyMessage = i == numberOfItemsRequested - 1 ? FINAL_TECHNOLOGY_ADDED_MESSAGE : ADD_TECHNOLOGY_MESSAGE;
