@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class BookingView extends AppCompatActivity {
+public class BookingView extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private static final String TAG = "BookingView";
 
     private ConferenceRoom room;
@@ -33,10 +34,10 @@ public class BookingView extends AppCompatActivity {
     private String city;
 
     private Booking booking;
-    private String bookingCode;
+    int priceInt;
 
 
-    TextView roomNameTV, plantNameTV, numberOfPeopleTV, cityTV, chosenDateTV;
+    TextView roomNameTV, plantNameTV, numberOfPeopleTV, cityTV, chosenDateTV, price;
     RadioGroup radiogroup;
     LinearLayout foodLayout, equipmentLayout;
     Spinner spinner;
@@ -59,6 +60,7 @@ public class BookingView extends AppCompatActivity {
         chosenDateTV = (TextView) findViewById(R.id.chosenDateTextView);
         numberOfPeopleTV = (TextView) findViewById(R.id.numberOfPeopleTextView);
         confirmBookingButton = findViewById(R.id.confirmBtn);
+        price = (TextView) findViewById(R.id.priceTextView);
 
 
         Intent intentIn = getIntent();
@@ -68,6 +70,8 @@ public class BookingView extends AppCompatActivity {
         numberOfPeople = getIntent().getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
         chosenDate = getIntent().getStringExtra(SearchView.CHOSEN_DATE_INFO);
         city = getIntent().getStringExtra(SearchView.CHOSEN_CITY_NAME);
+
+        price.setText("");
 
         List<String> spinnerArray = new ArrayList<>();
         spinnerArray.add("Välj tidspunkt");
@@ -87,7 +91,7 @@ public class BookingView extends AppCompatActivity {
 
         if(!room.getPreNoonBookingCode().equals("null") && !room.getAfternoonBookingCode().equals("null")){
 
-            spinnerArray.add("Heldag");
+            spinnerArray.add(room.getFullDayHours());
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, spinnerArray);
@@ -95,6 +99,7 @@ public class BookingView extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.timeSpinner);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
 
 
         //RadioButtons on Seating
@@ -145,7 +150,6 @@ public class BookingView extends AppCompatActivity {
         }
 
 
-
         booking = new Booking();
         booking.setRoom(room);
         booking.setNumberOfPeople(numberOfPeople);
@@ -156,12 +160,6 @@ public class BookingView extends AppCompatActivity {
         cityTV.setText(city);
         numberOfPeopleTV.setText("Antal deltagare: " + Integer.toString(numberOfPeople));
         chosenDateTV.setText(chosenDate);
-
-
-
-        bookingCode = room.getPreNoonBookingCode(); // get input if user wants prenoon, afternoon or full day
-        booking.addBookingCode(bookingCode);
-
 
 
         //ConfirmButtonClicked
@@ -181,6 +179,29 @@ public class BookingView extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        if(spinner.getSelectedItem().equals(room.getPreNoonHours())) {
+            price.setText(room.getPreNoonPrice());
+        }
+
+        if(spinner.getSelectedItem().equals(room.getAfternoonHours())){
+            price.setText(room.getAfternoonPrice());
+        }
+
+        if(spinner.getSelectedItem().equals(room.getFullDayHours())){
+            price.setText(room.getFullDayPrice());
+        }
+    }
+
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        price.setText("");
 
     }
 
@@ -220,9 +241,6 @@ public class BookingView extends AppCompatActivity {
             Log.d(TAG, "onDownloadComplete: chosen seating is id: " + selectedId);
 
         }
-
-
-
 
     }
 
