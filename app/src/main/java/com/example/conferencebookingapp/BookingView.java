@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,52 +184,71 @@ public class BookingView extends AppCompatActivity {
 
     }
 
-    private void addHoursToBooking(){
+    private void addHoursToBooking() {
 
-        if(spinner.getSelectedItem().equals(room.getPreNoonHours())){
-            booking.addBookingCode(room.getPreNoonBookingCode());
-            Log.d(TAG, "Bookingcode added : " + room.getPreNoonBookingCode());
+        if(!spinner.getSelectedItem().equals("Välj tidspunkt")) {
+
+            if (spinner.getSelectedItem().equals(room.getPreNoonHours())) {
+                booking.addBookingCode(room.getPreNoonBookingCode());
+                Log.d(TAG, "Bookingcode added : " + room.getPreNoonBookingCode());
+            }
+
+            if (spinner.getSelectedItem().equals(room.getAfternoonHours())) {
+                booking.addBookingCode(room.getAfternoonBookingCode());
+                Log.d(TAG, "Bookingcode added : " + room.getAfternoonBookingCode());
+            }
+
+            if (spinner.getSelectedItem().equals("Heldag")) {
+                booking.addBookingCode(room.getPreNoonBookingCode());
+                booking.addBookingCode(room.getAfternoonBookingCode());
+                Log.d(TAG, "Bookingcode added : " + room.getPreNoonBookingCode() + room.getAfternoonBookingCode());
+            }
+
         }
 
-        if(spinner.getSelectedItem().equals(room.getAfternoonHours())){
-            booking.addBookingCode(room.getAfternoonBookingCode());
-            Log.d(TAG, "Bookingcode added : " + room.getAfternoonBookingCode());
-        }
-
-        if(spinner.getSelectedItem().equals("Heldag")){
-            booking.addBookingCode(room.getPreNoonBookingCode());
-            booking.addBookingCode(room.getAfternoonBookingCode());
-            Log.d(TAG, "Bookingcode added : " + room.getPreNoonBookingCode() + room.getAfternoonBookingCode());
-        }
 
     }
 
-
-
     private void addSeatingToBooking(){
 
+
         int selectedId = radiogroup.getCheckedRadioButtonId();
-        booking.setChosenSeating(room.getSeatings().get(selectedId));
-        Log.d(TAG, "onDownloadComplete: chosen seating is id: " + selectedId);
+
+        if(selectedId >= 0) {
+
+            booking.setChosenSeating(room.getSeatings().get(selectedId));
+            Log.d(TAG, "onDownloadComplete: chosen seating is id: " + selectedId);
+
+        }
+
+
 
 
     }
 
     private void addFoodToBooking() {
 
-        for(int i = 0; i < foodLayout.getChildCount(); i++){
+        if (foodLayout.getChildCount() > 0) {
 
-            CheckBox checkbox = foodLayout.findViewById(i);
+            for (int i = 0; i < foodLayout.getChildCount(); i++) {
 
-            if(checkbox.isChecked()){
-                booking.addFoodAndBeverage(room.getPlant().getFoodAndBeverages().get(i));
-                Log.d(TAG, "Food and Drink added to booking: " + room.getPlant().getFoodAndBeverages().get(i));
+                CheckBox checkbox = foodLayout.findViewById(i);
+
+                if (checkbox.isChecked()) {
+                    booking.addFoodAndBeverage(room.getPlant().getFoodAndBeverages().get(i));
+                    Log.d(TAG, "Food and Drink added to booking: " + room.getPlant().getFoodAndBeverages().get(i));
+                }
+
             }
-
         }
+
+
+
     }
 
     private void addTechnologyToBooking() {
+
+        if(equipmentLayout.getChildCount() > 0){
 
         for(int i = 0; i < equipmentLayout.getChildCount(); i++){
 
@@ -240,7 +260,7 @@ public class BookingView extends AppCompatActivity {
             }
 
         }
-
+      }
 
     }
 
