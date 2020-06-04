@@ -151,7 +151,7 @@ public class BookingView extends AppCompatActivity {
 
 
         bookingCode = room.getPreNoonBookingCode(); // get input if user wants prenoon, afternoon or full day
-        booking.setBookingCode(bookingCode);
+        booking.addBookingCode(bookingCode);
 
 
 
