@@ -101,10 +101,8 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
             setUpWindow();
 
         } else {
-            Log.d(TAG, "onCreate: booking is not valid");
-            Toast.makeText(this, "Ett fel inträffade.\nBokningen kunde inte genomföras", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, SearchView.class);
-            startActivity(intent);
+            Log.e(TAG, "onCreate: booking is not valid");
+            onBookingFailed();
         }
     }
 
@@ -120,12 +118,42 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
         Log.d(TAG, "onCreate: jsonString is: " + formattedJsonCreateBooking);
         apiRequester.execute(CREATE_BOOKING_URL, formattedJsonCreateBooking);
 
-        roomTV.setText(booking.getRoom().toString());
-        numberOfPeopleTV.setText(String.valueOf(booking.getNumberOfPeople()));
+        roomTV.setText(booking.getRoom().getName());
+        String numberOfPeopleString = String.valueOf(booking.getNumberOfPeople()) + " personer";
+        numberOfPeopleTV.setText(numberOfPeopleString);
         dateTV.setText(booking.getChosenDate());
-        foodAndDrinksTV.setText(booking.getChosenFoodAndBeverages().toString());
-        equipmentTV.setText(booking.getChosenTechnologies().toString());
-        seatingTV.setText(booking.getChosenSeating().toString());
+
+        int numberOfFoodItems = booking.getChosenFoodAndBeverages().size();
+        if (numberOfFoodItems == 0) {
+            foodAndDrinksTV.setText("Ingen mat eller dryck vald");
+        } else {
+            StringBuilder foodAndBeveragesSb = new StringBuilder("Vald mat och dryck:");
+            for (int i = 0; i < numberOfFoodItems; i++) {
+                foodAndBeveragesSb.append("\n- ");
+                foodAndBeveragesSb.append(booking.getChosenFoodAndBeverages().get(i).getDescription());
+            }
+            foodAndDrinksTV.setText(foodAndBeveragesSb.toString());
+        }
+
+        int numberOfTechnologyItems = booking.getChosenTechnologies().size();
+        if (numberOfTechnologyItems == 0) {
+            equipmentTV.setText("Ingen extra utrustning vald");
+        } else {
+            StringBuilder technologySb = new StringBuilder("Vald utrustning:");
+            for (int i = 0; i < numberOfTechnologyItems; i++) {
+                technologySb.append("\n- ");
+                technologySb.append(booking.getChosenTechnologies().get(i).getDescription());
+            }
+            equipmentTV.setText(technologySb.toString());
+        }
+
+        seatingTV.setText(booking.getChosenSeating().getDescription());
+    }
+
+    public void onBookingFailed() {
+        Toast.makeText(this, "Ett fel inträffade.\nBokningen kunde inte genomföras", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, SearchView.class);
+        startActivity(intent);
     }
 
     @Override
