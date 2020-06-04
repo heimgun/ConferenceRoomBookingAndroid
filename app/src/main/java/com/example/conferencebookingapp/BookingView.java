@@ -27,21 +27,14 @@ public class BookingView extends AppCompatActivity {
     private ConferenceRoom room;
     private int numberOfPeople;
     private String chosenDate;
-    private String chosenPlant, city, chosenRoom;
-    private Plant plant;
+    private String city;
 
     private Booking booking;
-
-    private String chosenSeatingId;
     private String bookingCode;
-    private List<String> chosenTechnologies;
-    private List<String> chosenFoodAndBeverages;
+
 
     TextView roomNameTV, plantNameTV, numberOfPeopleTV, cityTV, chosenDateTV;
     RadioGroup radiogroup;
-    RadioButton radiotest;
-    CheckBox afternoonFika, morningFika, lunch, fruit, coffeeTea, water, breakfast;
-    CheckBox internet, projectorScreen, projector, flipBoard, whiteBoard, speakers, videoConf, notes;
     LinearLayout foodLayout, equipmentLayout;
     private Button confirmBookingButton;
 
@@ -68,13 +61,34 @@ public class BookingView extends AppCompatActivity {
         intentIn.setExtrasClassLoader(Plant.class.getClassLoader());
 
         room = intentIn.getParcelableExtra(AvailableRoomView.CHOSEN_ROOM_INFO);
-        plant = intentIn.getParcelableExtra(AvailablePlantView.CHOSEN_PLANT);
+
 
         numberOfPeople = getIntent().getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
         chosenDate = getIntent().getStringExtra(SearchView.CHOSEN_DATE_INFO);
-        chosenPlant = getIntent().getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
         city = getIntent().getStringExtra(SearchView.CHOSEN_CITY_NAME);
 
+
+
+        //Spinner info
+        if(!room.getPreNoonBookingCode().equals("null")){
+
+            //Show formiddag i Spinner
+
+        }
+
+        if(!room.getAfternoonBookingCode().equals("null")){
+
+            //Show Eftermiddag i Spinner
+
+        }
+
+        if(!room.getPreNoonBookingCode().equals("null") && !room.getAfternoonBookingCode().equals("null")){
+
+            //Show heldag i spinner
+        }
+
+
+        //RadioButtons on Seating
         if(room.getSeatings().size() > 0){
 
             radiogroup = (RadioGroup) findViewById(R.id.radioSeating);
@@ -90,20 +104,7 @@ public class BookingView extends AppCompatActivity {
 
         }
 
-        if(room.getTechnologies().size() > 0){
-             equipmentLayout = (LinearLayout) findViewById(R.id.equipmentLayout);
-
-             for(int i = 0; i < room.getTechnologies().size(); i++){
-                 CheckBox checkBox = new CheckBox(this);
-                 equipmentLayout.addView(checkBox);
-                 checkBox.setId(i);
-                 checkBox.setText(room.getTechnologies().get(i).getDescription());
-                 Log.d(TAG, "Checkbox " + i + " added with name " + room.getTechnologies().get(i).getDescription());
-
-             }
-
-        }
-
+        //Checkboxes for Food and Drinks
         if(room.getPlant().getFoodAndBeverages().size() > 0){
             foodLayout = (LinearLayout) findViewById(R.id.foodLayout);
 
@@ -119,6 +120,21 @@ public class BookingView extends AppCompatActivity {
         }
 
 
+        //Checkboxes for Equipment
+        if(room.getTechnologies().size() > 0){
+             equipmentLayout = (LinearLayout) findViewById(R.id.equipmentLayout);
+
+             for(int i = 0; i < room.getTechnologies().size(); i++){
+                 CheckBox checkBox = new CheckBox(this);
+                 equipmentLayout.addView(checkBox);
+                 checkBox.setId(i);
+                 checkBox.setText(room.getTechnologies().get(i).getDescription());
+                 Log.d(TAG, "Checkbox " + i + " added with name " + room.getTechnologies().get(i).getDescription());
+
+             }
+
+        }
+
 
 
         booking = new Booking();
@@ -133,36 +149,10 @@ public class BookingView extends AppCompatActivity {
         chosenDateTV.setText(chosenDate);
 
 
-        chosenSeatingId = room.getSeatings().get(0).getId(); // get input from user, preferrably a Seating but can be implemented with seatingId as well
-        Log.d(TAG, "Seatings available " + room.getSeatings());
-
-
-
-
 
         bookingCode = room.getPreNoonBookingCode(); // get input if user wants prenoon, afternoon or full day
         booking.setBookingCode(bookingCode);
 
-        chosenTechnologies = new ArrayList<>(); // get input from user (available technologies available in room)
-        chosenFoodAndBeverages = new ArrayList<>(); // get input from user (available food available in room.getPlant().getFoodAndBeverages)
-        if (chosenFoodAndBeverages.size() > 0) {
-            chosenFoodAndBeverages.add(room.getPlant().getFoodAndBeverages().get(0).getId());
-            booking.addFoodAndBeverage((room.getPlant().getFoodAndBeverages().get(0)));
-        }
-
-
-        if (room.getPlant().getFoodAndBeverages().size() > 1) {
-            chosenFoodAndBeverages.add(room.getPlant().getFoodAndBeverages().get(1).getId());
-            booking.addFoodAndBeverage(room.getPlant().getFoodAndBeverages().get(1));
-        }
-
-        chosenTechnologies.add(room.getTechnologies().get(0).getId());
-        booking.addTechnology(room.getTechnologies().get(0));
-
-        if(room.getTechnologies().size() > 1) {
-            chosenTechnologies.add(room.getTechnologies().get(1).getId());
-            booking.addTechnology(room.getTechnologies().get(1));
-        }
 
 
         //ConfirmButtonClicked
@@ -172,6 +162,8 @@ public class BookingView extends AppCompatActivity {
             public void onClick(View v) {
 
                 addSeatingToBooking();
+                addFoodToBooking();
+                addTechnologyToBooking();
 
 
                 Intent intent = new Intent(BookingView.this, CreateUserView.class);
@@ -184,75 +176,41 @@ public class BookingView extends AppCompatActivity {
 
 
 
-
-
     private void addSeatingToBooking(){
 
         int selectedId = radiogroup.getCheckedRadioButtonId();
-
         booking.setChosenSeating(room.getSeatings().get(selectedId));
-
         Log.d(TAG, "onDownloadComplete: chosen seating is id: " + selectedId);
 
 
     }
 
-    private void addFoodToBooking(int numberOfItemsRequested) {
+    private void addFoodToBooking() {
 
-        //Registrera input
-        if(afternoonFika.isChecked()){
-            // chosenFoodAndBeverages.add(afternoonFika.getText().toString());
-        }
-        if(morningFika.isChecked()){
-            // chosenFoodAndBeverages.add(morningFika.getText().toString());
-        }
-        if(lunch.isChecked()){
-            // chosenFoodAndBeverages.add(lunch.getText().toString());
-        }
-        if(coffeeTea.isChecked()){
-            // chosenFoodAndBeverages.add(coffeeTea.getText().toString());
-        }
-        if(breakfast.isChecked()){
-            // chosenFoodAndBeverages.add(breakfast.getText().toString());
-        }
-        if(fruit.isChecked()){
-            // chosenFoodAndBeverages.add(fruit.getText().toString());
-        }
-        if(water.isChecked()){
-           // chosenFoodAndBeverages.add(water.getText().toString());
-        }
+        for(int i = 0; i < foodLayout.getChildCount(); i++){
 
+            CheckBox checkbox = foodLayout.findViewById(i);
 
+            if(checkbox.isChecked()){
+                booking.addFoodAndBeverage(room.getPlant().getFoodAndBeverages().get(i));
+                Log.d(TAG, "Food and Drink added to booking: " + room.getPlant().getFoodAndBeverages().get(i));
+            }
+
+        }
     }
 
-    private void addTechnologyToBooking(int numberOfItemsRequested) {
+    private void addTechnologyToBooking() {
 
-        //Registrera input
-        if(internet.isChecked()){
-            // chosenFoodAndBeverages.add(afternoonFika.getText().toString());
-        }
-        if(projectorScreen.isChecked()){
-            // chosenFoodAndBeverages.add(morningFika.getText().toString());
-        }
-        if(projector.isChecked()){
-            // chosenFoodAndBeverages.add(lunch.getText().toString());
-        }
-        if(videoConf.isChecked()){
-            // chosenFoodAndBeverages.add(coffeeTea.getText().toString());
-        }
-        if(notes.isChecked()){
-            // chosenFoodAndBeverages.add(breakfast.getText().toString());
-        }
-        if(flipBoard.isChecked()){
-            // chosenFoodAndBeverages.add(fruit.getText().toString());
-        }
-        if(whiteBoard.isChecked()){
-            // chosenFoodAndBeverages.add(water.getText().toString());
-        }
-        if(speakers.isChecked()){
-            // chosenFoodAndBeverages.add(water.getText().toString());
-        }
+        for(int i = 0; i < equipmentLayout.getChildCount(); i++){
 
+            CheckBox checkbox = equipmentLayout.findViewById(i);
+
+            if(checkbox.isChecked()){
+                booking.addTechnology(room.getTechnologies().get(i));
+                Log.d(TAG, "Equipment added to booking: " + room.getTechnologies().get(i));
+            }
+
+        }
 
 
     }
