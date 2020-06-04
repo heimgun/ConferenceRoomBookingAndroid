@@ -104,15 +104,15 @@ public class BookingView extends AppCompatActivity {
 
         }
 
-        if(plant.getFoodAndBeverages().size() > 0){
+        if(room.getPlant().getFoodAndBeverages().size() > 0){
             foodLayout = (LinearLayout) findViewById(R.id.foodLayout);
 
-            for(int i = 0; i < plant.getFoodAndBeverages().size(); i++){
+            for(int i = 0; i < room.getPlant().getFoodAndBeverages().size(); i++){
                 CheckBox checkBox = new CheckBox(this);
                 foodLayout.addView(checkBox);
                 checkBox.setId(i);
-                checkBox.setText(plant.getFoodAndBeverages().get(i).getDescription());
-                Log.d(TAG, "Checkbox " + i + " added with name " + plant.getFoodAndBeverages().get(i).getDescription());
+                checkBox.setText(room.getPlant().getFoodAndBeverages().get(i).getDescription());
+                Log.d(TAG, "Checkbox " + i + " added with name " + room.getPlant().getFoodAndBeverages().get(i).getDescription());
 
             }
 
