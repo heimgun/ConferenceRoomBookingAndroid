@@ -73,7 +73,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="10dp"
-        android:entries="@array/times_array"
         tools:layout_editor_absoluteY="185dp" />
 
 

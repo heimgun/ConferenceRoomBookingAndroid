@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class BookingView extends AppCompatActivity {
     TextView roomNameTV, plantNameTV, numberOfPeopleTV, cityTV, chosenDateTV;
     RadioGroup radiogroup;
     LinearLayout foodLayout, equipmentLayout;
+    Spinner spinner;
     private Button confirmBookingButton;
 
     public static final String BOOKING_INFO = "com.example.conferencebookingapp.BOOKING";
@@ -61,31 +64,36 @@ public class BookingView extends AppCompatActivity {
         intentIn.setExtrasClassLoader(Plant.class.getClassLoader());
 
         room = intentIn.getParcelableExtra(AvailableRoomView.CHOSEN_ROOM_INFO);
-
-
         numberOfPeople = getIntent().getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
         chosenDate = getIntent().getStringExtra(SearchView.CHOSEN_DATE_INFO);
         city = getIntent().getStringExtra(SearchView.CHOSEN_CITY_NAME);
 
-
+        List<String> spinnerArray = new ArrayList<>();
+        spinnerArray.add("Välj tidspunkt");
 
         //Spinner info
         if(!room.getPreNoonBookingCode().equals("null")){
 
-            //Show formiddag i Spinner
+            spinnerArray.add(room.getPreNoonHours());
 
         }
 
         if(!room.getAfternoonBookingCode().equals("null")){
 
-            //Show Eftermiddag i Spinner
+            spinnerArray.add(room.getAfternoonHours());
 
         }
 
         if(!room.getPreNoonBookingCode().equals("null") && !room.getAfternoonBookingCode().equals("null")){
 
-            //Show heldag i spinner
+            spinnerArray.add("Heldag");
         }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, spinnerArray);
+
+        spinner = (Spinner) findViewById(R.id.timeSpinner);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
 
         //RadioButtons on Seating
@@ -161,6 +169,7 @@ public class BookingView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                addHoursToBooking();
                 addSeatingToBooking();
                 addFoodToBooking();
                 addTechnologyToBooking();
@@ -171,6 +180,26 @@ public class BookingView extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    private void addHoursToBooking(){
+
+        if(spinner.getSelectedItem().equals(room.getPreNoonHours())){
+            booking.addBookingCode(room.getPreNoonBookingCode());
+            Log.d(TAG, "Bookingcode added : " + room.getPreNoonBookingCode());
+        }
+
+        if(spinner.getSelectedItem().equals(room.getAfternoonHours())){
+            booking.addBookingCode(room.getAfternoonBookingCode());
+            Log.d(TAG, "Bookingcode added : " + room.getAfternoonBookingCode());
+        }
+
+        if(spinner.getSelectedItem().equals("Heldag")){
+            booking.addBookingCode(room.getPreNoonBookingCode());
+            booking.addBookingCode(room.getAfternoonBookingCode());
+            Log.d(TAG, "Bookingcode added : " + room.getPreNoonBookingCode() + room.getAfternoonBookingCode());
+        }
 
     }
 
