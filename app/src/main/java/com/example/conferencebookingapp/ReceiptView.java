@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -68,75 +69,64 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_receipt_view);
+        setContentView(R.layout.activity_receipt_view);
 
-            backToSearch = (Button) findViewById(R.id.startOverButton);
+        roomTV = (TextView) findViewById(R.id.roomNameTV);
+        plantTV = (TextView) findViewById(R.id.plantNameTV);
+        cityTV = (TextView) findViewById(R.id.cityTV);
+        addressTV = (TextView) findViewById(R.id.addressTV);
+        numberOfPeopleTV = (TextView) findViewById(R.id.numberOfPeopleTV);
+        dateTV = (TextView) findViewById(R.id.dateTV);
+        foodAndDrinksTV = (TextView) findViewById(R.id.foodAndDrinksTV);
+        equipmentTV = (TextView) findViewById(R.id.equipmentTV);
+        seatingTV = (TextView) findViewById(R.id.sittingTV);
+        priceTV = (TextView) findViewById(R.id.priceTV);
 
-            Intent intentIn = getIntent();
-            intentIn.setExtrasClassLoader(Booking.class.getClassLoader());
-
-            booking = intentIn.getParcelableExtra(BookingView.BOOKING_INFO);
-            if (booking == null) {
-                Log.d(TAG, "onCreate: booking is null");
-            } else {
-                Log.d(TAG, "onCreate: number of people in booking is: " + booking.getNumberOfPeople());
+        backToSearch = (Button) findViewById(R.id.startOverButton);
+        backToSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ReceiptView.this, SearchView.class));
             }
+        });
 
-            token = intentIn.getStringExtra(CreateUserView.TOKEN_INFO);
+        Intent intentIn = getIntent();
+        intentIn.setExtrasClassLoader(Booking.class.getClassLoader());
 
-            APIRequester apiRequester = new APIRequester(token, this, CREATE_BOOKING_MESSAGE);
-            String formattedJsonCreateBooking = String.format(jsonCreateBooking, booking.getNumberOfPeople());
-            Log.d(TAG, "onCreate: jsonString is: " + formattedJsonCreateBooking);
-            apiRequester.execute(CREATE_BOOKING_URL, formattedJsonCreateBooking);
+        booking = intentIn.getParcelableExtra(BookingView.BOOKING_INFO);
+        token = intentIn.getStringExtra(CreateUserView.TOKEN_INFO);
 
-            roomTV = (TextView) findViewById(R.id.roomNameTV);
-            plantTV = (TextView) findViewById(R.id.plantNameTV);
-            cityTV = (TextView) findViewById(R.id.cityTV);
-            addressTV = (TextView) findViewById(R.id.addressTV);
-            numberOfPeopleTV = (TextView) findViewById(R.id.numberOfPeopleTV);
-            dateTV = (TextView) findViewById(R.id.dateTV);
-            foodAndDrinksTV = (TextView) findViewById(R.id.foodAndDrinksTV);
-            equipmentTV = (TextView) findViewById(R.id.equipmentTV);
-            seatingTV = (TextView) findViewById(R.id.sittingTV);
-            priceTV = (TextView) findViewById(R.id.priceTV);
+        if (isValidBooking() && !token.trim().isEmpty()) {
+            Log.d(TAG, "onCreate: booking is valid");
+            setUpWindow();
 
-
-            roomTV.setText(booking.getRoom().toString());
-            //numberOfPeopleTV.setText(booking.getNumberOfPeople());
-            dateTV.setText(booking.getChosenDate());
-            foodAndDrinksTV.setText(booking.getChosenFoodAndBeverages().toString());
-            equipmentTV.setText(booking.getChosenTechnologies().toString());
-            seatingTV.setText(booking.getChosenSeating().toString());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            backToSearch.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(ReceiptView.this, SearchView.class));
-                }
-            });
-
-
+        } else {
+            Log.d(TAG, "onCreate: booking is not valid");
+            Toast.makeText(this, "Ett fel inträffade.\nBokningen kunde inte genomföras", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, SearchView.class);
+            startActivity(intent);
+        }
     }
 
 
+    public boolean isValidBooking() {
+        return booking != null && booking.getRoom() != null && booking.getNumberOfPeople() > 0
+                && booking.getChosenSeating() != null && !booking.getBookingCode().equals("null");
+    }
 
+    public void setUpWindow() {
+        APIRequester apiRequester = new APIRequester(token, this, CREATE_BOOKING_MESSAGE);
+        String formattedJsonCreateBooking = String.format(jsonCreateBooking, booking.getNumberOfPeople());
+        Log.d(TAG, "onCreate: jsonString is: " + formattedJsonCreateBooking);
+        apiRequester.execute(CREATE_BOOKING_URL, formattedJsonCreateBooking);
 
-
+        roomTV.setText(booking.getRoom().toString());
+        numberOfPeopleTV.setText(String.valueOf(booking.getNumberOfPeople()));
+        dateTV.setText(booking.getChosenDate());
+        foodAndDrinksTV.setText(booking.getChosenFoodAndBeverages().toString());
+        equipmentTV.setText(booking.getChosenTechnologies().toString());
+        seatingTV.setText(booking.getChosenSeating().toString());
+    }
 
     @Override
     public void onDownloadComplete(String results, String message) throws JSONException {
@@ -192,9 +182,7 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
                 Log.d(TAG, "onDownloadComplete: booking completed. Result is: " + results);
                 break;
             default:
-
         }
-
     }
 
     private void addFoodToBooking(int numberOfItemsRequested) {
