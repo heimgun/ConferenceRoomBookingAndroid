@@ -1,10 +1,7 @@
 package com.example.conferencebookingapp;
 
-import android.view.View;
-
 import org.json.JSONException;
 
-import java.util.List;
 
 public interface CallbackActivity {
 

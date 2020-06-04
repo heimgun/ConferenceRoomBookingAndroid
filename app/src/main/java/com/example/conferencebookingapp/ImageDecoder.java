@@ -4,23 +4,23 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 
 public class ImageDecoder extends AsyncTask<String, Void, Bitmap>{
     private static final String TAG = "ImageDecoder";
 
 
-    private ImageView imageView;
+    private WeakReference<ImageView> imageView;
 
 
     public ImageDecoder(ImageView imageView) {
         super();
-        this.imageView = imageView;
+        this.imageView = new WeakReference<>(imageView);
     }
     @Override
     protected Bitmap doInBackground(String... strings) {
@@ -35,13 +35,16 @@ public class ImageDecoder extends AsyncTask<String, Void, Bitmap>{
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        if (bitmap == null) {
-            imageView.setImageResource(R.drawable.timetomeet_logo);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        } else {
-            imageView.setImageBitmap(bitmap);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        if(imageView.get() != null) {
+            if (bitmap == null) {
+                imageView.get().setImageResource(R.drawable.timetomeet_logo);
+                imageView.get().setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            } else {
+                imageView.get().setImageBitmap(bitmap);
+                imageView.get().setScaleType(ImageView.ScaleType.CENTER_CROP);
+            }
         }
+
 
     }
 

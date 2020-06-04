@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -18,7 +19,7 @@ public class APIRequester extends AsyncTask<String, Void, String> {
 
     private static final String TAG = "APIRequester";
     private String token;
-    private CallbackActivity context;
+    private WeakReference<CallbackActivity> context;
     private String message;
 
 
@@ -37,7 +38,7 @@ public class APIRequester extends AsyncTask<String, Void, String> {
     public APIRequester(String token, CallbackActivity context, String message) {
         super();
         this.token = token;
-        this.context = context;
+        this.context = new WeakReference<>(context);
         this.message = message;
     }
 
@@ -125,11 +126,14 @@ public class APIRequester extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
 
         super.onPostExecute(s);
+        if(context.get() != null) {
             try {
-                context.onDownloadComplete(s, message);
+                context.get().onDownloadComplete(s, message);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+
 
 
 

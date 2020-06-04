@@ -8,6 +8,7 @@ import org.json.JSONException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,7 +16,7 @@ import java.net.URL;
 public class Downloader extends AsyncTask<String, Void, String> {
     private static final String TAG = "Downloader";
     private String token;
-    private CallbackActivity context;
+    private WeakReference<CallbackActivity> context;
     private String message;
 
     public Downloader(CallbackActivity context) {
@@ -33,18 +34,21 @@ public class Downloader extends AsyncTask<String, Void, String> {
     public Downloader(String token, CallbackActivity context, String message) {
         super();
         this.token = token;
-        this.context = context;
+        this.context = new WeakReference<>(context);
         this.message = message;
     }
 
 
     @Override
     protected void onPostExecute(String s) {
-        try {
-            context.onDownloadComplete(s, message);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (context.get() != null) {
+            try {
+                context.get().onDownloadComplete(s, message);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     @Override

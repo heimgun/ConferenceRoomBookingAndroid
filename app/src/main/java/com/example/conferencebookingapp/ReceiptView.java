@@ -119,10 +119,39 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
         apiRequester.execute(CREATE_BOOKING_URL, formattedJsonCreateBooking);
 
         roomTV.setText(booking.getRoom().getName());
-        String numberOfPeopleString = String.valueOf(booking.getNumberOfPeople()) + " personer";
-        numberOfPeopleTV.setText(numberOfPeopleString);
-        dateTV.setText(booking.getChosenDate());
+        plantTV.setText(booking.getRoom().getPlant().getName());
+        cityTV.setText(booking.getRoom().getPlant().getCity());
+        addressTV.setText(booking.getRoom().getPlant().getAddress());
 
+        String numberOfPeopleString = booking.getNumberOfPeople() + " personer";
+        numberOfPeopleTV.setText(numberOfPeopleString);
+
+        boolean preNoonRequested = true;
+        boolean afternoonRequested = false;
+        String timeText = "";
+        int priceForRoom = 0;
+        if(preNoonRequested && afternoonRequested) {
+            priceForRoom += Integer.parseInt(booking.getRoom().getFullDayPrice());
+            timeText = booking.getRoom().getPreNoonHours() + " + " + booking.getRoom().getAfternoonHours();
+        } else if(preNoonRequested) {
+            priceForRoom += Integer.parseInt(booking.getRoom().getPreNoonPrice());
+            timeText = booking.getRoom().getPreNoonHours();
+        } else {
+            priceForRoom += Integer.parseInt(booking.getRoom().getAfternoonPrice());
+            timeText = booking.getRoom().getAfternoonHours();
+        }
+
+        String dateText = booking.getChosenDate() + ", " + timeText;
+        dateTV.setText(dateText);
+
+        String seatingText = "Önskad möblering: " + booking.getChosenSeating().getDescription()
+                + " (Max antal personer: " + booking.getChosenSeating().getNumberOfPeople() + ")";
+        seatingTV.setText(seatingText);
+
+
+
+
+        int priceForFood = 0;
         int numberOfFoodItems = booking.getChosenFoodAndBeverages().size();
         if (numberOfFoodItems == 0) {
             foodAndDrinksTV.setText("Ingen mat eller dryck vald");
@@ -131,6 +160,14 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
             for (int i = 0; i < numberOfFoodItems; i++) {
                 foodAndBeveragesSb.append("\n- ");
                 foodAndBeveragesSb.append(booking.getChosenFoodAndBeverages().get(i).getDescription());
+                int numberOfPeople = booking.getNumberOfPeople();
+                int pricePerFoodItem = Integer.parseInt(booking.getChosenFoodAndBeverages().get(i).getPrice());
+                int totalPriceForFoodItem = numberOfPeople * pricePerFoodItem;
+                priceForFood += totalPriceForFoodItem;
+
+                String foodPriceText = String.format("(%d x %d kr = %d kr)", numberOfPeople,
+                        pricePerFoodItem, totalPriceForFoodItem);
+                foodAndBeveragesSb.append(foodPriceText);
             }
             foodAndDrinksTV.setText(foodAndBeveragesSb.toString());
         }
@@ -147,7 +184,9 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
             equipmentTV.setText(technologySb.toString());
         }
 
-        seatingTV.setText(booking.getChosenSeating().getDescription());
+        String totalPriceText = (priceForRoom + priceForFood) + " kr";
+        priceTV.setText(totalPriceText);
+
     }
 
     public void onBookingFailed() {

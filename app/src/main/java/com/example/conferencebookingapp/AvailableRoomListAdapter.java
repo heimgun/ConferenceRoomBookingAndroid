@@ -62,6 +62,7 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
             imageDecoder.execute(formattedUrl);
         } else {
             holder.roomImageView.setImageResource(R.drawable.timetomeet_logo);
+            holder.roomImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }
 
 
