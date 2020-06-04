@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class BookingView extends AppCompatActivity {
     private int numberOfPeople;
     private String chosenDate;
     private String chosenPlant, city, chosenRoom;
+    private Plant plant;
 
     private Booking booking;
 
@@ -37,9 +39,10 @@ public class BookingView extends AppCompatActivity {
 
     TextView roomNameTV, plantNameTV, numberOfPeopleTV, cityTV, chosenDateTV;
     RadioGroup radiogroup;
-    RadioButton radioButton;
+    RadioButton radiotest;
     CheckBox afternoonFika, morningFika, lunch, fruit, coffeeTea, water, breakfast;
     CheckBox internet, projectorScreen, projector, flipBoard, whiteBoard, speakers, videoConf, notes;
+    LinearLayout foodLayout, equipmentLayout;
     private Button confirmBookingButton;
 
     public static final String BOOKING_INFO = "com.example.conferencebookingapp.BOOKING";
@@ -51,56 +54,72 @@ public class BookingView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_view);
 
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
         roomNameTV = (TextView) findViewById(R.id.roomNameTextView);
         plantNameTV = (TextView) findViewById(R.id.plantNameTextView);
         cityTV = (TextView) findViewById(R.id.plantCityTextView);
         chosenDateTV = (TextView) findViewById(R.id.chosenDateTextView);
         numberOfPeopleTV = (TextView) findViewById(R.id.numberOfPeopleTextView);
         confirmBookingButton = findViewById(R.id.confirmBtn);
-        radiogroup = (RadioGroup) findViewById(R.id.radioSeating);
-        afternoonFika = (CheckBox) findViewById(R.id.afternoonFikaCB);
-        morningFika = (CheckBox) findViewById(R.id.morningFikaCB);
-        lunch = (CheckBox) findViewById(R.id.lunchCB);
-        breakfast = (CheckBox) findViewById(R.id.breakfastCB);
-        coffeeTea = (CheckBox) findViewById(R.id.cAndTCB);
-        water = (CheckBox) findViewById(R.id.waterCB);
-        fruit = (CheckBox) findViewById(R.id.fruitCB);
-        internet = (CheckBox) findViewById(R.id.internetCB);
-        projectorScreen = (CheckBox) findViewById(R.id.projectorScreenCB);
-        projector = (CheckBox) findViewById(R.id.projectorCB);
-        flipBoard = (CheckBox) findViewById(R.id.flipBoardCB);
-        whiteBoard = (CheckBox) findViewById(R.id.whiteBoardCB);
-        speakers = (CheckBox) findViewById(R.id.speakersCB);
-        videoConf = (CheckBox) findViewById(R.id.videoConfCB);
-        notes = (CheckBox) findViewById(R.id.noteCB);
-
-
-        //ConfirmButtonClicked
-        confirmBookingButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-
-
-
-                Intent intent = new Intent(BookingView.this, CreateUserView.class);
-                intent.putExtra(BOOKING_INFO, booking);
-                startActivity(intent);
-            }
-        });
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
         Intent intentIn = getIntent();
         intentIn.setExtrasClassLoader(Plant.class.getClassLoader());
 
         room = intentIn.getParcelableExtra(AvailableRoomView.CHOSEN_ROOM_INFO);
+        plant = intentIn.getParcelableExtra(AvailablePlantView.CHOSEN_PLANT);
+
         numberOfPeople = getIntent().getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
         chosenDate = getIntent().getStringExtra(SearchView.CHOSEN_DATE_INFO);
         chosenPlant = getIntent().getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
         city = getIntent().getStringExtra(SearchView.CHOSEN_CITY_NAME);
+
+        if(room.getSeatings().size() > 0){
+
+            radiogroup = (RadioGroup) findViewById(R.id.radioSeating);
+
+            for(int i = 0; i < room.getSeatings().size(); i++){
+                RadioButton radio = new RadioButton(this);
+                radiogroup.addView(radio);
+                radio.setId(i);
+                radio.setText(room.getSeatings().get(i).getDescription());
+                Log.d(TAG, "Button " + i + " added with name " + room.getSeatings().get(i).getDescription());
+
+            }
+
+        }
+
+        if(room.getTechnologies().size() > 0){
+             equipmentLayout = (LinearLayout) findViewById(R.id.equipmentLayout);
+
+             for(int i = 0; i < room.getTechnologies().size(); i++){
+                 CheckBox checkBox = new CheckBox(this);
+                 equipmentLayout.addView(checkBox);
+                 checkBox.setId(i);
+                 checkBox.setText(room.getTechnologies().get(i).getDescription());
+                 Log.d(TAG, "Checkbox " + i + " added with name " + room.getTechnologies().get(i).getDescription());
+
+             }
+
+        }
+
+        if(plant.getFoodAndBeverages().size() > 0){
+            foodLayout = (LinearLayout) findViewById(R.id.foodLayout);
+
+            for(int i = 0; i < plant.getFoodAndBeverages().size(); i++){
+                CheckBox checkBox = new CheckBox(this);
+                foodLayout.addView(checkBox);
+                checkBox.setId(i);
+                checkBox.setText(plant.getFoodAndBeverages().get(i).getDescription());
+                Log.d(TAG, "Checkbox " + i + " added with name " + plant.getFoodAndBeverages().get(i).getDescription());
+
+            }
+
+        }
+
+
+
 
         booking = new Booking();
         booking.setRoom(room);
@@ -115,7 +134,11 @@ public class BookingView extends AppCompatActivity {
 
 
         chosenSeatingId = room.getSeatings().get(0).getId(); // get input from user, preferrably a Seating but can be implemented with seatingId as well
-        booking.setChosenSeating(room.getSeatings().get(0));
+        Log.d(TAG, "Seatings available " + room.getSeatings());
+
+
+
+
 
         bookingCode = room.getPreNoonBookingCode(); // get input if user wants prenoon, afternoon or full day
         booking.setBookingCode(bookingCode);
@@ -142,6 +165,21 @@ public class BookingView extends AppCompatActivity {
         }
 
 
+        //ConfirmButtonClicked
+        confirmBookingButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                addSeatingToBooking();
+
+
+                Intent intent = new Intent(BookingView.this, CreateUserView.class);
+                intent.putExtra(BOOKING_INFO, booking);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
@@ -150,15 +188,11 @@ public class BookingView extends AppCompatActivity {
 
     private void addSeatingToBooking(){
 
-        //Registrera input
         int selectedId = radiogroup.getCheckedRadioButtonId();
-        radioButton = findViewById(selectedId);
 
-        String chosenSeating = radioButton.getText().toString();
-        Log.d(TAG, "onDownloadComplete: chosen seating is: " + chosenSeating);
+        booking.setChosenSeating(room.getSeatings().get(selectedId));
 
-        //Fix id
-
+        Log.d(TAG, "onDownloadComplete: chosen seating is id: " + selectedId);
 
 
     }
