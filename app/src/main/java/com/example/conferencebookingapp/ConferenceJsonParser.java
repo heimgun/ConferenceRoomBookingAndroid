@@ -114,7 +114,7 @@ public class ConferenceJsonParser {
         }
     }
 
-    public String parseExtraRoomInfo(String jsonString, List<ConferenceRoom> rooms) {
+    public String parseExtraRoomInfo(String jsonString, List<ConferenceRoom> rooms, int requestedNumberOfPeople) {
 
         String nextPage = "";
         try {
@@ -148,6 +148,25 @@ public class ConferenceJsonParser {
                                 " - " + jsonRoom.getString("afterNoonAvailabilityHourEnd").substring(0, 5);
                         room.setFullDayHours(fullDayHours);
 
+                        JSONArray jsonTechnologies = jsonRoom.getJSONArray("technologies");
+                        int numberOfTechnologies = jsonTechnologies.length();
+
+                        for (int j = 0; j < numberOfTechnologies; j++) {
+                            JSONObject jsonTechnology = jsonTechnologies.getJSONObject(j);
+                            TechnologyItem technologyItem = new TechnologyItem();
+                            technologyItem.setId(jsonTechnology.getString("id"));
+                            technologyItem.setDescription(jsonTechnology.getString("name"));
+
+                            room.addTechnology(technologyItem);
+                        }
+
+                        JSONArray jsonMedia = jsonRoom.getJSONArray("blobs");
+                        for (int j = 0; j < jsonMedia.length(); j++) {
+                            JSONObject jsonMediaObject = jsonMedia.getJSONObject(j);
+                            String imageUrl = jsonMediaObject.getString("url");
+
+                            room.addImageUrl(imageUrl);
+                        }
 
                         JSONArray jsonDefaultSeatings = jsonRoom.getJSONArray("defaultSeating");
                         JSONArray jsonSeatingDetails = jsonRoom.getJSONArray("seats");
@@ -181,29 +200,15 @@ public class ConferenceJsonParser {
                             int numberOfPeople = Integer.parseInt(maxNumberOfPeople);
                             maxNumber = Math.max(numberOfPeople, maxNumber);
 
-                            room.addSeating(seating);
+                            if(numberOfPeople >= requestedNumberOfPeople) {
+                                room.addSeating(seating);
+                            }
                         }
 
                         room.setMaxNumberOfPeople(maxNumber);
 
-                        JSONArray jsonTechnologies = jsonRoom.getJSONArray("technologies");
-                        int numberOfTechnologies = jsonTechnologies.length();
-
-                        for (int j = 0; j < numberOfTechnologies; j++) {
-                            JSONObject jsonTechnology = jsonTechnologies.getJSONObject(j);
-                            TechnologyItem technologyItem = new TechnologyItem();
-                            technologyItem.setId(jsonTechnology.getString("id"));
-                            technologyItem.setDescription(jsonTechnology.getString("name"));
-
-                            room.addTechnology(technologyItem);
-                        }
-
-                        JSONArray jsonMedia = jsonRoom.getJSONArray("blobs");
-                        for (int j = 0; j < jsonMedia.length(); j++) {
-                            JSONObject jsonMediaObject = jsonMedia.getJSONObject(j);
-                            String imageUrl = jsonMediaObject.getString("url");
-
-                            room.addImageUrl(imageUrl);
+                        if(maxNumber < requestedNumberOfPeople) {
+                            rooms.remove(room);
                         }
                     }
                 }

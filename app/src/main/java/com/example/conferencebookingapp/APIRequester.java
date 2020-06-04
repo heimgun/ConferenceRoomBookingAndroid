@@ -52,7 +52,7 @@ public class APIRequester extends AsyncTask<String, Void, String> {
             Log.d(TAG, "doInBackground: url is: " + url);
 
             connection = (HttpsURLConnection) url.openConnection();
-            if (message.equals(BookingView.BOOK_ROOM_MESSAGE)){
+            if (message.equals(ReceiptView.BOOK_ROOM_MESSAGE)){
                 connection.setRequestMethod("PUT");
             } else {
                 connection.setRequestMethod("POST");

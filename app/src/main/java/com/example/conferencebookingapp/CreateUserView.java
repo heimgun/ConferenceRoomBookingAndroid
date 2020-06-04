@@ -244,14 +244,9 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
                 user.setToken(json.getString("token"));
 
                 Intent intent = new Intent(CreateUserView.this, ReceiptView.class);
-                intent.putExtra(BookingView.BOOKING_INFO, booking);
                 Log.d(TAG, "onDownloadComplete: number of people in booking is: " + booking.getNumberOfPeople());
-                //intent.putExtra(AvailableRoomView.CHOSEN_ROOM_INFO, room);
-                //intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
-                //intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
+                intent.putExtra(BookingView.BOOKING_INFO, booking);
                 intent.putExtra(TOKEN_INFO, user.getToken());
-                //intent.putExtra(SearchView.CHOSEN_CITY_NAME, chosenCity);
-                //intent.putExtra(AvailablePlantView.CHOSEN_PLANT_NAME, chosenPlant);
                 startActivity(intent);
                 break;
             default:

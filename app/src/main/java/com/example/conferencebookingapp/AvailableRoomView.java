@@ -93,7 +93,7 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
             public void onButtonClicked(int position) {
                 onContinueToBookingButtonClicked(position);
             }
-        });
+        }, this);
 
 
         recyclerView.setAdapter(adapter);
@@ -136,7 +136,7 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         } else if (message.equals(GET_ROOM_INFO)) {
             Log.d(TAG, "onDownloadComplete: entering GET_ROOM_INFO if");
             ConferenceJsonParser parser = new ConferenceJsonParser();
-            String nextPage = parser.parseExtraRoomInfo(results, availableRooms);
+            String nextPage = parser.parseExtraRoomInfo(results, availableRooms, numberOfPeople);
             Log.d(TAG, "onDownloadComplete: nextPage is: " + nextPage);
             if (nextPage == null || nextPage.equals("") || nextPage.equals("null")) {
                 Log.d(TAG, "onDownloadComplete: finished downloading");
@@ -146,7 +146,7 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
                             onContinueToBookingButtonClicked(position);
 
                     }
-                });
+                }, this);
                 recyclerView.setAdapter(newAdapter);
             } else {
                 Log.d(TAG, "onDownloadComplete: Downloading. NextPage is: " + nextPage);

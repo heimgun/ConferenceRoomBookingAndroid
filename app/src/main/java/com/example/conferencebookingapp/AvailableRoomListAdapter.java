@@ -1,5 +1,6 @@
 package com.example.conferencebookingapp;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +22,18 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
 
     private ClickHandler clickHandler;
 
+    private Context context;
+
 
     public interface ClickHandler {
         void onButtonClicked(int position);
     }
 
-    public AvailableRoomListAdapter(List<ConferenceRoom> availableRooms, ClickHandler clickHandler) {
+    public AvailableRoomListAdapter(List<ConferenceRoom> availableRooms, ClickHandler clickHandler, Context context) {
         super();
         this.availableRooms = availableRooms;
         this.clickHandler = clickHandler;
+        this.context = context;
     }
 
     @NonNull
@@ -87,10 +91,33 @@ public class AvailableRoomListAdapter extends RecyclerView.Adapter<AvailableRoom
 
         holder.preNoonHoursTextView.setText(room.getPreNoonHours());
         holder.preNoonPriceTextView.setText(String.format("%s kr", room.getPreNoonPrice()));
+        boolean isAvailablePreNoon = !(room.getPreNoonBookingCode().trim().isEmpty() || room.getPreNoonBookingCode().equals("null"));
+        if(isAvailablePreNoon) {
+            holder.preNoonPriceTextView.setTextColor(context.getResources().getColor(R.color.green));
+        } else {
+            int defaultColor = holder.preNoonPriceTextView.getTextColors().getDefaultColor();
+            holder.preNoonPriceTextView.setTextColor(defaultColor);
+        }
+
+
         holder.afternoonHoursTextView.setText(room.getAfternoonHours());
         holder.afternoonPriceTextView.setText(String.format("%s kr", room.getAfternoonPrice()));
+        boolean isAvailableAfternoon = !(room.getAfternoonBookingCode().trim().isEmpty() || room.getAfternoonBookingCode().equals("null"));
+        if(isAvailableAfternoon) {
+            holder.afternoonPriceTextView.setTextColor(context.getResources().getColor(R.color.green));
+        } else {
+            int defaultColor = holder.afternoonPriceTextView.getTextColors().getDefaultColor();
+            holder.afternoonPriceTextView.setTextColor(defaultColor);
+        }
+
         holder.fullDayHoursTextView.setText(room.getFullDayHours());
         holder.fullDayPriceTextView.setText(String.format("%s kr", room.getFullDayPrice()));
+        if(isAvailablePreNoon && isAvailableAfternoon) {
+            holder.fullDayPriceTextView.setTextColor(context.getResources().getColor(R.color.green));
+        } else {
+            int defaultColor = holder.fullDayPriceTextView.getTextColors().getDefaultColor();
+            holder.fullDayPriceTextView.setTextColor(defaultColor);
+        }
     }
 
     @Override
