@@ -72,17 +72,22 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
 
             backToSearch = (Button) findViewById(R.id.startOverButton);
 
-            Intent intentIn = new Intent();
+            Intent intentIn = getIntent();
             intentIn.setExtrasClassLoader(Booking.class.getClassLoader());
 
             booking = intentIn.getParcelableExtra(BookingView.BOOKING_INFO);
-            //Log.d(TAG, "onCreate: number of people in booking is: " + booking.getNumberOfPeople());
+            if (booking == null) {
+                Log.d(TAG, "onCreate: booking is null");
+            } else {
+                Log.d(TAG, "onCreate: number of people in booking is: " + booking.getNumberOfPeople());
+            }
+
             token = intentIn.getStringExtra(CreateUserView.TOKEN_INFO);
 
-           // APIRequester apiRequester = new APIRequester(token, this, CREATE_BOOKING_MESSAGE);
-            //String formattedJsonCreateBooking = String.format(jsonCreateBooking, booking.getNumberOfPeople());
-            //Log.d(TAG, "onCreate: jsonString is: " + formattedJsonCreateBooking);
-            //apiRequester.execute(CREATE_BOOKING_URL, formattedJsonCreateBooking);
+            APIRequester apiRequester = new APIRequester(token, this, CREATE_BOOKING_MESSAGE);
+            String formattedJsonCreateBooking = String.format(jsonCreateBooking, booking.getNumberOfPeople());
+            Log.d(TAG, "onCreate: jsonString is: " + formattedJsonCreateBooking);
+            apiRequester.execute(CREATE_BOOKING_URL, formattedJsonCreateBooking);
 
             roomTV = (TextView) findViewById(R.id.roomNameTV);
             plantTV = (TextView) findViewById(R.id.plantNameTV);
@@ -96,12 +101,12 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
             priceTV = (TextView) findViewById(R.id.priceTV);
 
 
-            // roomTV.setText(booking.getRoom().toString());
-            // numberOfPeopleTV.setText(booking.getNumberOfPeople());
-            // dateTV.setText(booking.getChosenDate());
-            // foodAndDrinksTV.setText(booking.getChosenFoodAndBeverages().toString());
-            // equipmentTV.setText(booking.getChosenTechnologies().toString());
-            // seatingTV.setText(booking.getChosenSeating().toString());
+            roomTV.setText(booking.getRoom().toString());
+            //numberOfPeopleTV.setText(booking.getNumberOfPeople());
+            dateTV.setText(booking.getChosenDate());
+            foodAndDrinksTV.setText(booking.getChosenFoodAndBeverages().toString());
+            equipmentTV.setText(booking.getChosenTechnologies().toString());
+            seatingTV.setText(booking.getChosenSeating().toString());
 
 
 
