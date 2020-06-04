@@ -170,48 +170,50 @@
                 android:text="Mat och Dryck" />
 
             <CheckBox
+                android:id="@+id/afternoonFikaCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Eftermiddagsfika, inkl. kaffe/te"
                 android:buttonTint="@color/green"/>
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Eftermiddagsfika, inkl. kaffe/te"
-                android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/morningFikaCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Förmiddagsfika, inkl. kaffe/te"
                 android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/fruitCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Frukt"
                 android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/lunchCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lunsj i resaurant"
+                android:text="Lunch i restaurant"
                 android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/breakfastCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Frukost"
                 android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/cAndTCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Enbart kaffe/te"
                 android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/waterCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vatten"
@@ -237,48 +239,56 @@
                 android:text="Utrustning" />
 
             <CheckBox
+                android:id="@+id/internetCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Internet (Wifi)"
                 android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/projectorScreenCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Projektorduk"
                 android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/flipBoardCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Blädderblock"
                 android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/whiteBoardCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Whiteboard"
                 android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/speakersCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Högtalare"
                 android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/videoConfCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Videokonferens"
                 android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/projectorCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Projektor"
                 android:buttonTint="@color/green"/>
 
             <CheckBox
+                android:id="@+id/noteCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Anteckningsmaterial"

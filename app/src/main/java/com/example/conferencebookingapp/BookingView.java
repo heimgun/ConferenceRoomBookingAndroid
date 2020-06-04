@@ -11,6 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -36,6 +39,10 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
     private List<String> chosenFoodAndBeverages;
 
     TextView roomNameTV, plantNameTV, numberOfPeopleTV, cityTV, chosenDateTV;
+    RadioGroup radiogroup;
+    RadioButton radioButton;
+    CheckBox afternoonFika, morningFika, lunch, fruit, coffeeTea, water, breakfast;
+    CheckBox internet, projectorScreen, projector, flipBoard, whiteBoard, speakers, videoConf, notes;
     private Button confirmBookingButton;
 
     public static final String BOOKING_INFO = "com.example.conferencebookingapp.BOOKING";
@@ -96,11 +103,33 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
         chosenDateTV = (TextView) findViewById(R.id.chosenDateTextView);
         numberOfPeopleTV = (TextView) findViewById(R.id.numberOfPeopleTextView);
         confirmBookingButton = findViewById(R.id.confirmBtn);
+        radiogroup = (RadioGroup) findViewById(R.id.radioSeating);
+        afternoonFika = (CheckBox) findViewById(R.id.afternoonFikaCB);
+        morningFika = (CheckBox) findViewById(R.id.morningFikaCB);
+        lunch = (CheckBox) findViewById(R.id.lunchCB);
+        breakfast = (CheckBox) findViewById(R.id.breakfastCB);
+        coffeeTea = (CheckBox) findViewById(R.id.cAndTCB);
+        water = (CheckBox) findViewById(R.id.waterCB);
+        fruit = (CheckBox) findViewById(R.id.fruitCB);
+        internet = (CheckBox) findViewById(R.id.internetCB);
+        projectorScreen = (CheckBox) findViewById(R.id.projectorScreenCB);
+        projector = (CheckBox) findViewById(R.id.projectorCB);
+        flipBoard = (CheckBox) findViewById(R.id.flipBoardCB);
+        whiteBoard = (CheckBox) findViewById(R.id.whiteBoardCB);
+        speakers = (CheckBox) findViewById(R.id.speakersCB);
+        videoConf = (CheckBox) findViewById(R.id.videoConfCB);
+        notes = (CheckBox) findViewById(R.id.noteCB);
 
+
+        //ConfirmButtonClicked
         confirmBookingButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
+
+
+
                 Intent intent = new Intent(BookingView.this, CreateUserView.class);
                 intent.putExtra(BOOKING_INFO, booking);
                 Log.d(TAG, "onClick: number of people in booking is: "+ booking.getNumberOfPeople());
@@ -226,7 +255,46 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
 
     }
 
+    private void addSeatingToBooking(){
+
+        //Registrera input
+        int selectedId = radiogroup.getCheckedRadioButtonId();
+        radioButton = findViewById(selectedId);
+
+        String chosenSeating = radioButton.getText().toString();
+        Log.d(TAG, "onDownloadComplete: chosen seating is: " + chosenSeating);
+
+        //Fix id
+
+
+
+    }
+
     private void addFoodToBooking(int numberOfItemsRequested) {
+
+        //Registrera input
+        if(afternoonFika.isChecked()){
+            // chosenFoodAndBeverages.add(afternoonFika.getText().toString());
+        }
+        if(morningFika.isChecked()){
+            // chosenFoodAndBeverages.add(morningFika.getText().toString());
+        }
+        if(lunch.isChecked()){
+            // chosenFoodAndBeverages.add(lunch.getText().toString());
+        }
+        if(coffeeTea.isChecked()){
+            // chosenFoodAndBeverages.add(coffeeTea.getText().toString());
+        }
+        if(breakfast.isChecked()){
+            // chosenFoodAndBeverages.add(breakfast.getText().toString());
+        }
+        if(fruit.isChecked()){
+            // chosenFoodAndBeverages.add(fruit.getText().toString());
+        }
+        if(water.isChecked()){
+           // chosenFoodAndBeverages.add(water.getText().toString());
+        }
+
 
         for (int i = 0; i < numberOfItemsRequested; i++) {
             String servingTime = chosenDate + "T10:30:00";
@@ -241,6 +309,35 @@ public class BookingView extends AppCompatActivity implements CallbackActivity{
     }
 
     private void addTechnologyToBooking(int numberOfItemsRequested) {
+
+        //Registrera input
+        if(internet.isChecked()){
+            // chosenFoodAndBeverages.add(afternoonFika.getText().toString());
+        }
+        if(projectorScreen.isChecked()){
+            // chosenFoodAndBeverages.add(morningFika.getText().toString());
+        }
+        if(projector.isChecked()){
+            // chosenFoodAndBeverages.add(lunch.getText().toString());
+        }
+        if(videoConf.isChecked()){
+            // chosenFoodAndBeverages.add(coffeeTea.getText().toString());
+        }
+        if(notes.isChecked()){
+            // chosenFoodAndBeverages.add(breakfast.getText().toString());
+        }
+        if(flipBoard.isChecked()){
+            // chosenFoodAndBeverages.add(fruit.getText().toString());
+        }
+        if(whiteBoard.isChecked()){
+            // chosenFoodAndBeverages.add(water.getText().toString());
+        }
+        if(speakers.isChecked()){
+            // chosenFoodAndBeverages.add(water.getText().toString());
+        }
+
+
+
         for (int i = 0; i < numberOfItemsRequested; i++) {
             String formattedJsonAddTechnology = String.format(jsonAddTechnologyToBooking, bookingCode, chosenTechnologies.get(i));
 
