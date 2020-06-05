@@ -4,6 +4,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -108,6 +110,9 @@ public class BookingView extends AppCompatActivity {
                 radiogroup.addView(radio);
                 radio.setId(i);
                 radio.setText(room.getSeatings().get(i).getDescription());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    radio.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.green)));
+                }
                 Log.d(TAG, "Button " + i + " added with name " + room.getSeatings().get(i).getDescription());
 
             }
@@ -123,6 +128,9 @@ public class BookingView extends AppCompatActivity {
                 foodLayout.addView(checkBox);
                 checkBox.setId(i);
                 checkBox.setText(room.getPlant().getFoodAndBeverages().get(i).getDescription());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    checkBox.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.green)));
+                }
                 Log.d(TAG, "Checkbox " + i + " added with name " + room.getPlant().getFoodAndBeverages().get(i).getDescription());
 
             }
@@ -139,6 +147,9 @@ public class BookingView extends AppCompatActivity {
                  equipmentLayout.addView(checkBox);
                  checkBox.setId(i);
                  checkBox.setText(room.getTechnologies().get(i).getDescription());
+                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                     checkBox.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.green)));
+                 }
                  Log.d(TAG, "Checkbox " + i + " added with name " + room.getTechnologies().get(i).getDescription());
 
              }
