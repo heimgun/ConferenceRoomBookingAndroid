@@ -1,5 +1,8 @@
 package com.example.conferencebookingapp;
 
+/**
+ * @author Heidi (mostly)
+ */
 public class User {
 
     String firstName;

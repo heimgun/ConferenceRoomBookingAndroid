@@ -25,7 +25,9 @@ import java.util.regex.Pattern;
 
 
 
-
+/**
+ * @author Heidi (mostly)
+ */
 public class CreateUserView extends AppCompatActivity implements CallbackActivity {
     private static final String TAG = "CreateUserView";
 

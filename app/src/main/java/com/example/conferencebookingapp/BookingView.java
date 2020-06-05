@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author Heidi (mostly)
+ */
 public class BookingView extends AppCompatActivity {
     private static final String TAG = "BookingView";
 
