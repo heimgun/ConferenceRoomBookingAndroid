@@ -222,7 +222,7 @@ public class BookingView extends AppCompatActivity implements AdapterView.OnItem
             if (spinner.getSelectedItem().equals(room.getFullDayHours())) {
                 booking.addBookingCode(room.getPreNoonBookingCode());
                 booking.addBookingCode(room.getAfternoonBookingCode());
-                Log.d(TAG, "Bookingcode added : " + room.getPreNoonBookingCode() + room.getAfternoonBookingCode());
+                Log.d(TAG, "Bookingcodes added : " + room.getPreNoonBookingCode() + ", " + room.getAfternoonBookingCode());
             }
 
         }
@@ -296,12 +296,10 @@ public class BookingView extends AppCompatActivity implements AdapterView.OnItem
     }
 
     public void onBackClicked(){
-        Intent intent = new Intent(this, CreateUserView.class);
-        intent.putExtra(AvailableRoomView.CHOSEN_ROOM_INFO, room.getName());
+        Intent intent = new Intent(this, AvailableRoomView.class);
+        intent.putExtra(AvailablePlantView.CHOSEN_PLANT, room.getPlant());
         intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
         intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
-        intent.putExtra(SearchView.CHOSEN_CITY_NAME, room.getCity());
-        intent.putExtra(AvailablePlantView.CHOSEN_PLANT_NAME, room.getPlant());
         startActivity(intent);
 
     }

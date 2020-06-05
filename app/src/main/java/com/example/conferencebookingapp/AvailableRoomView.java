@@ -30,7 +30,7 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
     private RecyclerView.LayoutManager layoutManager;
 
     private Plant plant;
-    private String chosenDate, chosenPlant;
+    private String chosenDate;
     private String city;
     private String cityId;
     private int numberOfPeople;
@@ -63,17 +63,22 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         intentIn.setExtrasClassLoader(Plant.class.getClassLoader());
 
         plant = intentIn.getParcelableExtra(AvailablePlantView.CHOSEN_PLANT);
-        if (plant != null) {
-            Log.d(TAG, "onCreate: plant name from parcel is: " + plant.getName());
+        if (plant == null) {
+            Toast.makeText(this, "Ett fel inträffade. Sidan kan ej visas", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, SearchView.class));
+        } else {
+            setupWindow();
         }
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void setupWindow() {
         String plantId = plant.getPlantId();
         String plantName = plant.getName();
-        chosenDate = intentIn.getStringExtra(SearchView.CHOSEN_DATE_INFO);
+        chosenDate = getIntent().getStringExtra(SearchView.CHOSEN_DATE_INFO);
         cityId = plant.getCityId();
         city = plant.getCity();
-        numberOfPeople = intentIn.getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
-        chosenPlant = intentIn.getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
+        numberOfPeople = getIntent().getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
 
         String roomRequest = String.format(requestRooms, plantId, chosenDate, chosenDate);
 
@@ -95,14 +100,9 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
             }
         }, this);
 
-
         recyclerView.setAdapter(adapter);
-        Log.d(TAG, "onCreate: adapter set");
 
-
-       Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
-
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -116,7 +116,6 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
                 Toast.makeText(this, "Ett fel inträffade", Toast.LENGTH_SHORT).show();
                 onBackClicked();
             }
-
         }
 
         Downloader downloader = new Downloader(AvailableRoomView.this, GET_ROOM_INFO);
@@ -152,11 +151,8 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
                 Log.d(TAG, "onDownloadComplete: Downloading. NextPage is: " + nextPage);
                 Downloader downloader = new Downloader(AvailableRoomView.this, GET_ROOM_INFO);
                 downloader.execute(nextPage);
-
             }
         }
-
-
     }
 
     private void onContinueToBookingButtonClicked(int position){
@@ -167,11 +163,7 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
         intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
         intent.putExtra(SearchView.CHOSEN_CITY_NAME, city);
-        intent.putExtra(AvailablePlantView.CHOSEN_PLANT_NAME, chosenPlant);
         startActivity(intent);
-
-
-
     }
 
 
@@ -193,7 +185,6 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
         intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
         intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
         startActivity(intent);
-
     }
 
 

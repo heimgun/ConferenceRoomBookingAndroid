@@ -110,7 +110,7 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
 
     public boolean isValidBooking() {
         return booking != null && booking.getRoom() != null && booking.getNumberOfPeople() > 0
-                && booking.getChosenSeating() != null && !booking.getBookingCodes().isEmpty();
+                && booking.getChosenSeating() != null;
     }
 
     public void setUpWindow() {
