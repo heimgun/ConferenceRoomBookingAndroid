@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Karin
+ */
 public class ConferenceJsonParser {
     private static final String TAG = "ConferenceJsonParser";
 

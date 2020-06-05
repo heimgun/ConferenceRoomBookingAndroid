@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Karin
+ */
 public class Booking implements Parcelable {
     private ConferenceRoom room;
     private String chosenDate;

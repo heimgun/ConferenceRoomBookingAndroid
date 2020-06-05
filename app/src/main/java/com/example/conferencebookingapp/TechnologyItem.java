@@ -2,7 +2,9 @@ package com.example.conferencebookingapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
+/**
+ * @author Karin
+ */
 public class TechnologyItem implements Parcelable {
     private String id;
     private String description;

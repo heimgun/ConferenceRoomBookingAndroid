@@ -16,6 +16,9 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+/**
+ * @author Karin
+ */
 public class APIRequester extends AsyncTask<String, Void, String> {
 
     private static final String TAG = "APIRequester";

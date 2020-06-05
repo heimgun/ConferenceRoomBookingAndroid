@@ -3,6 +3,9 @@ package com.example.conferencebookingapp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * @author Karin
+ */
 public class Seating implements Parcelable {
 
     private String id;

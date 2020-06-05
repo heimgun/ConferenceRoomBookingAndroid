@@ -13,6 +13,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * @author Karin
+ */
 public class Downloader extends AsyncTask<String, Void, String> {
     private static final String TAG = "Downloader";
     private String token;

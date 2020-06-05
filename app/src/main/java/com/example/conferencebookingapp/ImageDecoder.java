@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 
+/**
+ * @author Karin
+ */
 public class ImageDecoder extends AsyncTask<String, Void, Bitmap>{
     private static final String TAG = "ImageDecoder";
 

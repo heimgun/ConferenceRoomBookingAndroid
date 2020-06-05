@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Karin(mostly)
+ */
 public class AvailablePlantView extends AppCompatActivity implements CallbackActivity, AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "AvailablePlantView";
@@ -39,7 +42,6 @@ public class AvailablePlantView extends AppCompatActivity implements CallbackAct
     private String sortBy;
     private Map<String, String> foodItems;
 
-    public static final String CHOSEN_PLANT_ID = "com.example.conferencebookingapp.PLANT_ID";
     public static final String CHOSEN_PLANT_NAME = "com.example.conferencebookingapp.PLANT_NAME";
     public static final String CHOSEN_PLANT = "com.example.conferencebookingapp.PLANT";
 
