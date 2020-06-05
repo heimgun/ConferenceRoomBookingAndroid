@@ -37,12 +37,6 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
 
     Booking booking;
 
-    ConferenceRoom room;
-    int numberOfPeople;
-    String chosenDate;
-    String chosenPlant;
-    String chosenCity;
-
     User user = new User();
 
     int phoneInt, orgNumberInt, zipInt;
@@ -62,13 +56,6 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
         intentIn.setExtrasClassLoader(Booking.class.getClassLoader());
 
         booking = intentIn.getParcelableExtra(BookingView.BOOKING_INFO);
-        Log.d(TAG, "onCreate: number of people in booking is: " + booking.getNumberOfPeople());
-
-        //room = intentIn.getParcelableExtra(AvailableRoomView.CHOSEN_ROOM_INFO);
-        //numberOfPeople = intentIn.getIntExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, 1);
-        //chosenDate = intentIn.getStringExtra(SearchView.CHOSEN_DATE_INFO);
-        //chosenPlant = intentIn.getStringExtra(AvailablePlantView.CHOSEN_PLANT_NAME);
-        //chosenCity = intentIn.getStringExtra(SearchView.CHOSEN_CITY_NAME);
 
         firstName = (EditText) findViewById(R.id.firstName);
         lastName = (EditText) findViewById(R.id.lastName);
@@ -267,11 +254,11 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
     }
 
     public void onBackClicked(){
-        Intent intent = new Intent(this, AvailableRoomView.class);
-        intent.putExtra(SearchView.CHOSEN_DATE_INFO, chosenDate);
-        intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, numberOfPeople);
-        intent.putExtra(AvailablePlantView.CHOSEN_PLANT, room.getPlant());
-        intent.putExtra(SearchView.CHOSEN_CITY_NAME, room.getCity());
+        Intent intent = new Intent(this, BookingView.class);
+        intent.putExtra(AvailableRoomView.CHOSEN_ROOM_INFO, booking.getRoom());
+        intent.putExtra(SearchView.CHOSEN_DATE_INFO, booking.getChosenDate());
+        intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, booking.getNumberOfPeople());
+        intent.putExtra(SearchView.CHOSEN_CITY_NAME, booking.getRoom().getCity());
         startActivity(intent);
 
     }
