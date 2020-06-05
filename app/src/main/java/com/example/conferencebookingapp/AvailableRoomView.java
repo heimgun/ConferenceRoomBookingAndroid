@@ -19,6 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author Heidi
+ * @author Karin
+ */
 public class AvailableRoomView extends AppCompatActivity implements CallbackActivity {
 
     private static final String TAG = "AvailableRoomView";
@@ -37,8 +41,6 @@ public class AvailableRoomView extends AppCompatActivity implements CallbackActi
 
     public static final String FIND_ROOMS = "com.example.conferencebookingapp.FIND_ROOMS";
     public static final String GET_ROOM_INFO = "com.example.conferencebookingapp.GET_ROOM_INFO";
-    public static final String END_OF_GET_ROOM_INFO = "com.example.conferencebookingapp.GET_ROOM_INFO_STOP";
-
     public static final String CHOSEN_ROOM_INFO = "com.example.conferencebookingapp.CHOSEN_ROOM";
 
     public static final String ROOM_URL = "https://dev-be.timetomeet.se/service/rest/search/availability/period/v3";

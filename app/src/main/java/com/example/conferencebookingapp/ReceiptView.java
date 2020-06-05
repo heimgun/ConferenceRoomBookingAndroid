@@ -13,6 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONException;
 
+/**
+ * @author Heidi
+ * @author Karin
+ */
 public class ReceiptView extends AppCompatActivity implements CallbackActivity {
     private static final String TAG = "ReceiptView";
 

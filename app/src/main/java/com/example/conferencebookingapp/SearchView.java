@@ -18,6 +18,10 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * @author Heidi
+ * @author Karin
+ */
 public class SearchView extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "SearchView";
