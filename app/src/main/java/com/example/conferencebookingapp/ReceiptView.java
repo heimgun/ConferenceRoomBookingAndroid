@@ -158,12 +158,9 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
         String dateText = booking.getChosenDate() + ", " + timeText;
         dateTV.setText(dateText);
 
-        String seatingText = "Önskad möblering: " + booking.getChosenSeating().getDescription()
+        String seatingText = "Vald möblering: " + booking.getChosenSeating().getDescription()
                 + " (Max antal personer: " + booking.getChosenSeating().getNumberOfPeople() + ")";
         seatingTV.setText(seatingText);
-
-
-
 
         int priceForFood = 0;
         int numberOfFoodItems = booking.getChosenFoodAndBeverages().size();
@@ -179,7 +176,7 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
                 double totalPriceForFoodItem = numberOfPeople * pricePerFoodItem;
                 priceForFood += totalPriceForFoodItem;
 
-                String foodPriceText = String.format("(%d x %.2f kr = %.2f kr)", numberOfPeople,
+                String foodPriceText = String.format(" (%d x %.2f kr = %.2f kr)", numberOfPeople,
                         pricePerFoodItem, totalPriceForFoodItem);
                 foodAndBeveragesSb.append(foodPriceText);
             }
@@ -198,7 +195,7 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
             equipmentTV.setText(technologySb.toString());
         }
 
-        String totalPriceText = (priceForRoom + priceForFood) + " kr";
+        String totalPriceText =  String.format("%.2f kr", (priceForRoom + priceForFood));
         priceTV.setText(totalPriceText);
 
     }
@@ -293,8 +290,9 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
     private void addFoodToBooking(int numberOfItemsRequested) {
 
         for (int i = 0; i < numberOfItemsRequested; i++) {
+
+            // this could be improved in a later sprint where input from user could be used to set serving time
             String servingTime = booking.getChosenDate() + "T10:30:00";
-            Log.d(TAG, "onDownloadComplete: serving time is: " + servingTime);
             String formattedJsonAddFood = String.format(jsonAddFoodToBooking, booking.getBookingCodes().get(0), booking.getChosenFoodAndBeverages().get(i).getId(),
                     booking.getNumberOfPeople(), servingTime);
 
