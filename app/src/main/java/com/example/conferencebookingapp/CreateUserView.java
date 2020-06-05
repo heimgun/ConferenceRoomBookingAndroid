@@ -33,8 +33,6 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
     EditText firstName, lastName, phone, email, organization, orgNumber, street, city, zipCode;
     Button submit;
 
-    TextView tv;
-
     Booking booking;
 
     User user = new User();
@@ -46,6 +44,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
     public static final String LOGIN =  "com.example.conferencebookingapp.LOGIN";
     public static final String TOKEN_INFO = "com.example.conferencebookingapp.TOKEN";
 
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +53,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
 
         Intent intentIn = getIntent();
         intentIn.setExtrasClassLoader(Booking.class.getClassLoader());
+
 
         booking = intentIn.getParcelableExtra(BookingView.BOOKING_INFO);
 
@@ -66,7 +66,6 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
         street = (EditText) findViewById(R.id.street);
         city = (EditText) findViewById(R.id.city);
         zipCode = (EditText) findViewById(R.id.zipCode);
-        //tv = (TextView) findViewById(R.id.TV);
 
         submit = (Button) findViewById(R.id.SubmitBtn);
 
@@ -256,6 +255,7 @@ public class CreateUserView extends AppCompatActivity implements CallbackActivit
     public void onBackClicked(){
         Intent intent = new Intent(this, BookingView.class);
         intent.putExtra(AvailableRoomView.CHOSEN_ROOM_INFO, booking.getRoom());
+        intent.putExtra(AvailablePlantView.CHOSEN_PLANT_NAME, booking.getRoom().getPlant());
         intent.putExtra(SearchView.CHOSEN_DATE_INFO, booking.getChosenDate());
         intent.putExtra(SearchView.CHOSEN_NUMBER_OF_PEOPLE_INFO, booking.getNumberOfPeople());
         intent.putExtra(SearchView.CHOSEN_CITY_NAME, booking.getRoom().getCity());

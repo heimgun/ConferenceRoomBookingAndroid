@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class BookingView extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class BookingView extends AppCompatActivity {
     private static final String TAG = "BookingView";
 
     private ConferenceRoom room;
@@ -34,14 +34,12 @@ public class BookingView extends AppCompatActivity implements AdapterView.OnItem
     private String city;
 
     private Booking booking;
-    int priceInt;
 
 
     TextView roomNameTV, plantNameTV, numberOfPeopleTV, cityTV, chosenDateTV, price;
     RadioGroup radiogroup;
     LinearLayout foodLayout, equipmentLayout;
     Spinner spinner;
-    private Button confirmBookingButton;
 
     public static final String BOOKING_INFO = "com.example.conferencebookingapp.BOOKING";
 
@@ -59,7 +57,7 @@ public class BookingView extends AppCompatActivity implements AdapterView.OnItem
         cityTV = (TextView) findViewById(R.id.plantCityTextView);
         chosenDateTV = (TextView) findViewById(R.id.chosenDateTextView);
         numberOfPeopleTV = (TextView) findViewById(R.id.numberOfPeopleTextView);
-        confirmBookingButton = findViewById(R.id.confirmBtn);
+        Button confirmBookingButton = findViewById(R.id.confirmBtn);
         price = (TextView) findViewById(R.id.priceTextView);
 
 
@@ -80,13 +78,11 @@ public class BookingView extends AppCompatActivity implements AdapterView.OnItem
         if(!room.getPreNoonBookingCode().equals("null")){
 
             spinnerArray.add(room.getPreNoonHours());
-
         }
 
         if(!room.getAfternoonBookingCode().equals("null")){
 
             spinnerArray.add(room.getAfternoonHours());
-
         }
 
         if(!room.getPreNoonBookingCode().equals("null") && !room.getAfternoonBookingCode().equals("null")){
@@ -182,28 +178,6 @@ public class BookingView extends AppCompatActivity implements AdapterView.OnItem
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        if(spinner.getSelectedItem().equals(room.getPreNoonHours())) {
-            price.setText(room.getPreNoonPrice());
-        }
-
-        if(spinner.getSelectedItem().equals(room.getAfternoonHours())){
-            price.setText(room.getAfternoonPrice());
-        }
-
-        if(spinner.getSelectedItem().equals(room.getFullDayHours())){
-            price.setText(room.getFullDayPrice());
-        }
-    }
-
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        price.setText("");
-
-    }
 
     private void addHoursToBooking() {
 
@@ -246,7 +220,7 @@ public class BookingView extends AppCompatActivity implements AdapterView.OnItem
 
     private void addFoodToBooking() {
 
-        if (foodLayout.getChildCount() > 0) {
+        if (foodLayout != null) {
 
             for (int i = 0; i < foodLayout.getChildCount(); i++) {
 
@@ -266,7 +240,7 @@ public class BookingView extends AppCompatActivity implements AdapterView.OnItem
 
     private void addTechnologyToBooking() {
 
-        if(equipmentLayout.getChildCount() > 0){
+        if(equipmentLayout != null){
 
         for(int i = 0; i < equipmentLayout.getChildCount(); i++){
 
