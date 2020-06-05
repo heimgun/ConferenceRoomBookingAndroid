@@ -7,6 +7,7 @@ import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.ref.WeakReference;
@@ -18,21 +19,14 @@ import javax.net.ssl.HttpsURLConnection;
 public class APIRequester extends AsyncTask<String, Void, String> {
 
     private static final String TAG = "APIRequester";
+
     private String token;
     private WeakReference<CallbackActivity> context;
     private String message;
 
 
-    public APIRequester(CallbackActivity context) {
-        this("", context, "");
-    }
-
     public APIRequester(CallbackActivity context, String message) {
         this("", context, message);
-    }
-
-    public APIRequester(String token, CallbackActivity context){
-       this(token, context, "");
     }
 
     public APIRequester(String token, CallbackActivity context, String message) {
@@ -53,7 +47,7 @@ public class APIRequester extends AsyncTask<String, Void, String> {
             Log.d(TAG, "doInBackground: url is: " + url);
 
             connection = (HttpsURLConnection) url.openConnection();
-            if (message.equals(ReceiptView.BOOK_ROOM_MESSAGE)){
+            if (message.equals(ReceiptView.BOOK_ROOM_MESSAGE) || message.equals(ReceiptView.FINAL_BOOKING_CODE_MESSAGE)){
                 connection.setRequestMethod("PUT");
             } else {
                 connection.setRequestMethod("POST");
@@ -66,7 +60,6 @@ public class APIRequester extends AsyncTask<String, Void, String> {
                 String tokenRequest = "Token %s";
 
                 connection.setRequestProperty("Authorization",String.format(tokenRequest, token));
-                Log.d(TAG, "doInBackground: tokenRequest is: " + String.format(tokenRequest, token));
             }
 
             connection.setDoOutput(true);
@@ -76,37 +69,30 @@ public class APIRequester extends AsyncTask<String, Void, String> {
             OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
 
             if (strings.length > 1) {
-                Log.d(TAG, "doInBackground: jsonRequest is: " + strings[1]);
                 wr.write(strings[1]);
                 wr.flush();
             }
 
-            if(connection.getResponseCode()/100 == 2) {
-                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                Log.d(TAG, "doInBackground: reader ready");
+            int responseCode = connection.getResponseCode();
+            InputStream inputStream = responseCode/100 == 2 ? connection.getInputStream() : connection.getErrorStream();
+            reader = new BufferedReader((new InputStreamReader(inputStream)));
 
-            } else {
-                reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-                Log.e(TAG, "doInBackground: response code is: " + connection.getResponseCode());
-            }
-
-            StringBuilder result = new StringBuilder();
+            StringBuilder resultSb = new StringBuilder();
             for(String line = reader.readLine(); line != null; line = reader.readLine()) {
-                result.append(line).append("\n");
+                resultSb.append(line).append("\n");
             }
-            Log.d(TAG, "doInBackground: result is: " + result.toString());
 
+            if (responseCode/100 == 2) {
+                return resultSb.toString();
+            } else {
+                throw new IOException((resultSb.toString()));
+            }
 
-
-
-            return result.toString();
 
         } catch(MalformedURLException e) {
             Log.e(TAG, "doInBackground: Invalid URL " + e.getMessage());
         } catch (IOException e) {
             Log.e(TAG, "doInBackground: IOException reading data: " + e.getMessage());
-        } catch (SecurityException e){
-            Log.e(TAG, "doInBackground: Security Exception. Needs permission? " + e.getMessage());
         } finally {
             if(connection != null) {
                 connection.disconnect();
@@ -133,10 +119,5 @@ public class APIRequester extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
         }
-
-
-
-
     }
-
 }

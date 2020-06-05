@@ -219,7 +219,7 @@ public class BookingView extends AppCompatActivity implements AdapterView.OnItem
                 Log.d(TAG, "Bookingcode added : " + room.getAfternoonBookingCode());
             }
 
-            if (spinner.getSelectedItem().equals("Heldag")) {
+            if (spinner.getSelectedItem().equals(room.getFullDayHours())) {
                 booking.addBookingCode(room.getPreNoonBookingCode());
                 booking.addBookingCode(room.getAfternoonBookingCode());
                 Log.d(TAG, "Bookingcode added : " + room.getPreNoonBookingCode() + room.getAfternoonBookingCode());

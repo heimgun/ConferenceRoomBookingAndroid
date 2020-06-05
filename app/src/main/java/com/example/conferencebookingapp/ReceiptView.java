@@ -31,6 +31,7 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
 
     public static final String CREATE_BOOKING_MESSAGE = "com.example.conferencebookingapp.CREATE_BOOKING";
     public static final String BOOK_ROOM_MESSAGE = "com.example.conferencebookingapp.BOOK_ROOM";
+    public static final String FINAL_BOOKING_CODE_MESSAGE = "com.example.conferencebookingapp.FINAL_BOOKING_CODE";
     public static final String ADD_FOOD_MESSAGE = "com.example.conferencebookingapp.ADD_FOOD";
     public static final String FINAL_FOOD_ADDED_MESSAGE = "com.example.conferencebookingapp.FINAL_FOOD";
     public static final String ADD_TECHNOLOGY_MESSAGE = "com.example.conferencebookingapp.ADD_TECHNOLOGY";
@@ -126,8 +127,21 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
         String numberOfPeopleString = booking.getNumberOfPeople() + " personer";
         numberOfPeopleTV.setText(numberOfPeopleString);
 
-        boolean preNoonRequested = true;
+        boolean preNoonRequested = false;
         boolean afternoonRequested = false;
+        if (!booking.getBookingCodes().isEmpty()) {
+            for (int i = 0; i < booking.getBookingCodes().size(); i++) {
+                if (booking.getBookingCodes().get(i).equals(booking.getRoom().getPreNoonBookingCode())) {
+                    preNoonRequested = true;
+                } else if (booking.getBookingCodes().get(i).equals(booking.getRoom().getAfternoonBookingCode())) {
+                    afternoonRequested = true;
+                }
+            }
+        }
+
+        Log.d(TAG, "setUpWindow: preNoonRequested = " + preNoonRequested);
+        Log.d(TAG, "setUpWindow: afternoonRequested = " + afternoonRequested);
+
         String timeText = "";
         double priceForRoom = 0;
         if(preNoonRequested && afternoonRequested) {
@@ -197,59 +211,83 @@ public class ReceiptView extends AppCompatActivity implements CallbackActivity {
 
     @Override
     public void onDownloadComplete(String results, String message) throws JSONException {
-        switch(message ) {
-            case CREATE_BOOKING_MESSAGE:
-                Log.d(TAG, "onDownloadComplete: results are: " + results);
-                APIRequester roomRequester = new APIRequester(token, this, BOOK_ROOM_MESSAGE);
-                String bookRoomUrl = String.format(BOOK_ROOM_URL, booking.getBookingCodes().get(0));
-                String formattedJsonBookRoom = String.format(jsonBookRoom, booking.getChosenSeating().getId());
-                Log.d(TAG, "onDownloadComplete: createBookingmessage-if calling book room");
-                roomRequester.execute(bookRoomUrl, formattedJsonBookRoom);
-                break;
-            case BOOK_ROOM_MESSAGE:
-                Log.d(TAG, "onDownloadComplete: results are: " + results);
+        if(results == null) {
+            onBookingFailed();
+        } else {
+            switch(message) {
+                case CREATE_BOOKING_MESSAGE:
+                    Log.d(TAG, "onDownloadComplete: results are: " + results);
+                    int numberOfBookingCodes = booking.getBookingCodes().size();
+                    if (numberOfBookingCodes > 0) {
+                        for (int i = 0; i < numberOfBookingCodes; i++) {
+                            if (booking.getBookingCodes().get(i).equals("null")) {
+                                Log.e(TAG, "onDownloadComplete: invalid booking code");
+                                onBookingFailed();
+                            } else {
+                                String requestMessage = i == numberOfBookingCodes - 1 ? FINAL_BOOKING_CODE_MESSAGE : BOOK_ROOM_MESSAGE;
+                                APIRequester roomRequester = new APIRequester(token, this, requestMessage);
 
-                int numberOfFoodItemsRequested = booking.getChosenFoodAndBeverages().size();
-                if(numberOfFoodItemsRequested > 0) {
-                    Log.d(TAG, "onDownloadComplete: bookroommessage-if calling add food");
-                    addFoodToBooking(numberOfFoodItemsRequested);
-                } else {
+                                String bookRoomUrl = String.format(BOOK_ROOM_URL, booking.getBookingCodes().get(i));
+                                String formattedJsonBookRoom = String.format(jsonBookRoom, booking.getChosenSeating().getId());
+                                Log.d(TAG, "onDownloadComplete: createBookingmessage-if calling book room with message " + requestMessage);
+                                roomRequester.execute(bookRoomUrl, formattedJsonBookRoom);
+                            }
+                        }
+                    } else {
+                        Log.e(TAG, "onDownloadComplete: no booking code found");
+                        onBookingFailed();
+                    }
+
+                    break;
+                case BOOK_ROOM_MESSAGE:
+                    Log.d(TAG, "onDownloadComplete: first booking code added. Result is: " + results);
+                    break;
+                case FINAL_BOOKING_CODE_MESSAGE:
+                    Log.d(TAG, "onDownloadComplete: final booking code added. Result is: " + results);
+
+                    int numberOfFoodItemsRequested = booking.getChosenFoodAndBeverages().size();
+                    if(numberOfFoodItemsRequested > 0) {
+                        Log.d(TAG, "onDownloadComplete: bookroommessage-if calling add food");
+                        addFoodToBooking(numberOfFoodItemsRequested);
+                    } else {
+                        int numberOfTechnologiesRequested = booking.getChosenTechnologies().size();
+                        if(numberOfTechnologiesRequested > 0) {
+                            Log.d(TAG, "onDownloadComplete: bookroommessage-if calling add technology");
+                            addTechnologyToBooking(numberOfTechnologiesRequested);
+                        } else {
+                            Log.d(TAG, "onDownloadComplete: bookroommessage-if calling complete booking");
+                            completeBooking();
+                        }
+                    }
+                    break;
+                case ADD_FOOD_MESSAGE:
+                    Log.d(TAG, "onDownloadComplete: result is: " + results);
+                    break;
+                case FINAL_FOOD_ADDED_MESSAGE:
+                    Log.d(TAG, "onDownloadComplete: final food added. Result is: " + results);
                     int numberOfTechnologiesRequested = booking.getChosenTechnologies().size();
                     if(numberOfTechnologiesRequested > 0) {
-                        Log.d(TAG, "onDownloadComplete: bookroommessage-if calling add technology");
+                        Log.d(TAG, "onDownloadComplete: finalfoodaddedmessage-if calling add technology");
                         addTechnologyToBooking(numberOfTechnologiesRequested);
                     } else {
-                        Log.d(TAG, "onDownloadComplete: bookroommessage-if calling complete booking");
+                        Log.d(TAG, "onDownloadComplete: finalfoodaddedmessage-if calling complete booking");
                         completeBooking();
                     }
-                }
-                break;
-            case ADD_FOOD_MESSAGE:
-                Log.d(TAG, "onDownloadComplete: result is: " + results);
-                break;
-            case FINAL_FOOD_ADDED_MESSAGE:
-                Log.d(TAG, "onDownloadComplete: final food added. Result is: " + results);
-                int numberOfTechnologiesRequested = booking.getChosenTechnologies().size();
-                if(numberOfTechnologiesRequested > 0) {
-                    Log.d(TAG, "onDownloadComplete: finalfoodaddedmessage-if calling add technology");
-                    addTechnologyToBooking(numberOfTechnologiesRequested);
-                } else {
-                    Log.d(TAG, "onDownloadComplete: finalfoodaddedmessage-if calling complete booking");
+                    break;
+                case ADD_TECHNOLOGY_MESSAGE:
+                    break;
+                case FINAL_TECHNOLOGY_ADDED_MESSAGE:
+                    Log.d(TAG, "onDownloadComplete: final technology added. Result is: " + results);
+                    Log.d(TAG, "onDownloadComplete: finaltechnologyadded-if calling complete booking");
                     completeBooking();
-                }
-                break;
-            case ADD_TECHNOLOGY_MESSAGE:
-                break;
-            case FINAL_TECHNOLOGY_ADDED_MESSAGE:
-                Log.d(TAG, "onDownloadComplete: final technology added. Result is: " + results);
-                Log.d(TAG, "onDownloadComplete: finaltechnologyadded-if calling complete booking");
-                completeBooking();
-                break;
-            case COMPLETE_BOOKING_MESSAGE:
-                Log.d(TAG, "onDownloadComplete: booking completed. Result is: " + results);
-                break;
-            default:
+                    break;
+                case COMPLETE_BOOKING_MESSAGE:
+                    Log.d(TAG, "onDownloadComplete: booking completed. Result is: " + results);
+                    break;
+                default:
+            }
         }
+
     }
 
     private void addFoodToBooking(int numberOfItemsRequested) {
