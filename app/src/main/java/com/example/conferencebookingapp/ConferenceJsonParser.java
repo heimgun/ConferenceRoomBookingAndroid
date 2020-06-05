@@ -131,7 +131,9 @@ public class ConferenceJsonParser {
 
                 JSONObject jsonRoom =  jsonRooms.getJSONObject(i);
                 String roomId = jsonRoom.getString("id");
-                for (ConferenceRoom room : rooms) {
+                List<Integer> roomsToRemove = new ArrayList<>();
+                for (int n = 0; n < rooms.size(); n++) {
+                    ConferenceRoom room = rooms.get(n);
                     if (room.getRoomId().equals(roomId)) {
                         room.setDescription(jsonRoom.getString("description"));
                         room.setName(jsonRoom.getString("name"));
@@ -208,8 +210,13 @@ public class ConferenceJsonParser {
                         room.setMaxNumberOfPeople(maxNumber);
 
                         if(maxNumber < requestedNumberOfPeople) {
-                            rooms.remove(room);
+                            roomsToRemove.add(n);
                         }
+                    }
+                }
+                if (!roomsToRemove.isEmpty()) {
+                    for (int m = 0; m < roomsToRemove.size(); m++) {
+                        rooms.remove(roomsToRemove.get(m).intValue());
                     }
                 }
             }
